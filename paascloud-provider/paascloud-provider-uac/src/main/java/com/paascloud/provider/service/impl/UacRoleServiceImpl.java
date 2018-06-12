@@ -315,11 +315,7 @@ public class UacRoleServiceImpl extends BaseService<UacRole> implements UacRoleS
 		logger.info("批量删除角色. idList={}", roleIdList);
 		Preconditions.checkArgument(PublicUtil.isNotEmpty(roleIdList), "删除角色ID不存在");
 
-		List<UacRoleUser> uruList = uacRoleUserService.listByRoleIdList(roleIdList);
-		if (!uruList.isEmpty()) {
-			uacRoleUserService.deleteByRoleIdList(roleIdList);
-		}
-
+		uacRoleUserService.deleteByRoleIdList(roleIdList);
 		uacRoleMenuService.deleteByRoleIdList(roleIdList);
 		uacRoleActionService.deleteByRoleIdList(roleIdList);
 

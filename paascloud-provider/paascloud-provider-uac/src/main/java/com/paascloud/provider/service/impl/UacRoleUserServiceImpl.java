@@ -131,9 +131,12 @@ public class UacRoleUserServiceImpl extends BaseService<UacRoleUser> implements 
 	public void deleteByRoleIdList(List<Long> roleIdList) {
 		Preconditions.checkArgument(PublicUtil.isNotEmpty(roleIdList), ErrorCodeEnum.UAC10012001.msg());
 		Preconditions.checkArgument(!roleIdList.contains(GlobalConstant.Sys.SUPER_MANAGER_ROLE_ID), "超级管理员角色不能删除");
-		int result = uacRoleUserMapper.deleteByRoleIdList(roleIdList);
-		if (result <= 0) {
-			throw new UacBizException(ErrorCodeEnum.UAC10012007, Joiner.on(GlobalConstant.Symbol.COMMA).join(roleIdList));
+		List<UacRoleUser> uruList = uacRoleUserMapper.listByRoleIdList(roleIdList);
+		if (!uruList.isEmpty()) {
+			int result = uacRoleUserMapper.deleteByRoleIdList(roleIdList);
+			if (result <= uruList.size()) {
+				throw new UacBizException(ErrorCodeEnum.UAC10012007, Joiner.on(GlobalConstant.Symbol.COMMA).join(roleIdList));
+			}
 		}
 	}
 
