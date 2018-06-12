@@ -134,7 +134,7 @@ public class UacRoleUserServiceImpl extends BaseService<UacRoleUser> implements 
 		List<UacRoleUser> uruList = uacRoleUserMapper.listByRoleIdList(roleIdList);
 		if (!uruList.isEmpty()) {
 			int result = uacRoleUserMapper.deleteByRoleIdList(roleIdList);
-			if (result <= uruList.size()) {
+			if (result < uruList.size()) {
 				throw new UacBizException(ErrorCodeEnum.UAC10012007, Joiner.on(GlobalConstant.Symbol.COMMA).join(roleIdList));
 			}
 		}
