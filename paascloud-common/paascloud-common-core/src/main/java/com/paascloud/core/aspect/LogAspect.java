@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2018. paascloud.net All Rights Reserved.
+ * 项目名称：paascloud快速搭建企业级分布式微服务平台
+ * 类名称：LogAspect.java
+ * 创建人：刘兆明
+ * 联系方式：paascloud.net@gmail.com
+ * 开源地址: https://github.com/paascloud
+ * 博客地址: http://blog.paascloud.net
+ * 项目官网: http://paascloud.net
+ */
+
 package com.paascloud.core.aspect;
 
 
@@ -121,7 +132,7 @@ public class LogAspect {
 
 			getControllerMethodDescription(relog, operationLogDto, result, joinPoint);
 			threadLocal.remove();
-			taskExecutor.execute(() -> this.restTemplate.postForObject("http://paascloud-provider-uac/uac/auth/saveLog", operationLogDto, Integer.class));
+			taskExecutor.execute(() -> this.restTemplate.postForObject("http://paascloud-provider-uac/auth/saveLog", operationLogDto, Integer.class));
 		} catch (Exception ex) {
 			log.error("获取注解类出现异常={}", ex.getMessage(), ex);
 		}
