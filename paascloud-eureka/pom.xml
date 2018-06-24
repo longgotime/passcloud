@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <name>paascloud-eureka</name>
-    <description>Demo project for Spring Boot</description>
+    <description>为服务注册中心</description>
 
     <parent>
         <groupId>com.liuzm.paascloud</groupId>

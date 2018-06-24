@@ -12,7 +12,7 @@ import com.paascloud.provider.model.dto.sms.SmsMessage;
 import com.paascloud.provider.mq.producer.SmsProducer;
 import com.paascloud.provider.service.SmsService;
 import com.paascloud.provider.service.UacUserService;
-import com.paascloud.security.core.validate.code.CookieUtil;
+import com.paascloud.security.core.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;

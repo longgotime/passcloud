@@ -11,11 +11,10 @@
 
 package com.paascloud;
 
-import com.paascloud.provider.service.impl.PcSmsCodeSender;
-import com.paascloud.security.core.validate.code.sms.SmsCodeSender;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
@@ -30,6 +29,7 @@ import javax.sql.DataSource;
  *
  * @author paascloud.net@gmail.com
  */
+@EnableOAuth2Sso
 @EnableHystrix
 @EnableFeignClients
 @EnableDiscoveryClient
@@ -62,10 +62,5 @@ public class PaasCloudUacApplication {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:org/springframework/security/messages_zh_CN");
 		return messageSource;
-	}
-
-	@Bean
-	public SmsCodeSender smsCodeSender() {
-		return new PcSmsCodeSender();
 	}
 }

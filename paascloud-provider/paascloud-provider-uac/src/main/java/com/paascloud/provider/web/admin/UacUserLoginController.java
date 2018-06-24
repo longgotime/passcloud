@@ -27,8 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -49,8 +47,6 @@ public class UacUserLoginController extends BaseController {
 	private UacLoginService uacLoginService;
 	@Resource
 	private UacUserTokenService uacUserTokenService;
-	@Resource
-	private ClientDetailsService clientDetailsService;
 	private static final String BEARER_TOKEN_TYPE = "Basic ";
 
 
@@ -114,13 +110,13 @@ public class UacUserLoginController extends BaseController {
 			String clientId = tokens[0];
 			String clientSecret = tokens[1];
 
-			ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
+//			ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
 
-			if (clientDetails == null) {
-				throw new UnapprovedClientAuthenticationException("clientId对应的配置信息不存在:" + clientId);
-			} else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
-				throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
-			}
+//			if (clientDetails == null) {
+//				throw new UnapprovedClientAuthenticationException("clientId对应的配置信息不存在:" + clientId);
+//			} else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
+//				throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
+//			}
 
 			token = uacUserTokenService.refreshToken(accessToken, refreshToken, request);
 		} catch (Exception e) {

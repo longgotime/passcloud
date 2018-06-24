@@ -32,4 +32,5 @@ public class PaascloudProperties {
 	private GaodeProperties gaode = new GaodeProperties();
 	private JobProperties job = new JobProperties();
 	private ZookeeperProperties zk = new ZookeeperProperties();
+	private SecurityProperties security = new SecurityProperties();
 }

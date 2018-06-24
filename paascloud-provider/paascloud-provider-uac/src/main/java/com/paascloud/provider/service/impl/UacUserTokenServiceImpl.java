@@ -13,6 +13,8 @@ import com.paascloud.PublicUtil;
 import com.paascloud.RedisKeyUtil;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.dto.UserTokenDto;
+import com.paascloud.config.properties.OAuth2ClientProperties;
+import com.paascloud.config.properties.PaascloudProperties;
 import com.paascloud.core.support.BaseService;
 import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.provider.mapper.UacUserTokenMapper;
@@ -20,16 +22,12 @@ import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.model.domain.UacUserToken;
 import com.paascloud.provider.model.dto.token.TokenMainQueryDto;
 import com.paascloud.provider.model.enums.UacUserTokenStatusEnum;
-import com.paascloud.provider.service.OpcRpcService;
 import com.paascloud.provider.service.UacUserService;
 import com.paascloud.provider.service.UacUserTokenService;
-import com.paascloud.security.core.properties.OAuth2ClientProperties;
-import com.paascloud.security.core.properties.SecurityProperties;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
@@ -56,32 +54,33 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 	private UacUserTokenMapper uacUserTokenMapper;
 	@Resource
 	private UacUserService uacUserService;
-	@Autowired
-	private SecurityProperties securityProperties;
+	@Resource
+	private PaascloudProperties paascloudProperties;
 	@Resource
 	private RedisTemplate<String, Object> redisTemplate;
-	@Resource
-	private OpcRpcService opcRpcService;
 	@Value("${paascloud.auth.refresh-token-url}")
 	private String refreshTokenUrl;
 
+	/**
+	 * Save user token.
+	 *
+	 * @param accessToken    the access token
+	 * @param refreshToken   the refresh token
+	 * @param loginAuthDto   the login auth dto
+	 * @param os             the os
+	 * @param browser        the browser
+	 * @param remoteAddr     the remote addr
+	 * @param remoteLocation the remote location
+	 */
 	@Override
-	public void saveUserToken(String accessToken, String refreshToken, LoginAuthDto loginAuthDto, HttpServletRequest request) {
+	public void saveUserToken(String accessToken, String refreshToken, LoginAuthDto loginAuthDto, final String os, final String browser, final String remoteAddr, final String remoteLocation) {
 		// 获取登录时间
 		Long userId = loginAuthDto.getUserId();
 		UacUser uacUser = uacUserService.selectByKey(userId);
-		final UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-		//获取客户端操作系统
-		final String os = userAgent.getOperatingSystem().getName();
-		//获取客户端浏览器
-		final String browser = userAgent.getBrowser().getName();
-		final String remoteAddr = RequestUtil.getRemoteAddr(request);
-		// 根据IP获取位置信息
-		final String remoteLocation = opcRpcService.getLocationById(remoteAddr);
 
 		// 存入mysql数据库
 		UacUserToken uacUserToken = new UacUserToken();
-		OAuth2ClientProperties[] clients = securityProperties.getOauth2().getClients();
+		OAuth2ClientProperties[] clients = paascloudProperties.getSecurity().getOauth2().getClients();
 		int accessTokenValidateSeconds = clients[0].getAccessTokenValidateSeconds();
 		int refreshTokenValiditySeconds = clients[0].getRefreshTokenValiditySeconds();
 		uacUserToken.setOs(os);
@@ -111,6 +110,13 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 		redisTemplate.opsForValue().set(RedisKeyUtil.getAccessTokenKey(accessToken), userTokenDto, accessTokenValidateSeconds, TimeUnit.SECONDS);
 	}
 
+	/**
+	 * Gets by access token.
+	 *
+	 * @param accessToken the access token
+	 *
+	 * @return the by access token
+	 */
 	@Override
 	public UserTokenDto getByAccessToken(String accessToken) {
 		UserTokenDto userTokenDto = (UserTokenDto) redisTemplate.opsForValue().get(RedisKeyUtil.getAccessTokenKey(accessToken));
@@ -123,16 +129,29 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 		return userTokenDto;
 	}
 
+	/**
+	 * Update uac user token.
+	 *
+	 * @param tokenDto     the token dto
+	 * @param loginAuthDto the login auth dto
+	 */
 	@Override
 	public void updateUacUserToken(UserTokenDto tokenDto, LoginAuthDto loginAuthDto) {
 		UacUserToken uacUserToken = new ModelMapper().map(tokenDto, UacUserToken.class);
 		uacUserToken.setUpdateInfo(loginAuthDto);
 		uacUserTokenMapper.updateByPrimaryKeySelective(uacUserToken);
-		OAuth2ClientProperties[] clients = securityProperties.getOauth2().getClients();
+		OAuth2ClientProperties[] clients = paascloudProperties.getSecurity().getOauth2().getClients();
 		int accessTokenValidateSeconds = clients[0].getAccessTokenValidateSeconds();
 		updateRedisUserToken(uacUserToken.getAccessToken(), accessTokenValidateSeconds, tokenDto);
 	}
 
+	/**
+	 * List token with page page info.
+	 *
+	 * @param token the token
+	 *
+	 * @return the page info
+	 */
 	@Override
 	public PageInfo listTokenWithPage(TokenMainQueryDto token) {
 		PageHelper.startPage(token.getPageNum(), token.getPageSize());
@@ -152,6 +171,17 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 		return new PageInfo<>(userTokenList);
 	}
 
+	/**
+	 * Refresh token string.
+	 *
+	 * @param accessToken  the access token
+	 * @param refreshToken the refresh token
+	 * @param request      the request
+	 *
+	 * @return the string
+	 *
+	 * @throws HttpProcessException the http process exception
+	 */
 	@Override
 	public String refreshToken(String accessToken, String refreshToken, HttpServletRequest request) throws HttpProcessException {
 		String token;
@@ -175,10 +205,23 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 		LoginAuthDto loginAuthDto = new LoginAuthDto(uacUser.getId(), uacUser.getLoginName(), uacUser.getUserName(), uacUser.getGroupId(), uacUser.getGroupName());
 		this.updateUacUserToken(tokenDto, loginAuthDto);
 		// 创建刷新token
-		this.saveUserToken(accessTokenNew, refreshTokenNew, loginAuthDto, request);
+		final UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+		final String remoteAddr = RequestUtil.getRemoteAddr(request);
+
+		//获取客户端操作系统
+		final String os = userAgent.getOperatingSystem().getName();
+		//获取客户端浏览器
+		final String browser = userAgent.getBrowser().getName();
+
+		this.saveUserToken(accessTokenNew, refreshTokenNew, loginAuthDto, os, browser, remoteAddr, null);
 		return token;
 	}
 
+	/**
+	 * Batch update token off line int.
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int batchUpdateTokenOffLine() {
 		List<Long> idList = uacUserTokenMapper.listOffLineTokenId();

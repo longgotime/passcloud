@@ -104,30 +104,15 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-oauth2</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>org.springframework.social</groupId>
-      <artifactId>spring-social-config</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.social</groupId>
-      <artifactId>spring-social-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.social</groupId>
-      <artifactId>spring-social-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.social</groupId>
-      <artifactId>spring-social-web</artifactId>
-    </dependency>
+    
     <dependency>
       <groupId>com.liuzm.paascloud.common</groupId>
       <artifactId>paascloud-common-base</artifactId>
     </dependency>
     <dependency>
       <groupId>com.liuzm.paascloud.common</groupId>
-      <artifactId>paascloud-security-app</artifactId>
+      <artifactId>paascloud-security-core</artifactId>
+      <version>1.0</version>
     </dependency>
   </dependencies>
 </project>

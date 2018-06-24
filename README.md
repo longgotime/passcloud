@@ -26,7 +26,7 @@
 │  │
 │  ├─paascloud-eureka--------------------------微服务注册中心
 │  │
-│  ├─paascloud-discovery-----------------------微服务配置中心
+│  ├─paascloud-config-----------------------微服务配置中心
 │  │
 │  ├─paascloud-monitor-------------------------微服务监控中心
 │  │
@@ -71,8 +71,6 @@
 │  │  ├─paascloud-common-util------------------公共工具包
 │  │  │
 │  │  ├─paascloud-common-zk------------------zookeeper配置
-│  │  │
-│  │  ├─paascloud-security-app------------------公共无状态安全认证
 │  │  │
 │  │  ├─paascloud-security-core------------------安全服务核心包
 │  │  │

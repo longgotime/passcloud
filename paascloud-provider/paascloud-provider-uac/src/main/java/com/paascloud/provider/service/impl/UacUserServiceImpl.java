@@ -11,9 +11,7 @@ import com.paascloud.base.constant.AliyunMqTopicConstants;
 import com.paascloud.base.constant.GlobalConstant;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
-import com.paascloud.core.enums.LogTypeEnum;
 import com.paascloud.core.support.BaseService;
-import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.provider.manager.UserManager;
 import com.paascloud.provider.mapper.UacActionMapper;
 import com.paascloud.provider.mapper.UacMenuMapper;
@@ -33,21 +31,16 @@ import com.paascloud.provider.model.vo.UserBindRoleVo;
 import com.paascloud.provider.mq.producer.EmailProducer;
 import com.paascloud.provider.service.*;
 import com.paascloud.provider.utils.Md5Util;
-import com.paascloud.security.core.SecurityUser;
 import com.xiaoleilu.hutool.date.DateUtil;
-import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * The class Uac user service.
  *
- * @author paascloud.net@gmail.com
+ * @author paascloud.net @gmail.com
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -91,14 +84,15 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 	@Resource
 	private RedisTemplate<String, Object> redisTemplate;
 	@Resource
-	private TaskExecutor taskExecutor;
-	@Resource
-	private UacUserTokenService uacUserTokenService;
-	@Resource
-	private OpcRpcService opcRpcService;
-	@Resource
 	private UserManager userManager;
 
+	/**
+	 * Find by login name uac user.
+	 *
+	 * @param loginName the login name
+	 *
+	 * @return the uac user
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public UacUser findByLoginName(String loginName) {
@@ -107,11 +101,23 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return uacUserMapper.findByLoginName(loginName);
 	}
 
+	/**
+	 * Find by mobile no uac user.
+	 *
+	 * @param mobileNo the mobile no
+	 *
+	 * @return the uac user
+	 */
 	@Override
 	public UacUser findByMobileNo(String mobileNo) {
 		return uacUserMapper.findByMobileNo(mobileNo);
 	}
 
+	/**
+	 * Check user is correct.
+	 *
+	 * @param loginReqDto the login req dto
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public void checkUserIsCorrect(LoginReqDto loginReqDto) {
@@ -130,6 +136,11 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		logger.info("用户【" + loginReqDto.getLoginName() + "】密码认证成功");
 	}
 
+	/**
+	 * Gets all perms.
+	 *
+	 * @return the all perms
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<Perm> getAllPerms() {
@@ -137,6 +148,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return uacActionMapper.findAllPerms();
 	}
 
+	/**
+	 * Gets user perms.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the user perms
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<String> getUserPerms(Long userId) {
@@ -153,6 +171,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return new ArrayList<>(set);
 	}
 
+	/**
+	 * Update user int.
+	 *
+	 * @param uacUser the uac user
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int updateUser(UacUser uacUser) {
 		logger.info("更新用户信息 uacUser={}", uacUser);
@@ -165,6 +190,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return updateResult;
 	}
 
+	/**
+	 * Query user list with page page info.
+	 *
+	 * @param uacUser the uac user
+	 *
+	 * @return the page info
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public PageInfo queryUserListWithPage(UacUser uacUser) {
@@ -174,17 +206,37 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return new PageInfo<>(uacUserList);
 	}
 
+	/**
+	 * Delete user by id int.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int deleteUserById(Long userId) {
 		return 0;
 	}
 
+	/**
+	 * Find user info by user id uac user.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the uac user
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public UacUser findUserInfoByUserId(Long userId) {
 		return uacUserMapper.selectUserInfoByUserId(userId);
 	}
 
+	/**
+	 * Save uac user.
+	 *
+	 * @param user         the user
+	 * @param loginAuthDto the login auth dto
+	 */
 	@Override
 	public void saveUacUser(UacUser user, LoginAuthDto loginAuthDto) {
 
@@ -247,6 +299,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 
 	}
 
+	/**
+	 * Query user log list with user id list.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the list
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<UacLog> queryUserLogListWithUserId(Long userId) {
@@ -256,6 +315,14 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return uacLogService.selectUserLogListByUserId(userId);
 	}
 
+	/**
+	 * Modify user status by id int.
+	 *
+	 * @param uacUser    the uac user
+	 * @param authResDto the auth res dto
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int modifyUserStatusById(UacUser uacUser, LoginAuthDto authResDto) {
 		Long loginUserId = authResDto.getUserId();
@@ -274,6 +341,12 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return uacUserMapper.updateByPrimaryKeySelective(uacUser);
 	}
 
+	/**
+	 * Bind user roles.
+	 *
+	 * @param bindUserRolesDto the bind user roles dto
+	 * @param authResDto       the auth res dto
+	 */
 	@Override
 	public void bindUserRoles(BindUserRolesDto bindUserRolesDto, LoginAuthDto authResDto) {
 
@@ -337,6 +410,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		}
 	}
 
+	/**
+	 * Query user menu dto data list.
+	 *
+	 * @param authResDto the auth res dto
+	 *
+	 * @return the list
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public List<UserMenuDto> queryUserMenuDtoData(LoginAuthDto authResDto) {
@@ -397,6 +477,14 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return list;
 	}
 
+	/**
+	 * Bind user menus int.
+	 *
+	 * @param menuIdList the menu id list
+	 * @param authResDto the auth res dto
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int bindUserMenus(List<Long> menuIdList, LoginAuthDto authResDto) {
 		// 1.1 如果menuIdList is null 则清空中间表
@@ -420,6 +508,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return handleUserMenuList(uacUserMenuList, uacUserMenu);
 	}
 
+	/**
+	 * Query by user id uac user.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the uac user
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public UacUser queryByUserId(Long userId) {
@@ -431,6 +526,14 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return uacUser;
 	}
 
+	/**
+	 * User modify pwd int.
+	 *
+	 * @param userModifyPwdDto the user modify pwd dto
+	 * @param authResDto       the auth res dto
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int userModifyPwd(UserModifyPwdDto userModifyPwdDto, LoginAuthDto authResDto) {
 		String loginName = userModifyPwdDto.getLoginName();
@@ -474,6 +577,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		// TODO 发送重置密码成功的邮件
 	}
 
+	/**
+	 * User reset pwd int.
+	 *
+	 * @param userResetPwdDto the user reset pwd dto
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int userResetPwd(UserResetPwdDto userResetPwdDto) {
 		String mobileNo = userResetPwdDto.getMobileNo();
@@ -505,6 +615,11 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return uacUserMapper.updateByPrimaryKeySelective(uacUser);
 	}
 
+	/**
+	 * Register.
+	 *
+	 * @param registerDto the register dto
+	 */
 	@Override
 	public void register(UserRegisterDto registerDto) {
 		// 校验注册信息
@@ -549,6 +664,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		userManager.register(mqMessageData, uacUser);
 	}
 
+	/**
+	 * Check login name boolean.
+	 *
+	 * @param loginName the login name
+	 *
+	 * @return the boolean
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public boolean checkLoginName(String loginName) {
@@ -565,6 +687,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return result < 1;
 	}
 
+	/**
+	 * Check email boolean.
+	 *
+	 * @param email the email
+	 *
+	 * @return the boolean
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public boolean checkEmail(String email) {
@@ -581,6 +710,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return result < 1;
 	}
 
+	/**
+	 * Check mobile no boolean.
+	 *
+	 * @param mobileNo the mobile no
+	 *
+	 * @return the boolean
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public boolean checkMobileNo(String mobileNo) {
@@ -597,6 +733,14 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return result < 1;
 	}
 
+	/**
+	 * Count user by login name and email int.
+	 *
+	 * @param loginName the login name
+	 * @param email     the email
+	 *
+	 * @return the int
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public int countUserByLoginNameAndEmail(String loginName, String email) {
@@ -610,6 +754,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return uacUserMapper.selectCount(uacUser);
 	}
 
+	/**
+	 * User email reset pwd int.
+	 *
+	 * @param forgetResetPasswordDto the forget reset password dto
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int userEmailResetPwd(ForgetResetPasswordDto forgetResetPasswordDto) {
 		this.validateEmailResetPwd(forgetResetPasswordDto);
@@ -630,6 +781,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 
 	}
 
+	/**
+	 * Modify user email.
+	 *
+	 * @param email        the email
+	 * @param emailCode    the email code
+	 * @param loginAuthDto the login auth dto
+	 */
 	@Override
 	public void modifyUserEmail(String email, String emailCode, LoginAuthDto loginAuthDto) {
 		// 校验用户信息
@@ -646,6 +804,12 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		}
 	}
 
+	/**
+	 * Reset login pwd.
+	 *
+	 * @param userId       the user id
+	 * @param loginAuthDto the login auth dto
+	 */
 	@Override
 	public void resetLoginPwd(Long userId, LoginAuthDto loginAuthDto) {
 		if (userId == null) {
@@ -680,6 +844,11 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 
 	}
 
+	/**
+	 * Reset login pwd.
+	 *
+	 * @param resetLoginPwdDto the reset login pwd dto
+	 */
 	@Override
 	public void resetLoginPwd(ResetLoginPwdDto resetLoginPwdDto) {
 		String confirmPwd = resetLoginPwdDto.getConfirmPwd();
@@ -719,6 +888,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		redisTemplate.delete(resetPwdTokenKey);
 	}
 
+	/**
+	 * Gets user bind role dto.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the user bind role dto
+	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public UserBindRoleVo getUserBindRoleDto(Long userId) {
@@ -747,6 +923,11 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return userBindRoleVo;
 	}
 
+	/**
+	 * Active user.
+	 *
+	 * @param activeUserToken the active user token
+	 */
 	@Override
 	public void activeUser(String activeUserToken) {
 		Preconditions.checkArgument(!StringUtils.isEmpty(activeUserToken), "激活用户失败");
@@ -791,6 +972,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		userManager.activeUser(mqMessageData, update, activeUserKey);
 	}
 
+	/**
+	 * Load user authorities collection.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the collection
+	 */
 	@Override
 	public Collection<GrantedAuthority> loadUserAuthorities(Long userId) {
 
@@ -803,48 +991,13 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		return authList;
 	}
 
-	@Override
-	public void handlerLoginData(OAuth2AccessToken token, final SecurityUser principal, HttpServletRequest request) {
-
-		final UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-		//获取客户端操作系统
-		final String os = userAgent.getOperatingSystem().getName();
-		//获取客户端浏览器
-		final String browser = userAgent.getBrowser().getName();
-		final String remoteAddr = RequestUtil.getRemoteAddr(request);
-		// 根据IP获取位置信息
-		final String remoteLocation = opcRpcService.getLocationById(remoteAddr);
-		final String requestURI = request.getRequestURI();
-
-		UacUser uacUser = new UacUser();
-		Long userId = principal.getUserId();
-		uacUser.setLastLoginIp(remoteAddr);
-		uacUser.setId(userId);
-		uacUser.setLastLoginTime(new Date());
-		uacUser.setLastLoginLocation(remoteLocation);
-		LoginAuthDto loginAuthDto = new LoginAuthDto(userId, principal.getLoginName(), principal.getNickName(), principal.getGroupId(), principal.getGroupName());
-		// 记录token日志
-		String accessToken = token.getValue();
-		String refreshToken = token.getRefreshToken().getValue();
-		uacUserTokenService.saveUserToken(accessToken, refreshToken, loginAuthDto, request);
-		// 记录最后登录信息
-		taskExecutor.execute(() -> this.updateUser(uacUser));
-		// 记录操作日志
-
-		UacLog log = new UacLog();
-		log.setGroupId(principal.getGroupId());
-		log.setGroupName(principal.getGroupName());
-		log.setIp(remoteAddr);
-		log.setLocation(remoteLocation);
-		log.setOs(os);
-		log.setBrowser(browser);
-		log.setRequestUrl(requestURI);
-		log.setLogType(LogTypeEnum.LOGIN_LOG.getType());
-		log.setLogName(LogTypeEnum.LOGIN_LOG.getName());
-
-		taskExecutor.execute(() -> uacLogService.saveLog(log, loginAuthDto));
-	}
-
+	/**
+	 * Find user info by login name uac user.
+	 *
+	 * @param loginName the login name
+	 *
+	 * @return the uac user
+	 */
 	@Override
 	public UacUser findUserInfoByLoginName(final String loginName) {
 		return uacUserMapper.findUserInfoByLoginName(loginName);

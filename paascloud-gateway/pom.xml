@@ -39,10 +39,10 @@
             <groupId>com.liuzm.paascloud.common</groupId>
             <artifactId>paascloud-common-util</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.liuzm.paascloud.common</groupId>
-            <artifactId>paascloud-common-core</artifactId>
-        </dependency>
+      <dependency>
+        <groupId>com.liuzm.paascloud.common</groupId>
+        <artifactId>paascloud-common-core</artifactId>
+      </dependency>
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
@@ -79,6 +79,11 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
+      <dependency>
+        <groupId>com.liuzm.paascloud.common</groupId>
+        <artifactId>paascloud-security-core</artifactId>
+        <version>1.0</version>
+      </dependency>
     </dependencies>
 
     <build>

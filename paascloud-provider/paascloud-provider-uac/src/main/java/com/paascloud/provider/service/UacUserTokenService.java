@@ -30,12 +30,15 @@ public interface UacUserTokenService extends IService<UacUserToken> {
 	/**
 	 * 保存token.
 	 *
-	 * @param accessToken  the access token
-	 * @param refreshToken the refresh token
-	 * @param loginAuthDto the login auth dto
-	 * @param request      the request
+	 * @param accessToken    the access token
+	 * @param refreshToken   the refresh token
+	 * @param loginAuthDto   the login auth dto
+	 * @param os             the os
+	 * @param browser        the browser
+	 * @param remoteAddr     the remote addr
+	 * @param remoteLocation the remote location
 	 */
-	void saveUserToken(String accessToken, String refreshToken, LoginAuthDto loginAuthDto, HttpServletRequest request);
+	void saveUserToken(String accessToken, String refreshToken, LoginAuthDto loginAuthDto, String os, String browser, String remoteAddr, String remoteLocation);
 
 	/**
 	 * 获取token.

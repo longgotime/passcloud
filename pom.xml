@@ -14,15 +14,16 @@
   </parent>
 
   <modules>
+    <module>paascloud-generator</module>
+    <module>paascloud-common</module>
     <module>paascloud-eureka</module>
-    <module>paascloud-discovery</module>
+    <module>paascloud-config</module>
     <module>paascloud-monitor</module>
     <module>paascloud-zipkin</module>
     <module>paascloud-gateway</module>
     <module>paascloud-provider-api</module>
-    <module>paascloud-common</module>
     <module>paascloud-provider</module>
-    <module>paascloud-generator</module>
+    <module>paascloud-service</module>
   </modules>
 
   <developers>
@@ -125,11 +126,6 @@
       <dependency>
         <groupId>com.liuzm.paascloud.common</groupId>
         <artifactId>paascloud-common-zk</artifactId>
-        <version>${paascloud.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.liuzm.paascloud.common</groupId>
-        <artifactId>paascloud-security-app</artifactId>
         <version>${paascloud.version}</version>
       </dependency>
       <!-- paas cloud end -->
