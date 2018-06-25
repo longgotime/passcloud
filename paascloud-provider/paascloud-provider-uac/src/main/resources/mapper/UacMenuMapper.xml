@@ -180,7 +180,7 @@
         and u.id = #{userId,jdbcType=BIGINT}
         order by m.id asc
     </select>
-    <select id="findMenuVoListByUserId" resultType="com.paascloud.provider.model.vo.MenuVo">
+    <select id="findMenuVoListByUserId" resultType="com.paascloud.provider.model.vo.menu.MenuVo">
         SELECT
         m.menu_code as menuCode,
         m.menu_name as menuName,

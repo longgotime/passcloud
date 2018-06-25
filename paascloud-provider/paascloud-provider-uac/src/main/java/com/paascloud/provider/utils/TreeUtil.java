@@ -13,7 +13,7 @@ package com.paascloud.provider.utils;
 
 import com.google.common.collect.Lists;
 import com.paascloud.PublicUtil;
-import com.paascloud.provider.model.vo.MenuVo;
+import com.paascloud.provider.model.vo.menu.MenuVo;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

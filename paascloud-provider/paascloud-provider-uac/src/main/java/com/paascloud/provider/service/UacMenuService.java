@@ -14,8 +14,8 @@ package com.paascloud.provider.service;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.provider.model.domain.UacMenu;
 import com.paascloud.provider.model.dto.menu.UacMenuStatusDto;
-import com.paascloud.provider.model.vo.MenuVo;
-import com.paascloud.provider.model.vo.ViewMenuVo;
+import com.paascloud.provider.model.vo.menu.MenuVo;
+import com.paascloud.provider.model.vo.menu.ViewMenuVo;
 import com.paascloud.core.support.IService;
 
 import java.util.List;

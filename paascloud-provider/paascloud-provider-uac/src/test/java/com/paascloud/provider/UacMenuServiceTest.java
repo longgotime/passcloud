@@ -1,6 +1,6 @@
 package com.paascloud.provider;
 
-import com.paascloud.provider.model.vo.MenuVo;
+import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.service.UacMenuService;
 import org.junit.Test;
 

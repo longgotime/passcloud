@@ -14,7 +14,7 @@ package com.paascloud.provider.mapper;
 import com.paascloud.core.mybatis.MyMapper;
 import com.paascloud.provider.model.domain.UacRole;
 import com.paascloud.provider.model.dto.role.BindUserDto;
-import com.paascloud.provider.model.vo.RoleVo;
+import com.paascloud.provider.model.vo.role.RoleVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

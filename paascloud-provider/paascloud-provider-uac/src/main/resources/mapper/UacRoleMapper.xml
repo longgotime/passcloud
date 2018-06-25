@@ -112,7 +112,7 @@
     <select id="findByRoleCode" resultType="com.paascloud.provider.model.domain.UacRole">
         SELECT * from pc_uac_role WHERE role_code=#{roleCode,jdbcType=VARCHAR}
     </select>
-    <select id="queryRoleListWithPage" resultType="com.paascloud.provider.model.vo.RoleVo">
+    <select id="queryRoleListWithPage" resultType="com.paascloud.provider.model.vo.role.RoleVo">
         SELECT
         tur.id AS id,
         tur.version AS version,

@@ -20,6 +20,7 @@
     <module>paascloud-provider-opc-api</module>
     <module>paascloud-provider-tpc-api</module>
     <module>paascloud-provider-sdk-api</module>
+    <module>paascloud-provider-common-api</module>
   </modules>
 
   <dependencies>

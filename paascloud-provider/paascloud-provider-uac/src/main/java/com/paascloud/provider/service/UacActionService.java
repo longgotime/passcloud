@@ -16,7 +16,7 @@ import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.provider.model.domain.UacAction;
 import com.paascloud.provider.model.domain.UacMenu;
 import com.paascloud.provider.model.dto.action.ActionMainQueryDto;
-import com.paascloud.provider.model.vo.MenuVo;
+import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.core.support.IService;
 
 import java.util.List;

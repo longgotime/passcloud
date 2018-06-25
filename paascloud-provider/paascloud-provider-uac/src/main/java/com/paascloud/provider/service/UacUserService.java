@@ -18,7 +18,7 @@ import com.paascloud.provider.model.domain.UacLog;
 import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
-import com.paascloud.provider.model.vo.UserBindRoleVo;
+import com.paascloud.provider.model.vo.role.UserBindRoleVo;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;

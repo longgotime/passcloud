@@ -17,8 +17,8 @@ import com.paascloud.provider.model.domain.UacGroup;
 import com.paascloud.provider.model.dto.group.GroupBindUserDto;
 import com.paascloud.provider.model.dto.group.GroupBindUserReqDto;
 import com.paascloud.provider.model.dto.user.IdStatusDto;
-import com.paascloud.provider.model.vo.GroupZtreeVo;
-import com.paascloud.provider.model.vo.MenuVo;
+import com.paascloud.provider.model.vo.group.GroupZtreeVo;
+import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.core.support.IService;
 
 import java.util.List;

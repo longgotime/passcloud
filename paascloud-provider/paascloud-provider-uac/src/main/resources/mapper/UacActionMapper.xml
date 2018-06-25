@@ -148,7 +148,7 @@
         and ua.menu_id = tum.id
         and uu.id = #{userId,jdbcType=BIGINT}
     </select>
-    <select id="queryActionListWithPage" resultType="com.paascloud.provider.model.vo.ActionVo">
+    <select id="queryActionListWithPage" resultType="com.paascloud.provider.model.vo.action.ActionVo">
         SELECT
         <include refid="Base_Column_List">
             <property name="alias" value="action"></property>
@@ -179,7 +179,7 @@
     <select id="getCheckedActionList" parameterType="long" resultType="java.lang.Long">
         select action_id as menu_id from pc_uac_role_action ra where ra.role_id = #{roleId}
     </select>
-    <select id="getOwnAuthList" resultType="com.paascloud.provider.model.vo.MenuVo">
+    <select id="getOwnAuthList" resultType="com.paascloud.provider.model.vo.menu.MenuVo">
         select m.id as id, m.pid as pid, m.menu_code as menuCode, m.menu_name as menuName from pc_uac_role_menu rm INNER JOIN pc_uac_role r on rm.role_id = r.id
             INNER JOIN pc_uac_role_user ru on ru.role_id = r.id
             INNER JOIN pc_uac_user u on ru.user_id = u.id

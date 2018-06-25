@@ -17,9 +17,9 @@ import com.paascloud.provider.model.dto.role.RoleBindActionDto;
 import com.paascloud.provider.model.dto.role.RoleBindMenuDto;
 import com.paascloud.provider.model.dto.role.RoleBindUserDto;
 import com.paascloud.provider.model.dto.role.RoleBindUserReqDto;
-import com.paascloud.provider.model.vo.BindAuthVo;
-import com.paascloud.provider.model.vo.MenuVo;
-import com.paascloud.provider.model.vo.RoleVo;
+import com.paascloud.provider.model.vo.menu.BindAuthVo;
+import com.paascloud.provider.model.vo.menu.MenuVo;
+import com.paascloud.provider.model.vo.role.RoleVo;
 import com.paascloud.core.support.IService;
 
 import java.util.List;

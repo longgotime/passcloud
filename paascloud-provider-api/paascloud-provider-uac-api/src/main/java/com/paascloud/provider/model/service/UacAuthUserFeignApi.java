@@ -48,4 +48,5 @@ public interface UacAuthUserFeignApi {
 	 */
 	@GetMapping(value = "/api/auth/handlerLoginDTO")
 	void handlerLoginData(@RequestBody HandlerLoginDTO handlerLoginDTO);
+
 }

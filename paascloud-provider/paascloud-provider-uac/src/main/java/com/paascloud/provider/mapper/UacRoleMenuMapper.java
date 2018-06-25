@@ -13,7 +13,7 @@ package com.paascloud.provider.mapper;
 
 import com.paascloud.core.mybatis.MyMapper;
 import com.paascloud.provider.model.domain.UacRoleMenu;
-import com.paascloud.provider.model.vo.role.MenuCountVo;
+import com.paascloud.provider.model.vo.menu.MenuCountVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

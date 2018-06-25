@@ -24,7 +24,7 @@
       #{item}
     </foreach>
   </delete>
-  <select id="countChildMenuNum" parameterType="java.lang.String" resultType="com.paascloud.provider.model.vo.role.MenuCountVo">
+  <select id="countChildMenuNum" parameterType="java.lang.String" resultType="com.paascloud.provider.model.vo.menu.MenuCountVo">
         SELECT
             tum.id,
             tum.menu_name AS menuName,

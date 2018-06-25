@@ -19,7 +19,7 @@ import com.paascloud.provider.model.constant.UacConstant;
 import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.model.dto.user.LoginRespDto;
 import com.paascloud.provider.model.exceptions.UacBizException;
-import com.paascloud.provider.model.vo.MenuVo;
+import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.service.UacLoginService;
 import com.paascloud.provider.service.UacMenuService;
 import com.paascloud.provider.service.UacUserService;
