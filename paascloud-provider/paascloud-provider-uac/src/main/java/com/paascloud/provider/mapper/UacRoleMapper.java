@@ -14,6 +14,7 @@ package com.paascloud.provider.mapper;
 import com.paascloud.core.mybatis.MyMapper;
 import com.paascloud.provider.model.domain.UacRole;
 import com.paascloud.provider.model.dto.role.BindUserDto;
+import com.paascloud.provider.model.dto.role.RoleDto;
 import com.paascloud.provider.model.vo.role.RoleVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -45,7 +46,7 @@ public interface UacRoleMapper extends MyMapper<UacRole> {
 	 *
 	 * @return the list
 	 */
-	List<RoleVo> queryRoleListWithPage(UacRole role);
+	List<RoleVo> queryRoleListWithPage(RoleDto role);
 
 	/**
 	 * Select all role info by user id list.
@@ -54,7 +55,7 @@ public interface UacRoleMapper extends MyMapper<UacRole> {
 	 *
 	 * @return the list
 	 */
-	List<UacRole> selectAllRoleInfoByUserId(Long userId);
+	List<RoleVo> selectAllRoleInfoByUserId(Long userId);
 
 	/**
 	 * Select role list list.

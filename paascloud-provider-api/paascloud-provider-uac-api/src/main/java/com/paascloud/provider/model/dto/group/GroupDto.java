@@ -1,5 +1,6 @@
 package com.paascloud.provider.model.dto.group;
 
+import com.paascloud.base.dto.BaseVo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author paascloud.net@gmail.com
  */
 @Data
-public class GroupDto implements Serializable {
+public class GroupDto extends BaseVo implements Serializable {
 
 	private static final long serialVersionUID = -1679617040204181823L;
 	/**

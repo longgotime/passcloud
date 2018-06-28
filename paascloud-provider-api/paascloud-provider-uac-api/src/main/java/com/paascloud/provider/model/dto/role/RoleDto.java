@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.model.dto.role;
 
+import com.paascloud.base.dto.BaseVo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,7 +22,7 @@ import java.io.Serializable;
  * @author paascloud.net @gmail.com
  */
 @Data
-public class RoleDto implements Serializable {
+public class RoleDto extends BaseVo implements Serializable {
 
 
 	private static final long serialVersionUID = 563763115380802644L;

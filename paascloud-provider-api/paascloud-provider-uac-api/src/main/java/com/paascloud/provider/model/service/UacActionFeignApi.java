@@ -14,6 +14,7 @@ package com.paascloud.provider.model.service;
 import com.paascloud.provider.model.dto.action.ActionMainQueryDto;
 import com.paascloud.provider.model.dto.action.UacActionCheckCodeDto;
 import com.paascloud.provider.model.dto.action.UacActionCheckUrlDto;
+import com.paascloud.provider.model.dto.action.UacActionDto;
 import com.paascloud.provider.model.dto.base.ModifyStatusDto;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiParam;
@@ -72,7 +73,7 @@ public interface UacActionFeignApi{
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/save")
-	Wrapper save(@ApiParam(name = "action", value = "角色信息") @RequestBody ActionMainQueryDto action);
+	Wrapper save(@ApiParam(name = "action", value = "角色信息") @RequestBody UacActionDto action);
 
 	/**
 	 * 根据权限Id修改角色状态.

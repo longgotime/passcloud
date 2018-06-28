@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.model.dto.user;
 
+import com.paascloud.base.dto.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,7 +26,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "用户注册Dto")
-public class UserInfoDto implements Serializable {
+public class UserInfoDto extends BaseVo implements Serializable {
 
 	private static final long serialVersionUID = -889913964833331690L;
 	private Long id;

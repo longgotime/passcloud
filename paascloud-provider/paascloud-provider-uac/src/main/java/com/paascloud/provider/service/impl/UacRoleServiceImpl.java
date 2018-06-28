@@ -62,7 +62,7 @@ public class UacRoleServiceImpl extends BaseService<UacRole> implements UacRoleS
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<RoleVo> queryRoleListWithPage(UacRole role) {
+	public List<RoleVo> queryRoleListWithPage(RoleDto role) {
 		return uacRoleMapper.queryRoleListWithPage(role);
 	}
 
@@ -247,7 +247,7 @@ public class UacRoleServiceImpl extends BaseService<UacRole> implements UacRoleS
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<UacRole> findAllRoleInfoByUserId(Long userId) {
+	public List<RoleVo> findAllRoleInfoByUserId(Long userId) {
 		return uacRoleMapper.selectAllRoleInfoByUserId(userId);
 	}
 

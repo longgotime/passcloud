@@ -13,13 +13,13 @@ package com.paascloud.provider.service;
 
 
 import com.paascloud.base.dto.LoginAuthDto;
+import com.paascloud.core.support.IService;
 import com.paascloud.provider.model.domain.UacGroup;
 import com.paascloud.provider.model.dto.group.GroupBindUserDto;
 import com.paascloud.provider.model.dto.group.GroupBindUserReqDto;
 import com.paascloud.provider.model.dto.user.IdStatusDto;
 import com.paascloud.provider.model.vo.group.GroupZtreeVo;
 import com.paascloud.provider.model.vo.menu.MenuVo;
-import com.paascloud.core.support.IService;
 
 import java.util.List;
 
