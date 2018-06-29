@@ -16,6 +16,8 @@ import com.paascloud.provider.model.dto.action.UacActionCheckCodeDto;
 import com.paascloud.provider.model.dto.action.UacActionCheckUrlDto;
 import com.paascloud.provider.model.dto.action.UacActionDto;
 import com.paascloud.provider.model.dto.base.ModifyStatusDto;
+import com.paascloud.provider.model.service.hystrix.UacActionFeignApiHystrix;
+import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -31,7 +33,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac")
+@FeignClient(value = "paascloud-provider-uac" , configuration = OAuth2FeignAutoConfiguration.class, fallback = UacActionFeignApiHystrix.class)
 public interface UacActionFeignApi{
 
 	/**

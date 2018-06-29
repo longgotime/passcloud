@@ -14,9 +14,11 @@ package com.paascloud.provider.model.service;
 import com.github.pagehelper.PageInfo;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
+import com.paascloud.provider.model.service.hystrix.UacUserFeignApiHystrix;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
 import com.paascloud.provider.model.vo.user.UserVo;
+import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -33,7 +35,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac")
+@FeignClient(value = "paascloud-provider-uac",configuration = OAuth2FeignAutoConfiguration.class, fallback = UacUserFeignApiHystrix.class)
 public interface UacUserFeignApi{
 
 	/**
@@ -222,5 +224,26 @@ public interface UacUserFeignApi{
 	 */
 	@PostMapping(value = "/getOwnAuthTree")
 	Wrapper<List<MenuVo>> getOwnAuthTree();
+
+	/**
+	 * 用户修改密码
+	 *
+	 * @param userModifyPwdDto the user modify pwd dto
+	 *
+	 * @return the wrapper
+	 */
+	@PostMapping(value = "/modifyUserPwd")
+	Wrapper<Integer> modifyUserPwd(@ApiParam(name = "userModifyPwdDto", value = "用户修改密码Dto") @RequestBody UserModifyPwdDto userModifyPwdDto);
+
+
+	/**
+	 * 注册
+	 *
+	 * @param registerDto the register dto
+	 *
+	 * @return the wrapper
+	 */
+	@PostMapping(value = "/registerUser")
+	Wrapper registerUser(@ApiParam(name = "registerDto", value = "用户注册Dto") @RequestBody UserRegisterDto registerDto);
 
 }

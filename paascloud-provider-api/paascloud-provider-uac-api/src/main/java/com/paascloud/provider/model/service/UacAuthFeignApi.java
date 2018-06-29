@@ -15,6 +15,8 @@ import com.paascloud.base.dto.CheckValidDto;
 import com.paascloud.provider.model.dto.log.OperationLogDto;
 import com.paascloud.provider.model.dto.user.ResetLoginPwdDto;
 import com.paascloud.provider.model.dto.user.UserRegisterDto;
+import com.paascloud.provider.model.service.hystrix.UacAuthFeignApiHystrix;
+import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -28,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac")
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacAuthFeignApiHystrix.class)
 public interface UacAuthFeignApi {
 
 	/**
@@ -39,7 +41,7 @@ public interface UacAuthFeignApi {
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/checkPhoneActive/{mobileNo}")
-	Wrapper<Boolean> checkPhoneActive(@PathVariable String mobileNo);
+	Wrapper<Boolean> checkPhoneActive(@PathVariable(name ="mobileNo") String mobileNo);
 
 	/**
 	 * 校验邮箱.

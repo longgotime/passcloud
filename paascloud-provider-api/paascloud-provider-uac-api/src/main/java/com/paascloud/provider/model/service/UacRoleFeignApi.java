@@ -15,8 +15,10 @@ package com.paascloud.provider.model.service;
 import com.github.pagehelper.PageInfo;
 import com.paascloud.provider.model.dto.base.ModifyStatusDto;
 import com.paascloud.provider.model.dto.role.*;
+import com.paascloud.provider.model.service.hystrix.UacRoleFeignApiHystrix;
 import com.paascloud.provider.model.vo.menu.BindAuthVo;
 import com.paascloud.provider.model.vo.role.RoleVo;
+import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -33,7 +35,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac")
+@FeignClient(value = "paascloud-provider-uac",configuration = OAuth2FeignAutoConfiguration.class, fallback = UacRoleFeignApiHystrix.class)
 public interface UacRoleFeignApi{
 
 	/**

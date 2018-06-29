@@ -14,9 +14,11 @@ package com.paascloud.provider.model.service;
 
 import com.paascloud.provider.model.dto.group.*;
 import com.paascloud.provider.model.dto.user.IdStatusDto;
+import com.paascloud.provider.model.service.hystrix.UacGroupFeignApiHystrix;
 import com.paascloud.provider.model.vo.group.GroupVo;
 import com.paascloud.provider.model.vo.group.GroupZtreeVo;
 import com.paascloud.provider.model.vo.menu.MenuVo;
+import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -33,7 +35,7 @@ import java.util.Map;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac")
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacGroupFeignApiHystrix.class)
 public interface UacGroupFeignApi{
 
 	/**

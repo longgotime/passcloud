@@ -285,4 +285,25 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 		List<MenuVo> tree = uacRoleService.getOwnAuthTree(getLoginAuthDto().getUserId());
 		return WrapMapper.ok(tree);
 	}
+
+	@Override
+	public Wrapper<Integer> modifyUserPwd(UserModifyPwdDto userModifyPwdDto) {
+		logger.info("==》vue用户修改密码, userModifyPwdDto={}", userModifyPwdDto);
+
+		logger.info("旧密码 oldPassword = {}", userModifyPwdDto.getOldPassword());
+		logger.info("新密码 newPassword = {}", userModifyPwdDto.getNewPassword());
+		logger.info("登录名 loginName = {}", userModifyPwdDto.getLoginName());
+
+		LoginAuthDto loginAuthDto = getLoginAuthDto();
+
+		int result = uacUserService.userModifyPwd(userModifyPwdDto, loginAuthDto);
+		return handleResult(result);
+	}
+
+	@Override
+	public Wrapper registerUser(UserRegisterDto registerDto) {
+		logger.info("vue注册开始。注册参数：{}", registerDto);
+		uacUserService.register(registerDto);
+		return WrapMapper.ok("注册成功");
+	}
 }

@@ -9,19 +9,21 @@
  * 项目官网: http://paascloud.net
  */
 
-package com.paascloud.provider.model.service;
+package com.paascloud.web.uac;
 
+import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.dto.user.LoginRespDto;
-import com.paascloud.provider.model.service.hystrix.UacUserLoginFeignApiHystrix;
-import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
+import com.paascloud.provider.model.service.UacUserLoginFeignApi;
 import com.paascloud.wrapper.Wrapper;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -30,8 +32,14 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac",configuration = OAuth2FeignAutoConfiguration.class, fallback = UacUserLoginFeignApiHystrix.class)
-public interface UacUserLoginFeignApi{
+@RestController
+@RequestMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Api(value = "Web - UacUserLoginController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class UacUserLoginController extends BaseController{
+
+
+	@Resource
+	private UacUserLoginFeignApi uacUserLoginFeignApi;
 
 
 	/**
@@ -43,7 +51,11 @@ public interface UacUserLoginFeignApi{
 	 */
 	@PostMapping(value = "/user/loginAfter/{applicationId}")
 	@ApiOperation(httpMethod = "POST", value = "登录成功获取用户菜单")
-	Wrapper<LoginRespDto> loginAfter(@PathVariable Long applicationId);
+	public Wrapper<LoginRespDto> loginAfter(Long applicationId) {
+		logger.info("登录成功获取用户菜单. applicationId={}", applicationId);
+		return uacUserLoginFeignApi.loginAfter(applicationId);
+	}
+
 
 	/**
 	 * 登出.
@@ -54,7 +66,9 @@ public interface UacUserLoginFeignApi{
 	 */
 	@PostMapping(value = "/user/logout")
 	@ApiOperation(httpMethod = "POST", value = "登出")
-	Wrapper loginAfter(String accessToken);
+	public Wrapper loginAfter(String accessToken) {
+		return uacUserLoginFeignApi.loginAfter(accessToken);
+	}
 
 	/**
 	 * 刷新token.
@@ -67,6 +81,7 @@ public interface UacUserLoginFeignApi{
 	 */
 	@GetMapping(value = "/auth/user/refreshToken")
 	@ApiOperation(httpMethod = "POST", value = "刷新token")
-	Wrapper<String> refreshToken(HttpServletRequest request, @RequestParam(value = "refreshToken") String refreshToken, @RequestParam(value = "accessToken") String accessToken);
-
+	public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) {
+		return uacUserLoginFeignApi.refreshToken(request, refreshToken, accessToken);
+	}
 }

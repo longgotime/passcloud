@@ -12,6 +12,8 @@
 package com.paascloud.provider.model.service;
 
 import com.paascloud.provider.model.dto.token.TokenMainQueryDto;
+import com.paascloud.provider.model.service.hystrix.UacTokenFeignApiHystrix;
+import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -24,8 +26,16 @@ import org.springframework.web.bind.annotation.RequestBody;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac")
+@FeignClient(value = "paascloud-provider-uac",configuration = OAuth2FeignAutoConfiguration.class, fallback = UacTokenFeignApiHystrix.class)
 public interface UacTokenFeignApi{
+
+	/**
+	 * 超时token更新为离线.
+	 *
+	 * @return the wrapper
+	 */
+	@PostMapping(value = "/api/uac/token/updateTokenOffLine")
+	Wrapper<Integer> updateTokenOffLine();
 
 	/**
 	 * 分页查询角色信息.

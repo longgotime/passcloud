@@ -9,20 +9,19 @@
  * 项目官网: http://paascloud.net
  */
 
-package com.paascloud.provider.web;
+package com.paascloud.web.uac;
 
-import com.github.pagehelper.PageInfo;
 import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.dto.token.TokenMainQueryDto;
 import com.paascloud.provider.model.service.UacTokenFeignApi;
-import com.paascloud.provider.service.UacUserTokenService;
-import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -33,19 +32,22 @@ import javax.annotation.Resource;
  *
  * @author paascloud.net @gmail.com
  */
-@RefreshScope
 @RestController
-@Api(value = "API - UacTokenFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacTokenFeignClient extends BaseController implements UacTokenFeignApi {
+@RequestMapping(value = "/token", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Api(value = "Web - UacTokenMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class UacTokenController extends BaseController{
 
 
 	@Resource
-	private UacUserTokenService uacUserTokenService;
+	private UacTokenFeignApi uacTokenFeignApi;
 
-	@Override
-	public Wrapper<Integer> updateTokenOffLine() {
-		return null;
+
+	@PostMapping(value = "/updateTokenOffLine")
+	@ApiOperation(httpMethod = "POST", value = "更新在线用户")
+	public Wrapper updateTokenOffLine() {
+		return uacTokenFeignApi.updateTokenOffLine();
 	}
+
 
 	/**
 	 * 分页查询角色信息.
@@ -54,11 +56,11 @@ public class UacTokenFeignClient extends BaseController implements UacTokenFeign
 	 *
 	 * @return the wrapper
 	 */
-	@Override
+	@PostMapping(value = "/queryListWithPage")
+	@ApiOperation(httpMethod = "POST", value = "查询在线用户列表")
 	public Wrapper queryUacActionListWithPage(@ApiParam(name = "token") @RequestBody TokenMainQueryDto token) {
 		logger.info("查询在线用户列表. token={}", token);
-		PageInfo pageInfo = uacUserTokenService.listTokenWithPage(token);
-		return WrapMapper.ok(pageInfo);
+		return uacTokenFeignApi.queryUacActionListWithPage(token);
 	}
 
 }

@@ -11,9 +11,8 @@
 
 package com.paascloud.provider.model.service.hystrix;
 
-import com.paascloud.provider.model.dto.user.AuthUserDTO;
-import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
-import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.provider.model.dto.token.TokenMainQueryDto;
+import com.paascloud.provider.model.service.UacTokenFeignApi;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -24,16 +23,16 @@ import org.springframework.stereotype.Component;
  * @author paascloud.net @gmail.com
  */
 @Component
-public class UacTokenFeignApiHystrix implements UacAuthUserFeignApi {
+public class UacTokenFeignApiHystrix implements UacTokenFeignApi {
 
 
 	@Override
-	public Wrapper<AuthUserDTO> getAuthUserDTO(String loginName) {
+	public Wrapper<Integer> updateTokenOffLine() {
 		return null;
 	}
 
 	@Override
-	public void handlerLoginData(HandlerLoginDTO handlerLoginDTO) {
-
+	public Wrapper queryUacActionListWithPage(TokenMainQueryDto token) {
+		return null;
 	}
 }
