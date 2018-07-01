@@ -35,6 +35,8 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
@@ -59,7 +61,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     private UacRoleUserService uacRoleUserService;
 
     @Override
-    public Wrapper<PageInfo<RoleVo>> queryUacRoleListWithPage(RoleDto role) {
+    public Wrapper<PageInfo<RoleVo>> queryUacRoleListWithPage(@RequestBody RoleDto role) {
         logger.info("查询角色列表roleQuery={}", role);
         PageHelper.startPage(role.getPageNum(), role.getPageSize());
         role.setOrderBy("update_time desc");
@@ -68,20 +70,20 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     }
 
     @Override
-    public Wrapper deleteUacRoleById(Long id) {
+    public Wrapper deleteUacRoleById(@PathVariable("id") Long id) {
         int result = uacRoleService.deleteRoleById(id);
         return super.handleResult(result);
     }
 
     @Override
-    public Wrapper batchDeleteByIdList(List<Long> deleteIdList) {
+    public Wrapper batchDeleteByIdList(@RequestBody List<Long> deleteIdList) {
         logger.info("批量删除角色 idList={}", deleteIdList);
         uacRoleService.batchDeleteByIdList(deleteIdList);
         return WrapMapper.ok();
     }
 
     @Override
-    public Wrapper modifyUacRoleStatusById(ModifyStatusDto modifyStatusDto) {
+    public Wrapper modifyUacRoleStatusById(@RequestBody ModifyStatusDto modifyStatusDto) {
         logger.info("根据角色Id修改角色状态 modifyStatusDto={}", modifyStatusDto);
         Long roleId = modifyStatusDto.getId();
         if (roleId == null) {
@@ -107,7 +109,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     }
 
     @Override
-    public Wrapper save(RoleDto role) {
+    public Wrapper save(@RequestBody RoleDto role) {
         LoginAuthDto loginAuthDto = RequestUtil.getLoginUser();
         UacRole uacRole = new UacRole();
         BeanUtils.copyProperties(role,uacRole);
@@ -116,21 +118,21 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     }
 
     @Override
-    public Wrapper bindAction(RoleBindActionDto roleBindActionDto) {
+    public Wrapper bindAction(@RequestBody RoleBindActionDto roleBindActionDto) {
         logger.info("角色分配权限. roleBindActionDto= {}", roleBindActionDto);
         uacRoleService.bindAction(roleBindActionDto);
         return WrapMapper.ok();
     }
 
     @Override
-    public Wrapper bindMenu(RoleBindMenuDto roleBindMenuDto) {
+    public Wrapper bindMenu(@RequestBody RoleBindMenuDto roleBindMenuDto) {
         logger.info("角色分配权限. roleBindMenuDto= {}", roleBindMenuDto);
         uacRoleService.bindMenu(roleBindMenuDto);
         return WrapMapper.ok();
     }
 
     @Override
-    public Wrapper bindUser(RoleBindUserReqDto roleBindUserReqDto) {
+    public Wrapper bindUser(@RequestBody RoleBindUserReqDto roleBindUserReqDto) {
         logger.info("roleBindUser={}", roleBindUserReqDto);
         LoginAuthDto loginAuthDto = getLoginAuthDto();
         uacRoleService.bindUser4Role(roleBindUserReqDto, loginAuthDto);
@@ -138,7 +140,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     }
 
     @Override
-    public Wrapper<RoleBindUserDto> getBindUser(Long roleId) {
+    public Wrapper<RoleBindUserDto> getBindUser(@PathVariable("id") Long roleId) {
         logger.info("获取角色绑定用户页面数据. roleId={}", roleId);
         LoginAuthDto loginAuthDto = super.getLoginAuthDto();
         Long currentUserId = loginAuthDto.getUserId();
@@ -147,7 +149,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     }
 
     @Override
-    public Wrapper<RoleVo> queryRoleInfo(Long id) {
+    public Wrapper<RoleVo> queryRoleInfo(@PathVariable("id") Long id) {
         UacRole role = uacRoleService.selectByKey(id);
         RoleVo roleVo = new RoleVo();
         BeanUtils.copyProperties(role,roleVo);
@@ -155,7 +157,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     }
 
     @Override
-    public Wrapper<Boolean> checkUacRoleCode(CheckRoleCodeDto checkRoleCodeDto) {
+    public Wrapper<Boolean> checkUacRoleCode(@RequestBody CheckRoleCodeDto checkRoleCodeDto) {
 
         logger.info("校验角色编码唯一性 checkRoleCodeDto={}", checkRoleCodeDto);
 
@@ -175,14 +177,14 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     }
 
     @Override
-    public Wrapper<BindAuthVo> getActionTreeByRoleId(Long roleId) {
+    public Wrapper<BindAuthVo> getActionTreeByRoleId(@PathVariable("roleId") Long roleId) {
         logger.info("roleId={}", roleId);
         BindAuthVo bindAuthVo = uacRoleService.getActionTreeByRoleId(roleId);
         return WrapMapper.ok(bindAuthVo);
     }
 
     @Override
-    public Wrapper<BindAuthVo> getMenuTreeByRoleId(Long roleId) {
+    public Wrapper<BindAuthVo> getMenuTreeByRoleId(@PathVariable("roleId") Long roleId) {
         logger.info("roleId={}", roleId);
         BindAuthVo bindAuthVo = uacRoleService.getMenuTreeByRoleId(roleId);
         return WrapMapper.ok(bindAuthVo);

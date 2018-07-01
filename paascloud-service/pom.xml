@@ -20,7 +20,7 @@
 
     <modules>
         <module>paascloud-service-auth</module>
-		    <module>paascloud-service-one</module>
+		    <module>paascloud-service-operate</module>
     </modules>
 
     <dependencies>

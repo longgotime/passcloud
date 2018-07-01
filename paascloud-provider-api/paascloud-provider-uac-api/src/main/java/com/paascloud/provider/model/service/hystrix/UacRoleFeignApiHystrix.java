@@ -12,11 +12,19 @@
 package com.paascloud.provider.model.service.hystrix;
 
 
+import com.github.pagehelper.PageInfo;
+import com.paascloud.provider.model.dto.base.ModifyStatusDto;
+import com.paascloud.provider.model.dto.role.*;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.provider.model.service.UacRoleFeignApi;
+import com.paascloud.provider.model.vo.menu.BindAuthVo;
+import com.paascloud.provider.model.vo.role.RoleVo;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 /**
@@ -25,16 +33,70 @@ import org.springframework.stereotype.Component;
  * @author paascloud.net @gmail.com
  */
 @Component
-public class UacRoleFeignApiHystrix implements UacAuthUserFeignApi {
-
+public class UacRoleFeignApiHystrix implements UacRoleFeignApi {
 
 	@Override
-	public Wrapper<AuthUserDTO> getAuthUserDTO(String loginName) {
+	public Wrapper<PageInfo<RoleVo>> queryUacRoleListWithPage(RoleDto role) {
 		return null;
 	}
 
 	@Override
-	public void handlerLoginData(HandlerLoginDTO handlerLoginDTO) {
+	public Wrapper deleteUacRoleById(Long id) {
+		return null;
+	}
 
+	@Override
+	public Wrapper batchDeleteByIdList(List<Long> deleteIdList) {
+		return null;
+	}
+
+	@Override
+	public Wrapper modifyUacRoleStatusById(ModifyStatusDto modifyStatusDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper save(RoleDto role) {
+		return null;
+	}
+
+	@Override
+	public Wrapper bindAction(RoleBindActionDto roleBindActionDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper bindMenu(RoleBindMenuDto roleBindMenuDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper bindUser(RoleBindUserReqDto roleBindUserReqDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<RoleBindUserDto> getBindUser(Long roleId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<RoleVo> queryRoleInfo(Long id) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkUacRoleCode(CheckRoleCodeDto checkRoleCodeDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<BindAuthVo> getActionTreeByRoleId(Long roleId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<BindAuthVo> getMenuTreeByRoleId(Long roleId) {
+		return null;
 	}
 }

@@ -54,6 +54,6 @@ public class PermissionServiceImpl implements PermissionService {
 				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 }

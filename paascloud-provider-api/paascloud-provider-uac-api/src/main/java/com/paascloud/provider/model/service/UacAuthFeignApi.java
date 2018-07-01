@@ -40,7 +40,7 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkPhoneActive/{mobileNo}")
+	@PostMapping(value = "/uac/auth/checkPhoneActive/{mobileNo}")
 	Wrapper<Boolean> checkPhoneActive(@PathVariable(name ="mobileNo") String mobileNo);
 
 	/**
@@ -50,7 +50,7 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkEmailActive/{email:.+}")
+	@PostMapping(value = "/uac/auth/checkEmailActive/{email:.+}")
 	Wrapper<Boolean> checkEmailActive(@PathVariable("email") String email);
 
 	/**
@@ -60,7 +60,7 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkValid")
+	@PostMapping(value = "/uac/auth/checkValid")
 	Wrapper checkValid(@RequestBody CheckValidDto checkValidDto);
 
 
@@ -71,7 +71,7 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/submitResetPwdEmail")
+	@PostMapping(value = "/uac/auth/submitResetPwdEmail")
 	@ApiOperation(httpMethod = "POST", value = "重置密码-邮箱-提交")
 	Wrapper<String> submitResetPwdEmail(@RequestParam("email") String email);
 
@@ -83,7 +83,7 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/submitResetPwdPhone")
+	@PostMapping(value = "/uac/auth/submitResetPwdPhone")
 	@ApiOperation(httpMethod = "POST", value = "重置密码-手机-提交")
 	Wrapper<String> submitResetPwdPhone(@RequestParam("mobile") String mobile, HttpServletResponse response);
 
@@ -94,7 +94,7 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/resetLoginPwd")
+	@PostMapping(value = "/uac/auth/resetLoginPwd")
 	@ApiOperation(httpMethod = "POST", value = "重置密码-最终提交")
 	Wrapper<Boolean> checkResetSmsCode(ResetLoginPwdDto resetLoginPwdDto);
 
@@ -105,7 +105,7 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/register")
+	@PostMapping(value = "/uac/auth/register")
 	Wrapper registerUser(UserRegisterDto user);
 
 	/**
@@ -115,7 +115,7 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@GetMapping(value = "/activeUser/{activeUserToken}")
+	@GetMapping(value = "/uac/auth/activeUser/{activeUserToken}")
 	@ApiOperation(httpMethod = "POST", value = "激活用户")
 	Wrapper activeUser(@PathVariable String activeUserToken);
 
@@ -126,10 +126,7 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the integer
 	 */
-	@PostMapping(value = "/saveLog")
+	@PostMapping(value = "/uac/auth/saveLog")
 	@ApiOperation(httpMethod = "POST", value = "查询日志")
 	Integer saveLog(@RequestBody OperationLogDto operationLogDto);
-
-	@PostMapping(value = "/callback/qq")
-	void callbackQQ(HttpServletRequest request);
 }

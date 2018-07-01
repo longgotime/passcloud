@@ -21,9 +21,7 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -61,7 +59,7 @@ public class UacMenuController extends BaseController{
 	 */
 	@PostMapping(value = "/queryById/{id}")
 	@ApiOperation(httpMethod = "POST", value = "编辑菜单")
-	public Wrapper<ViewMenuVo> queryMenuVoById(Long id) {
+	public Wrapper<ViewMenuVo> queryMenuVoById(@PathVariable Long id) {
 		return uacMenuFeignApi.queryMenuVoById(id);
 	}
 
@@ -75,7 +73,7 @@ public class UacMenuController extends BaseController{
 	@PostMapping(value = "/modifyStatus")
 	@ApiOperation(httpMethod = "POST", value = "修改菜单状态")
 	@LogAnnotation
-	public Wrapper updateUacMenuStatusById(UacMenuStatusDto uacMenuStatusDto) {
+	public Wrapper updateUacMenuStatusById(@RequestBody UacMenuStatusDto uacMenuStatusDto) {
 		logger.info("根据id修改菜单的禁用状态 uacMenuStatusDto={}", uacMenuStatusDto);
 		return uacMenuFeignApi.updateUacMenuStatusById(uacMenuStatusDto);
 	}
@@ -90,7 +88,7 @@ public class UacMenuController extends BaseController{
 	@PostMapping(value = "/save")
 	@ApiOperation(httpMethod = "POST", value = "新增菜单")
 	@LogAnnotation
-	public Wrapper saveMenu(UacEditMenuDto uacMenuAddDto) {
+	public Wrapper saveMenu(@RequestBody UacEditMenuDto uacMenuAddDto) {
 		return uacMenuFeignApi.saveMenu(uacMenuAddDto);
 	}
 
@@ -104,7 +102,7 @@ public class UacMenuController extends BaseController{
 	@PostMapping(value = "/deleteById/{id}")
 	@ApiOperation(httpMethod = "POST", value = "删除菜单")
 	@LogAnnotation
-	public Wrapper<Integer> deleteUacMenuById(Long id) {
+	public Wrapper<Integer> deleteUacMenuById(@PathVariable Long id) {
 		logger.info(" 根据id删除菜单 id={}", id);
 		return uacMenuFeignApi.deleteUacMenuById(id);
 	}
@@ -119,7 +117,7 @@ public class UacMenuController extends BaseController{
 	 */
 	@PostMapping(value = "/checkMenuCode")
 	@ApiOperation(httpMethod = "POST", value = "检测菜单编码是否已存在")
-	public Wrapper<Boolean> checkUacMenuActionCode(UacMenuCheckCodeDto uacMenuCheckCodeDto) {
+	public Wrapper<Boolean> checkUacMenuActionCode(@RequestBody UacMenuCheckCodeDto uacMenuCheckCodeDto) {
 		logger.info("校验菜单编码唯一性 uacMenuCheckCodeDto={}", uacMenuCheckCodeDto);
 		return uacMenuFeignApi.checkUacMenuActionCode(uacMenuCheckCodeDto);
 	}
@@ -133,7 +131,7 @@ public class UacMenuController extends BaseController{
 	 */
 	@PostMapping(value = "/checkMenuName")
 	@ApiOperation(httpMethod = "POST", value = "检测菜单名称唯一性")
-	public Wrapper<Boolean> checkUacMenuName(UacMenuCheckNameDto uacMenuCheckNameDto) {
+	public Wrapper<Boolean> checkUacMenuName(@RequestBody UacMenuCheckNameDto uacMenuCheckNameDto) {
 		logger.info("校验菜单编码唯一性 uacMenuCheckCodeDto={}", uacMenuCheckNameDto);
 		return uacMenuFeignApi.checkUacMenuName(uacMenuCheckNameDto);
 	}
@@ -147,7 +145,7 @@ public class UacMenuController extends BaseController{
 	 */
 	@PostMapping(value = "/checkMenuUrl")
 	@ApiOperation(httpMethod = "POST", value = "检测菜单URL唯一性")
-	public Wrapper<Boolean> checkUacMenuUrl(UacMenuCheckUrlDto uacMenuCheckUrlDto) {
+	public Wrapper<Boolean> checkUacMenuUrl(@RequestBody UacMenuCheckUrlDto uacMenuCheckUrlDto) {
 		logger.info("检测菜单URL唯一性 uacMenuCheckUrlDto={}", uacMenuCheckUrlDto);
 		return uacMenuFeignApi.checkUacMenuUrl(uacMenuCheckUrlDto);
 	}

@@ -26,6 +26,8 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
@@ -52,13 +54,13 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 	}
 
 	@Override
-	public Wrapper<ViewMenuVo> queryMenuVoById(Long id) {
+	public Wrapper<ViewMenuVo> queryMenuVoById(@PathVariable("id") Long id) {
 		ViewMenuVo menuVo = uacMenuService.getViewVoById(id);
 		return WrapMapper.ok(menuVo);
 	}
 
 	@Override
-	public Wrapper updateUacMenuStatusById(UacMenuStatusDto uacMenuStatusDto) {
+	public Wrapper updateUacMenuStatusById(@RequestBody UacMenuStatusDto uacMenuStatusDto) {
 		logger.info("根据id修改菜单的禁用状态 uacMenuStatusDto={}", uacMenuStatusDto);
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 		uacMenuService.updateUacMenuStatusById(uacMenuStatusDto, loginAuthDto);
@@ -66,7 +68,7 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 	}
 
 	@Override
-	public Wrapper saveMenu(UacEditMenuDto uacMenuAddDto) {
+	public Wrapper saveMenu(@RequestBody UacEditMenuDto uacMenuAddDto) {
 		UacMenu uacMenu = new UacMenu();
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 		BeanUtils.copyProperties(uacMenuAddDto, uacMenu);
@@ -75,7 +77,7 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 	}
 
 	@Override
-	public Wrapper<Integer> deleteUacMenuById(Long id) {
+	public Wrapper<Integer> deleteUacMenuById(@PathVariable("id") Long id) {
 		logger.info(" 根据id删除菜单 id={}", id);
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 
@@ -92,7 +94,7 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 	}
 
 	@Override
-	public Wrapper<Boolean> checkUacMenuActionCode(UacMenuCheckCodeDto uacMenuCheckCodeDto) {
+	public Wrapper<Boolean> checkUacMenuActionCode(@RequestBody UacMenuCheckCodeDto uacMenuCheckCodeDto) {
 		logger.info("校验菜单编码唯一性 uacMenuCheckCodeDto={}", uacMenuCheckCodeDto);
 
 		Long id = uacMenuCheckCodeDto.getMenuId();
@@ -111,7 +113,7 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 	}
 
 	@Override
-	public Wrapper<Boolean> checkUacMenuName(UacMenuCheckNameDto uacMenuCheckNameDto) {
+	public Wrapper<Boolean> checkUacMenuName(@RequestBody UacMenuCheckNameDto uacMenuCheckNameDto) {
 		logger.info("校验菜单名称唯一性 uacMenuCheckNameDto={}", uacMenuCheckNameDto);
 		Long id = uacMenuCheckNameDto.getMenuId();
 		Long pid = uacMenuCheckNameDto.getPid();
@@ -131,7 +133,7 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 	}
 
 	@Override
-	public Wrapper<Boolean> checkUacMenuUrl(UacMenuCheckUrlDto uacMenuCheckUrlDto) {
+	public Wrapper<Boolean> checkUacMenuUrl(@RequestBody UacMenuCheckUrlDto uacMenuCheckUrlDto) {
 		logger.info("检测菜单URL唯一性 uacMenuCheckUrlDto={}", uacMenuCheckUrlDto);
 
 		Long id = uacMenuCheckUrlDto.getMenuId();

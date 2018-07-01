@@ -15,6 +15,7 @@ import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
@@ -29,11 +30,9 @@ import javax.sql.DataSource;
  *
  * @author paascloud.net@gmail.com
  */
-@EnableOAuth2Sso
-@EnableHystrix
+
 @EnableFeignClients
-@EnableDiscoveryClient
-@SpringBootApplication
+@SpringCloudApplication
 @EnableTransactionManagement
 public class PaasCloudUacApplication {
 

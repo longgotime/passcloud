@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacAuthUserFeignApiHystrix.class)
 public interface UacAuthUserFeignApi {
 
-
 	/**
 	 * Gets auth user dto.
 	 *
@@ -38,7 +37,7 @@ public interface UacAuthUserFeignApi {
 	 *
 	 * @return the auth user dto
 	 */
-	@GetMapping(value = "/api/auth/getAuthUserDTO/{loginName}")
+	@GetMapping(value = "/uac/auth/getAuthUserDTO/{loginName}")
 	Wrapper<AuthUserDTO> getAuthUserDTO(@PathVariable("loginName") String loginName);
 
 	/**
@@ -46,7 +45,7 @@ public interface UacAuthUserFeignApi {
 	 *
 	 * @param handlerLoginDTO the handler login dto
 	 */
-	@GetMapping(value = "/api/auth/handlerLoginDTO")
+	@GetMapping(value = "/uac/auth/handlerLoginDTO")
 	void handlerLoginData(@RequestBody HandlerLoginDTO handlerLoginDTO);
 
 }

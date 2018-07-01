@@ -25,9 +25,7 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -56,7 +54,7 @@ public class UacRoleController extends BaseController{
      */
     @PostMapping(value = "/queryRoleListWithPage")
     @ApiOperation(httpMethod = "POST", value = "查询角色列表")
-    public Wrapper<PageInfo<RoleVo>> queryUacRoleListWithPage(RoleDto role) {
+    public Wrapper<PageInfo<RoleVo>> queryUacRoleListWithPage(@RequestBody RoleDto role) {
         logger.info("查询角色列表roleQuery={}", role);
         return uacRoleFeignApi.queryUacRoleListWithPage(role);
     }
@@ -71,7 +69,7 @@ public class UacRoleController extends BaseController{
     @LogAnnotation
     @PostMapping(value = "/deleteRoleById/{id}")
     @ApiOperation(httpMethod = "POST", value = "删除角色")
-    public Wrapper deleteUacRoleById(Long id) {
+    public Wrapper deleteUacRoleById(@PathVariable Long id) {
         return uacRoleFeignApi.deleteUacRoleById(id);
     }
 
@@ -85,7 +83,7 @@ public class UacRoleController extends BaseController{
     @LogAnnotation
     @PostMapping(value = "/batchDeleteByIdList")
     @ApiOperation(httpMethod = "POST", value = "批量删除角色")
-    public Wrapper batchDeleteByIdList(List<Long> deleteIdList) {
+    public Wrapper batchDeleteByIdList(@RequestBody List<Long> deleteIdList) {
         logger.info("批量删除角色 idList={}", deleteIdList);
         return uacRoleFeignApi.batchDeleteByIdList(deleteIdList);
     }
@@ -100,7 +98,7 @@ public class UacRoleController extends BaseController{
     @LogAnnotation
     @PostMapping(value = "/modifyRoleStatusById")
     @ApiOperation(httpMethod = "POST", value = "根据角色Id修改角色状态")
-    public Wrapper modifyUacRoleStatusById(ModifyStatusDto modifyStatusDto) {
+    public Wrapper modifyUacRoleStatusById(@RequestBody ModifyStatusDto modifyStatusDto) {
         logger.info("根据角色Id修改角色状态 modifyStatusDto={}", modifyStatusDto);
         return uacRoleFeignApi.modifyUacRoleStatusById(modifyStatusDto);
     }
@@ -116,7 +114,7 @@ public class UacRoleController extends BaseController{
     @ApiOperation(httpMethod = "POST", value = "新增角色")
     @ValidateAnnotation
     @LogAnnotation
-    public Wrapper save(RoleDto role) {
+    public Wrapper save(@RequestBody RoleDto role) {
         return uacRoleFeignApi.save(role);
     }
 
@@ -131,7 +129,7 @@ public class UacRoleController extends BaseController{
     @PostMapping(value = "/bindAction")
     @ApiOperation(httpMethod = "POST", value = "角色分配权限")
     @LogAnnotation
-    public Wrapper bindAction(RoleBindActionDto roleBindActionDto) {
+    public Wrapper bindAction(@RequestBody RoleBindActionDto roleBindActionDto) {
         logger.info("角色分配权限. roleBindActionDto= {}", roleBindActionDto);
         return uacRoleFeignApi.bindAction(roleBindActionDto);
     }
@@ -146,7 +144,7 @@ public class UacRoleController extends BaseController{
     @PostMapping(value = "/bindMenu")
     @ApiOperation(httpMethod = "POST", value = "角色分配权限")
     @LogAnnotation
-    public Wrapper bindMenu(RoleBindMenuDto roleBindMenuDto) {
+    public Wrapper bindMenu(@RequestBody RoleBindMenuDto roleBindMenuDto) {
         logger.info("角色分配权限. roleBindMenuDto= {}", roleBindMenuDto);
         return uacRoleFeignApi.bindMenu(roleBindMenuDto);
     }
@@ -161,7 +159,7 @@ public class UacRoleController extends BaseController{
     @LogAnnotation
     @PostMapping(value = "/bindUser")
     @ApiOperation(httpMethod = "POST", value = "角色绑定用户")
-    public Wrapper bindUser(RoleBindUserReqDto roleBindUserReqDto) {
+    public Wrapper bindUser(@RequestBody RoleBindUserReqDto roleBindUserReqDto) {
         logger.info("roleBindUser={}", roleBindUserReqDto);
         return uacRoleFeignApi.bindUser(roleBindUserReqDto);
     }
@@ -174,7 +172,7 @@ public class UacRoleController extends BaseController{
      */
     @PostMapping(value = "/getBindUser/{roleId}")
     @ApiOperation(httpMethod = "POST", value = "获取角色绑定用户页面数据")
-    public Wrapper<RoleBindUserDto> getBindUser(Long roleId) {
+    public Wrapper<RoleBindUserDto> getBindUser(@PathVariable Long roleId) {
         logger.info("获取角色绑定用户页面数据. roleId={}", roleId);
         return uacRoleFeignApi.getBindUser(roleId);
     }
@@ -187,7 +185,7 @@ public class UacRoleController extends BaseController{
      */
     @PostMapping(value = "/queryRoleInfoById/{id}")
     @ApiOperation(httpMethod = "POST", value = "查看角色信息")
-    public Wrapper<RoleVo> queryRoleInfo(Long id) {
+    public Wrapper<RoleVo> queryRoleInfo(@PathVariable Long id) {
         return uacRoleFeignApi.queryRoleInfo(id);
     }
 
@@ -200,7 +198,7 @@ public class UacRoleController extends BaseController{
      */
     @PostMapping(value = "/checkRoleCode")
     @ApiOperation(httpMethod = "POST", value = "验证角色编码是否存在")
-    public Wrapper<Boolean> checkUacRoleCode(CheckRoleCodeDto checkRoleCodeDto) {
+    public Wrapper<Boolean> checkUacRoleCode(@RequestBody CheckRoleCodeDto checkRoleCodeDto) {
         logger.info("校验角色编码唯一性 checkRoleCodeDto={}", checkRoleCodeDto);
         return uacRoleFeignApi.checkUacRoleCode(checkRoleCodeDto);
     }
@@ -214,7 +212,7 @@ public class UacRoleController extends BaseController{
      */
     @PostMapping(value = "/getActionTreeByRoleId/{roleId}")
     @ApiOperation(httpMethod = "POST", value = "获取权限树")
-    public Wrapper<BindAuthVo> getActionTreeByRoleId(Long roleId) {
+    public Wrapper<BindAuthVo> getActionTreeByRoleId(@PathVariable Long roleId) {
         logger.info("roleId={}", roleId);
         return uacRoleFeignApi.getActionTreeByRoleId(roleId);
     }
@@ -228,7 +226,7 @@ public class UacRoleController extends BaseController{
      */
     @PostMapping(value = "/getMenuTreeByRoleId/{roleId}")
     @ApiOperation(httpMethod = "POST", value = "获取菜单树")
-    public Wrapper<BindAuthVo> getMenuTreeByRoleId(Long roleId) {
+    public Wrapper<BindAuthVo> getMenuTreeByRoleId(@PathVariable Long roleId) {
         logger.info("roleId={}", roleId);
         return uacRoleFeignApi.getMenuTreeByRoleId(roleId);
     }

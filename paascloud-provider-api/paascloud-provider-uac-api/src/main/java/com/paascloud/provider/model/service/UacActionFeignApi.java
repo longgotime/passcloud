@@ -24,6 +24,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -37,34 +38,34 @@ import java.util.List;
 public interface UacActionFeignApi{
 
 	/**
-	 * 分页查询角色信息.
+	 * 分页查询权限信息.
 	 *
 	 * @param action the action
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/queryListWithPage")
-	Wrapper queryUacActionListWithPage(@ApiParam(name = "action", value = "角色信息") @RequestBody ActionMainQueryDto action);
+	@PostMapping(value = "/uac/action/queryListWithPage")
+	Wrapper queryUacActionListWithPage(@ApiParam(name = "action", value = "权限信息") @RequestBody ActionMainQueryDto action);
 
 	/**
-	 * 删除角色信息.
+	 * 删除权限信息.
 	 *
 	 * @param id the id
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/deleteActionById/{id}")
-	Wrapper deleteUacActionById(@ApiParam(name = "id", value = "角色id") @PathVariable Long id);
+	@PostMapping(value = "/uac/action/deleteActionById/{id}")
+	Wrapper deleteUacActionById(@ApiParam(name = "id", value = "权限id") @PathVariable("id") Long id);
 
 	/**
-	 * 批量删除角色.
+	 * 批量删除权限.
 	 *
 	 * @param deleteIdList the delete id list
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/batchDeleteByIdList")
-	Wrapper batchDeleteByIdList(@ApiParam(name = "deleteIdList", value = "角色Id") @RequestBody List<Long> deleteIdList);
+	@PostMapping(value = "/uac/action/batchDeleteByIdList")
+	Wrapper batchDeleteByIdList(@ApiParam(name = "deleteIdList", value = "权限Id") @RequestBody List<Long> deleteIdList);
 
 
 	/**
@@ -74,17 +75,17 @@ public interface UacActionFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/save")
-	Wrapper save(@ApiParam(name = "action", value = "角色信息") @RequestBody UacActionDto action);
+	@PostMapping(value = "/uac/action/save")
+	Wrapper save(@ApiParam(name = "action", value = "权限信息") @RequestBody UacActionDto action);
 
 	/**
-	 * 根据权限Id修改角色状态.
+	 * 根据权限Id修改权限状态.
 	 *
 	 * @param modifyStatusDto the modify status dto
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/modifyStatus")
+	@PostMapping(value = "/uac/action/modifyStatus")
 	Wrapper modifyActionStatus(@ApiParam(name = "modifyActionStatus", value = "修改权限状态") @RequestBody ModifyStatusDto modifyStatusDto);
 
 	/**
@@ -94,7 +95,7 @@ public interface UacActionFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkActionCode")
+	@PostMapping(value = "/uac/action/checkActionCode")
 	Wrapper<Boolean> checkActionCode(@ApiParam(name = "uacActionCheckCodeDto", value = "id与url") @RequestBody UacActionCheckCodeDto uacActionCheckCodeDto);
 
 	/**
@@ -104,6 +105,6 @@ public interface UacActionFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkUrl")
+	@PostMapping(value = "/uac/action/checkUrl")
 	Wrapper<Boolean> checkActionUrl(@ApiParam(name = "uacActionCheckUrlDto", value = "id与url") @RequestBody UacActionCheckUrlDto uacActionCheckUrlDto);
 }

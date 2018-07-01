@@ -11,29 +11,58 @@
 
 package com.paascloud.provider.model.service.hystrix;
 
-import com.paascloud.provider.model.dto.user.AuthUserDTO;
-import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
-import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.provider.model.dto.action.ActionMainQueryDto;
+import com.paascloud.provider.model.dto.action.UacActionCheckCodeDto;
+import com.paascloud.provider.model.dto.action.UacActionCheckUrlDto;
+import com.paascloud.provider.model.dto.action.UacActionDto;
+import com.paascloud.provider.model.dto.base.ModifyStatusDto;
+import com.paascloud.provider.model.service.UacActionFeignApi;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 
 /**
- * The class Uac action main controller.
+ * The type Uac action feign api hystrix.
  *
- * @author paascloud.net @gmail.com
+ * @author <a href="paascloud.net@gmail.com"/>刘兆明</a>
+ * @date 2018 /7/1 上午11:18
  */
 @Component
-public class UacActionFeignApiHystrix implements UacAuthUserFeignApi {
-
+public class UacActionFeignApiHystrix implements UacActionFeignApi {
 
 	@Override
-	public Wrapper<AuthUserDTO> getAuthUserDTO(String loginName) {
+	public Wrapper queryUacActionListWithPage(ActionMainQueryDto action) {
 		return null;
 	}
 
 	@Override
-	public void handlerLoginData(HandlerLoginDTO handlerLoginDTO) {
+	public Wrapper deleteUacActionById(Long id) {
+		return null;
+	}
 
+	@Override
+	public Wrapper batchDeleteByIdList(List<Long> deleteIdList) {
+		return null;
+	}
+
+	@Override
+	public Wrapper save(UacActionDto action) {
+		return null;
+	}
+
+	@Override
+	public Wrapper modifyActionStatus(ModifyStatusDto modifyStatusDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkActionCode(UacActionCheckCodeDto uacActionCheckCodeDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkActionUrl(UacActionCheckUrlDto uacActionCheckUrlDto) {
+		return null;
 	}
 }

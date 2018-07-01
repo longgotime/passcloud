@@ -12,11 +12,20 @@
 package com.paascloud.provider.model.service.hystrix;
 
 
+import com.paascloud.provider.model.dto.group.*;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
+import com.paascloud.provider.model.dto.user.IdStatusDto;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.provider.model.service.UacGroupFeignApi;
+import com.paascloud.provider.model.vo.group.GroupVo;
+import com.paascloud.provider.model.vo.group.GroupZtreeVo;
+import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 组织管理主页面
@@ -24,16 +33,65 @@ import org.springframework.stereotype.Component;
  * @author paascloud.net @gmail.com
  */
 @Component
-public class UacGroupFeignApiHystrix implements UacAuthUserFeignApi {
-
+public class UacGroupFeignApiHystrix implements UacGroupFeignApi {
 
 	@Override
-	public Wrapper<AuthUserDTO> getAuthUserDTO(String loginName) {
+	public Wrapper deleteGroupById(Long id) {
 		return null;
 	}
 
 	@Override
-	public void handlerLoginData(HandlerLoginDTO handlerLoginDTO) {
+	public Wrapper modifyGroupStatus(IdStatusDto idStatusDto) {
+		return null;
+	}
 
+	@Override
+	public Wrapper<List<MenuVo>> getTree() {
+		return null;
+	}
+
+	@Override
+	public Wrapper editGroup(GroupDto group) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<GroupVo> getEditGroupPageInfo(Long id) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<List<GroupZtreeVo>> getGroupTreeById() {
+		return null;
+	}
+
+	@Override
+	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(Long groupId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkGroupName(CheckGroupNameDto checkGroupNameDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkGroupCode(CheckGroupCodeDto checkGroupCodeDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<List<Map<String, String>>> queryGroupType() {
+		return null;
+	}
+
+	@Override
+	public Wrapper bindUser4Role(GroupBindUserReqDto groupBindUserReqDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(Long groupId) {
+		return null;
 	}
 }

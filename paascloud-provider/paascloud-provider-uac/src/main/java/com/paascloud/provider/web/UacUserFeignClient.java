@@ -37,6 +37,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
@@ -64,7 +65,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	private UacRoleService uacRoleService;
 
 	@Override
-	public Wrapper<PageInfo> queryUserListWithPage(UserInfoDto uacUser) {
+	public Wrapper<PageInfo> queryUserListWithPage(@RequestBody UserInfoDto uacUser) {
 		logger.info("查询用户列表uacUser={}", uacUser);
 		UacUser user = new UacUser();
 		BeanUtils.copyProperties(user,uacUser);
@@ -73,7 +74,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Integer> addUacUser(UserInfoDto user) {
+	public Wrapper<Integer> addUacUser(@RequestBody UserInfoDto user) {
 		logger.info(" 新增用户 user={}", user);
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 		UacUser uacUser = new UacUser();
@@ -82,7 +83,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 		return WrapMapper.ok();
 	}
 
-	public Wrapper<PageInfo<UacLog>> queryUserLogListWithPage(@ApiParam(name = "user", value = "用户信息") @RequestBody UacLog log) {
+	public Wrapper<PageInfo<UacLog>> queryUserLogListWithPage(@RequestBody UacLog log) {
 
 		logger.info("分页查询用户操作日志列表");
 		PageHelper.startPage(log.getPageNum(), log.getPageSize());
@@ -92,7 +93,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Integer> modifyUserStatusById(ModifyUserStatusDto modifyUserStatusDto) {
+	public Wrapper<Integer> modifyUserStatusById(@RequestBody ModifyUserStatusDto modifyUserStatusDto) {
 		logger.info(" 根据Id修改用户状态 modifyUserStatusDto={}", modifyUserStatusDto);
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 		UacUser uacUser = new UacUser();
@@ -104,14 +105,14 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Integer> deleteUserById(Long userId) {
+	public Wrapper<Integer> deleteUserById(@PathVariable("userId") Long userId) {
 		logger.info(" 通过Id删除用户 userId={}", userId);
 		int result = uacUserService.deleteUserById(userId);
 		return handleResult(result);
 	}
 
 	@Override
-	public Wrapper<UserBindRoleVo> getBindRole(Long userId) {
+	public Wrapper<UserBindRoleVo> getBindRole(@PathVariable("userId") Long userId) {
 		logger.info("获取用户绑定角色页面数据. userId={}", userId);
 		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
 		Long currentUserId = loginAuthDto.getUserId();
@@ -124,7 +125,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Integer> bindUserRoles(BindUserRolesDto bindUserRolesDto) {
+	public Wrapper<Integer> bindUserRoles(@RequestBody BindUserRolesDto bindUserRolesDto) {
 		logger.info("用户绑定角色 bindUserRolesDto={}", bindUserRolesDto);
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 		uacUserService.bindUserRoles(bindUserRolesDto, loginAuthDto);
@@ -141,7 +142,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Integer> bindUserMenus(BindUserMenusDto bindUserMenusDto) {
+	public Wrapper<Integer> bindUserMenus(@RequestBody BindUserMenusDto bindUserMenusDto) {
 		logger.info("绑定用户常用菜单");
 		List<Long> menuIdList = bindUserMenusDto.getMenuIdList();
 		logger.info("menuIdList = {}", menuIdList);
@@ -152,7 +153,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<UserVo> getUacUserById(Long userId) {
+	public Wrapper<UserVo> getUacUserById(@PathVariable("userId") Long userId) {
 		logger.info("getUacUserById - 根据用户Id查询用户信息. userId={}", userId);
 		UacUser uacUser = uacUserService.queryByUserId(userId);
 		logger.info("getUacUserById - 根据用户Id查询用户信息. [OK] uacUser={}", uacUser);
@@ -162,14 +163,14 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<UserVo> resetLoginPwd(Long userId) {
+	public Wrapper<UserVo> resetLoginPwd(@PathVariable("userId") Long userId) {
 		logger.info("resetLoginPwd - 根据用户Id重置密码. userId={}", userId);
 		uacUserService.resetLoginPwd(userId, getLoginAuthDto());
 		return WrapMapper.ok();
 	}
 
 	@Override
-	public Wrapper<UserVo> queryUserInfo(String loginName) {
+	public Wrapper<UserVo> queryUserInfo(@PathVariable("loginName") String loginName) {
 		logger.info("根据userId查询用户详细信息");
 		UserVo userVo = new UserVo();
 		UacUser uacUser = uacUserService.findByLoginName(loginName);
@@ -185,7 +186,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Boolean> checkLoginName(CheckLoginNameDto checkLoginNameDto) {
+	public Wrapper<Boolean> checkLoginName(@RequestBody CheckLoginNameDto checkLoginNameDto) {
 		logger.info("校验登录名唯一性 checkLoginNameDto={}", checkLoginNameDto);
 
 		Long id = checkLoginNameDto.getUserId();
@@ -203,7 +204,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Boolean> checkEmail(CheckEmailDto checkEmailDto) {
+	public Wrapper<Boolean> checkEmail(@RequestBody CheckEmailDto checkEmailDto) {
 		logger.info("校验邮箱唯一性 checkEmailDto={}", checkEmailDto);
 
 		Long id = checkEmailDto.getUserId();
@@ -221,7 +222,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Boolean> checkUserName(CheckUserNameDto checkUserNameDto) {
+	public Wrapper<Boolean> checkUserName(@RequestBody CheckUserNameDto checkUserNameDto) {
 		logger.info(" 校验真实姓名唯一性 checkUserNameDto={}", checkUserNameDto);
 		Long id = checkUserNameDto.getUserId();
 		String name = checkUserNameDto.getUserName();
@@ -238,7 +239,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Boolean> checkUserPhone(CheckUserPhoneDto checkUserPhoneDto) {
+	public Wrapper<Boolean> checkUserPhone(@RequestBody CheckUserPhoneDto checkUserPhoneDto) {
 		logger.info(" 校验用户电话号码唯一性 checkUserPhoneDto={}", checkUserPhoneDto);
 		Long id = checkUserPhoneDto.getUserId();
 		String mobileNo = checkUserPhoneDto.getMobileNo();
@@ -255,7 +256,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Boolean> checkNewPassword(CheckNewPasswordDto checkNewPasswordDto) {
+	public Wrapper<Boolean> checkNewPassword(@RequestBody CheckNewPasswordDto checkNewPasswordDto) {
 		logger.info(" 校验新密码是否与原始密码相同 checkNewPasswordDto={}", checkNewPasswordDto);
 		String loginName = checkNewPasswordDto.getLoginName();
 		String newPassword = checkNewPasswordDto.getNewPassword();
@@ -273,7 +274,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Integer> modifyUserEmail(String email, String emailCode) {
+	public Wrapper<Integer> modifyUserEmail(@PathVariable("email") String email, @PathVariable("emailCode") String emailCode) {
 		logger.info(" 修改用户信息 email={}, emailCode={}", email, emailCode);
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 		uacUserService.modifyUserEmail(email, emailCode, loginAuthDto);
@@ -287,7 +288,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper<Integer> modifyUserPwd(UserModifyPwdDto userModifyPwdDto) {
+	public Wrapper<Integer> modifyUserPwd(@RequestBody UserModifyPwdDto userModifyPwdDto) {
 		logger.info("==》vue用户修改密码, userModifyPwdDto={}", userModifyPwdDto);
 
 		logger.info("旧密码 oldPassword = {}", userModifyPwdDto.getOldPassword());
@@ -301,7 +302,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	}
 
 	@Override
-	public Wrapper registerUser(UserRegisterDto registerDto) {
+	public Wrapper registerUser(@RequestBody UserRegisterDto registerDto) {
 		logger.info("vue注册开始。注册参数：{}", registerDto);
 		uacUserService.register(registerDto);
 		return WrapMapper.ok("注册成功");

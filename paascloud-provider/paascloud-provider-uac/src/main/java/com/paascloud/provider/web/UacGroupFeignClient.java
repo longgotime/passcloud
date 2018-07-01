@@ -29,6 +29,8 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
@@ -41,7 +43,6 @@ import java.util.Map;
  *
  * @author paascloud.net @gmail.com
  */
-@RefreshScope
 @RestController
 @Api(value = "API - UacGroupFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacGroupFeignClient extends BaseController implements UacGroupFeignApi {
@@ -55,7 +56,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	}
 
 	@Override
-	public Wrapper modifyGroupStatus(IdStatusDto idStatusDto) {
+	public Wrapper modifyGroupStatus(@RequestBody IdStatusDto idStatusDto) {
 		logger.info("根据id修改组织状态 idStatusDto={}", idStatusDto);
 		UacGroup uacGroup = new UacGroup();
 		uacGroup.setId(idStatusDto.getId());
@@ -78,7 +79,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	}
 
 	@Override
-	public Wrapper editGroup(GroupDto group) {
+	public Wrapper editGroup(@RequestBody GroupDto group) {
 		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
 		UacGroup uacGroup = new UacGroup();
 		BeanUtils.copyProperties(group,uacGroup);
@@ -87,7 +88,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	}
 
 	@Override
-	public Wrapper<GroupVo> getEditGroupPageInfo(Long id) {
+	public Wrapper<GroupVo> getEditGroupPageInfo(@PathVariable("id") Long id) {
 		UacGroup uacGroup = uacGroupService.getById(id);
 		GroupVo groupVo = new GroupVo();
 		BeanUtils.copyProperties(uacGroup,groupVo);
@@ -105,14 +106,14 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	}
 
 	@Override
-	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(Long groupId) {
+	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(@PathVariable("id") Long groupId) {
 		logger.info("通过组织ID查询组织列表 groupId={}", groupId);
 		List<GroupZtreeVo> tree = uacGroupService.getGroupTree(groupId);
 		return WrapMapper.wrap(Wrapper.SUCCESS_CODE, "操作成功", tree);
 	}
 
 	@Override
-	public Wrapper<Boolean> checkGroupName(CheckGroupNameDto checkGroupNameDto) {
+	public Wrapper<Boolean> checkGroupName(@RequestBody CheckGroupNameDto checkGroupNameDto) {
 		logger.info("校验组织名称唯一性 checkGroupNameDto={}", checkGroupNameDto);
 
 		Long id = checkGroupNameDto.getGroupId();
@@ -131,7 +132,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	}
 
 	@Override
-	public Wrapper<Boolean> checkGroupCode(CheckGroupCodeDto checkGroupCodeDto) {
+	public Wrapper<Boolean> checkGroupCode(@RequestBody CheckGroupCodeDto checkGroupCodeDto) {
 		logger.info("校验组织编码唯一性 checkGroupCodeDto={}", checkGroupCodeDto);
 
 		Long id = checkGroupCodeDto.getGroupId();
@@ -156,7 +157,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	}
 
 	@Override
-	public Wrapper bindUser4Role(GroupBindUserReqDto groupBindUserReqDto) {
+	public Wrapper bindUser4Role(@RequestBody GroupBindUserReqDto groupBindUserReqDto) {
 		logger.info("组织绑定用户...  groupBindUserReqDto={}", groupBindUserReqDto);
 		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
 		uacGroupService.bindUacUser4Group(groupBindUserReqDto, loginAuthDto);
@@ -164,7 +165,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	}
 
 	@Override
-	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(Long groupId) {
+	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@PathVariable("groupId") Long groupId) {
 		logger.info("查询组织绑定用户页面数据 groupId={}", groupId);
 		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
 		Long currentUserId = loginAuthDto.getUserId();

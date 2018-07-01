@@ -26,9 +26,7 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -57,7 +55,7 @@ public class UacGroupController extends BaseController{
 	@PostMapping(value = "/deleteById/{id}")
 	@LogAnnotation
 	@ApiOperation(httpMethod = "POST", value = "根据id删除组织")
-	public Wrapper deleteGroupById(Long id) {
+	public Wrapper deleteGroupById(@PathVariable Long id) {
 		return uacGroupFeignApi.deleteGroupById(id);
 	}
 
@@ -71,7 +69,7 @@ public class UacGroupController extends BaseController{
 	@PostMapping(value = "/modifyStatus")
 	@LogAnnotation
 	@ApiOperation(httpMethod = "POST", value = "根据id修改组织状态")
-	public Wrapper modifyGroupStatus(IdStatusDto idStatusDto) {
+	public Wrapper modifyGroupStatus(@RequestBody IdStatusDto idStatusDto) {
 		logger.info("根据id修改组织状态 idStatusDto={}", idStatusDto);
 		return uacGroupFeignApi.modifyGroupStatus(idStatusDto);
 	}
@@ -98,7 +96,7 @@ public class UacGroupController extends BaseController{
 	@PostMapping(value = "/save")
 	@LogAnnotation
 	@ApiOperation(httpMethod = "POST", value = "修改组织信息")
-	public Wrapper editGroup(GroupDto group) {
+	public Wrapper editGroup(@RequestBody GroupDto group) {
 		return uacGroupFeignApi.editGroup(group);
 	}
 
@@ -111,7 +109,7 @@ public class UacGroupController extends BaseController{
 	 */
 	@PostMapping(value = "/queryById/{id}")
 	@ApiOperation(httpMethod = "POST", value = "获取编辑页面数据")
-	public Wrapper<GroupVo> getEditGroupPageInfo(Long id) {
+	public Wrapper<GroupVo> getEditGroupPageInfo(@PathVariable Long id) {
 		return uacGroupFeignApi.getEditGroupPageInfo(id);
 	}
 
@@ -135,7 +133,7 @@ public class UacGroupController extends BaseController{
 	 */
 	@PostMapping(value = "/getGroupTree")
 	@ApiOperation(httpMethod = "POST", value = "根据当前登录人查询组织列表")
-	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(Long groupId) {
+	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(@PathVariable Long groupId) {
 		logger.info("通过组织ID查询组织列表 groupId={}", groupId);
 		return uacGroupFeignApi.getGroupTreeById(groupId);
 	}
@@ -150,7 +148,7 @@ public class UacGroupController extends BaseController{
 	 */
 	@PostMapping(value = "/checkGroupName")
 	@ApiOperation(httpMethod = "POST", value = "校验组织名称唯一性")
-	public Wrapper<Boolean> checkGroupName(CheckGroupNameDto checkGroupNameDto) {
+	public Wrapper<Boolean> checkGroupName(@RequestBody CheckGroupNameDto checkGroupNameDto) {
 		logger.info("校验组织名称唯一性 checkGroupNameDto={}", checkGroupNameDto);
 		return uacGroupFeignApi.checkGroupName(checkGroupNameDto);
 	}
@@ -164,7 +162,7 @@ public class UacGroupController extends BaseController{
 	 */
 	@PostMapping(value = "/checkGroupCode")
 	@ApiOperation(httpMethod = "POST", value = "修改校验组织编码唯一性")
-	public Wrapper<Boolean> checkGroupCode(CheckGroupCodeDto checkGroupCodeDto) {
+	public Wrapper<Boolean> checkGroupCode(@RequestBody CheckGroupCodeDto checkGroupCodeDto) {
 		logger.info("校验组织编码唯一性 checkGroupCodeDto={}", checkGroupCodeDto);
 		return uacGroupFeignApi.checkGroupCode(checkGroupCodeDto);
 	}
@@ -192,7 +190,7 @@ public class UacGroupController extends BaseController{
 	@PostMapping(value = "/bindUser")
 	@LogAnnotation
 	@ApiOperation(httpMethod = "POST", value = "组织绑定用户")
-	public Wrapper bindUser4Role(GroupBindUserReqDto groupBindUserReqDto) {
+	public Wrapper bindUser4Role(@RequestBody GroupBindUserReqDto groupBindUserReqDto) {
 		logger.info("组织绑定用户...  groupBindUserReqDto={}", groupBindUserReqDto);
 		return uacGroupFeignApi.bindUser4Role(groupBindUserReqDto);
 	}
@@ -208,7 +206,7 @@ public class UacGroupController extends BaseController{
 	 */
 	@PostMapping(value = "/getBindUser/{groupId}")
 	@ApiOperation(httpMethod = "POST", value = "获取组织绑定用户页面数据")
-	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(Long groupId) {
+	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@PathVariable Long groupId) {
 		logger.info("查询组织绑定用户页面数据 groupId={}", groupId);
 		return uacGroupFeignApi.getGroupBindUserPageInfo(groupId);
 	}

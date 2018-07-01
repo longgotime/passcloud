@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac",configuration = OAuth2FeignAutoConfiguration.class, fallback = UacUserLoginFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacUserLoginFeignApiHystrix.class)
 public interface UacUserLoginFeignApi{
 
 
@@ -41,7 +41,7 @@ public interface UacUserLoginFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/user/loginAfter/{applicationId}")
+	@PostMapping(value = "/uac/user/loginAfter/{applicationId}")
 	@ApiOperation(httpMethod = "POST", value = "登录成功获取用户菜单")
 	Wrapper<LoginRespDto> loginAfter(@PathVariable Long applicationId);
 
@@ -52,7 +52,7 @@ public interface UacUserLoginFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/user/logout")
+	@PostMapping(value = "/uac/user/logout")
 	@ApiOperation(httpMethod = "POST", value = "登出")
 	Wrapper loginAfter(String accessToken);
 
@@ -65,7 +65,7 @@ public interface UacUserLoginFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@GetMapping(value = "/auth/user/refreshToken")
+	@GetMapping(value = "/uac/auth/user/refreshToken")
 	@ApiOperation(httpMethod = "POST", value = "刷新token")
 	Wrapper<String> refreshToken(HttpServletRequest request, @RequestParam(value = "refreshToken") String refreshToken, @RequestParam(value = "accessToken") String accessToken);
 

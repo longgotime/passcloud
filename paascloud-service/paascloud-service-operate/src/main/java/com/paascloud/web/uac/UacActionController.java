@@ -23,9 +23,7 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -53,7 +51,7 @@ public class UacActionController extends BaseController{
 	 */
 	@PostMapping(value = "/queryListWithPage")
 	@ApiOperation(httpMethod = "POST", value = "查询角色列表")
-	public Wrapper queryUacActionListWithPage(ActionMainQueryDto action) {
+	public Wrapper queryUacActionListWithPage(@RequestBody ActionMainQueryDto action) {
 		logger.info("查询角色列表actionQuery={}", action);
 		return uacActionFeignApi.queryUacActionListWithPage(action);
 	}
@@ -69,7 +67,7 @@ public class UacActionController extends BaseController{
 	@PostMapping(value = "/deleteActionById/{id}")
 	@ApiOperation(httpMethod = "POST", value = "删除角色")
 	@LogAnnotation
-	public Wrapper deleteUacActionById(Long id) {
+	public Wrapper deleteUacActionById(@PathVariable Long id) {
 		return uacActionFeignApi.deleteUacActionById(id);
 	}
 
@@ -82,7 +80,7 @@ public class UacActionController extends BaseController{
 	 */
 	@PostMapping(value = "/batchDeleteByIdList")
 	@ApiOperation(httpMethod = "POST", value = "批量删除角色")
-	public Wrapper batchDeleteByIdList(List<Long> deleteIdList) {
+	public Wrapper batchDeleteByIdList(@RequestBody List<Long> deleteIdList) {
 		logger.info("批量删除角色 idList={}", deleteIdList);
 		return uacActionFeignApi.batchDeleteByIdList(deleteIdList);
 	}
@@ -97,7 +95,7 @@ public class UacActionController extends BaseController{
 	 */
 	@PostMapping(value = "/save")
 	@ApiOperation(httpMethod = "POST", value = "新增角色")
-	public Wrapper save(UacActionDto action) {
+	public Wrapper save(@RequestBody UacActionDto action) {
 		return uacActionFeignApi.save(action);
 	}
 
@@ -111,7 +109,7 @@ public class UacActionController extends BaseController{
 	@PostMapping(value = "/modifyStatus")
 	@ApiOperation(httpMethod = "POST", value = "根据权限Id修改角色状态")
 	@LogAnnotation
-	public Wrapper modifyActionStatus(ModifyStatusDto modifyStatusDto) {
+	public Wrapper modifyActionStatus(@RequestBody ModifyStatusDto modifyStatusDto) {
 		return uacActionFeignApi.modifyActionStatus(modifyStatusDto);
 	}
 
@@ -124,7 +122,7 @@ public class UacActionController extends BaseController{
 	 */
 	@PostMapping(value = "/checkActionCode")
 	@ApiOperation(httpMethod = "POST", value = "检测权限编码是否已存在")
-	public Wrapper<Boolean> checkActionCode(UacActionCheckCodeDto uacActionCheckCodeDto) {
+	public Wrapper<Boolean> checkActionCode(@RequestBody UacActionCheckCodeDto uacActionCheckCodeDto) {
 		logger.info("校验权限编码唯一性 uacActionCheckCodeDto={}", uacActionCheckCodeDto);
 		return uacActionFeignApi.checkActionCode(uacActionCheckCodeDto);
 	}
@@ -138,7 +136,7 @@ public class UacActionController extends BaseController{
 	 */
 	@PostMapping(value = "/checkUrl")
 	@ApiOperation(httpMethod = "POST", value = "检测权限URL唯一性")
-	public Wrapper<Boolean> checkActionUrl(UacActionCheckUrlDto uacActionCheckUrlDto) {
+	public Wrapper<Boolean> checkActionUrl(@RequestBody UacActionCheckUrlDto uacActionCheckUrlDto) {
 		logger.info("检测权限URL唯一性 uacActionCheckUrlDto={}", uacActionCheckUrlDto);
 		return uacActionFeignApi.checkActionUrl(uacActionCheckUrlDto);
 	}

@@ -25,9 +25,7 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -54,7 +52,7 @@ public class UacUserController extends BaseController{
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/queryListWithPage")
-	public Wrapper<PageInfo> queryUserListWithPage(UserInfoDto uacUser) {
+	public Wrapper<PageInfo> queryUserListWithPage(@RequestBody UserInfoDto uacUser) {
         return uacUserFeignApi.queryUserListWithPage(uacUser);
 	}
 
@@ -68,7 +66,7 @@ public class UacUserController extends BaseController{
 	@LogAnnotation
 	@PostMapping(value = "/save")
 	@ApiOperation(httpMethod = "POST", value = "新增用户")
-	public Wrapper<Integer> addUacUser(UserInfoDto user) {
+	public Wrapper<Integer> addUacUser(@RequestBody UserInfoDto user) {
 		logger.info(" 新增用户 user={}", user);
 		return uacUserFeignApi.addUacUser(user);
 	}
@@ -84,7 +82,7 @@ public class UacUserController extends BaseController{
 	@PostMapping(value = "/modifyUserStatusById")
 	@LogAnnotation
 	@ApiOperation(httpMethod = "POST", value = "根据Id修改用户状态")
-	public Wrapper<Integer> modifyUserStatusById(ModifyUserStatusDto modifyUserStatusDto) {
+	public Wrapper<Integer> modifyUserStatusById(@RequestBody ModifyUserStatusDto modifyUserStatusDto) {
 		logger.info(" 根据Id修改用户状态 modifyUserStatusDto={}", modifyUserStatusDto);
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
         return uacUserFeignApi.modifyUserStatusById(modifyUserStatusDto);
@@ -100,7 +98,7 @@ public class UacUserController extends BaseController{
 	@LogAnnotation
 	@PostMapping(value = "/deleteUserById/{userId}")
 	@ApiOperation(httpMethod = "POST", value = "通过Id删除用户")
-	public Wrapper<Integer> deleteUserById(Long userId) {
+	public Wrapper<Integer> deleteUserById(@PathVariable Long userId) {
 		logger.info(" 通过Id删除用户 userId={}", userId);
         return uacUserFeignApi.deleteUserById(userId);
 	}
@@ -114,7 +112,7 @@ public class UacUserController extends BaseController{
 	 */
 	@PostMapping(value = "/getBindRole/{userId}")
 	@ApiOperation(httpMethod = "POST", value = "获取用户绑定角色页面数据")
-	public Wrapper<UserBindRoleVo> getBindRole(Long userId) {
+	public Wrapper<UserBindRoleVo> getBindRole(@PathVariable Long userId) {
 		logger.info("获取用户绑定角色页面数据. userId={}", userId);
         return uacUserFeignApi.getBindRole(userId);
 	}
@@ -129,7 +127,7 @@ public class UacUserController extends BaseController{
 	@PostMapping(value = "/bindRole")
 	@LogAnnotation
 	@ApiOperation(httpMethod = "POST", value = "用户绑定角色")
-	public Wrapper<Integer> bindUserRoles(BindUserRolesDto bindUserRolesDto) {
+	public Wrapper<Integer> bindUserRoles(@RequestBody BindUserRolesDto bindUserRolesDto) {
 		logger.info("用户绑定角色 bindUserRolesDto={}", bindUserRolesDto);
 		return uacUserFeignApi.bindUserRoles(bindUserRolesDto);
 	}
@@ -156,7 +154,7 @@ public class UacUserController extends BaseController{
 	@LogAnnotation
 	@PostMapping(value = "/bindUserMenus")
 	@ApiOperation(httpMethod = "POST", value = "绑定用户常用菜单")
-	public Wrapper<Integer> bindUserMenus(BindUserMenusDto bindUserMenusDto) {
+	public Wrapper<Integer> bindUserMenus(@RequestBody BindUserMenusDto bindUserMenusDto) {
 		logger.info("绑定用户常用菜单");
         return uacUserFeignApi.bindUserMenus(bindUserMenusDto);
 	}
@@ -170,7 +168,7 @@ public class UacUserController extends BaseController{
 	 */
 	@PostMapping(value = "/getUacUserById/{userId}")
 	@ApiOperation(httpMethod = "POST", value = "根据用户Id查询用户信息")
-	public Wrapper<UserVo> getUacUserById(Long userId) {
+	public Wrapper<UserVo> getUacUserById(@PathVariable Long userId) {
 		logger.info("getUacUserById - 根据用户Id查询用户信息. userId={}", userId);
         return uacUserFeignApi.getUacUserById(userId);
 	}
@@ -185,7 +183,7 @@ public class UacUserController extends BaseController{
 	@LogAnnotation
 	@PostMapping(value = "/resetLoginPwd/{userId}")
 	@ApiOperation(httpMethod = "POST", value = "根据用户Id重置密码")
-	public Wrapper<UserVo> resetLoginPwd(Long userId) {
+	public Wrapper<UserVo> resetLoginPwd(@PathVariable Long userId) {
 		logger.info("resetLoginPwd - 根据用户Id重置密码. userId={}", userId);
 		return uacUserFeignApi.resetLoginPwd(userId);
 	}
@@ -197,7 +195,7 @@ public class UacUserController extends BaseController{
 	 */
 	@PostMapping(value = "/queryUserInfo/{loginName}")
 	@ApiOperation(httpMethod = "POST", value = "根据userId查询用户详细信息")
-	public Wrapper<UserVo> queryUserInfo(String loginName) {
+	public Wrapper<UserVo> queryUserInfo(@PathVariable String loginName) {
 		logger.info("根据userId查询用户详细信息");
         return uacUserFeignApi.queryUserInfo(loginName);
 	}
@@ -211,7 +209,7 @@ public class UacUserController extends BaseController{
 	 */
 	@PostMapping(value = "/checkLoginName")
 	@ApiOperation(httpMethod = "POST", value = "校验登录名唯一性")
-	public Wrapper<Boolean> checkLoginName(CheckLoginNameDto checkLoginNameDto) {
+	public Wrapper<Boolean> checkLoginName(@RequestBody CheckLoginNameDto checkLoginNameDto) {
 		logger.info("校验登录名唯一性 checkLoginNameDto={}", checkLoginNameDto);
         return uacUserFeignApi.checkLoginName(checkLoginNameDto);
 	}
@@ -225,7 +223,7 @@ public class UacUserController extends BaseController{
 	 */
 	@PostMapping(value = "/checkEmail")
 	@ApiOperation(httpMethod = "POST", value = "校验登录名唯一性")
-	public Wrapper<Boolean> checkEmail(CheckEmailDto checkEmailDto) {
+	public Wrapper<Boolean> checkEmail(@RequestBody CheckEmailDto checkEmailDto) {
 		logger.info("校验邮箱唯一性 checkEmailDto={}", checkEmailDto);
         return uacUserFeignApi.checkEmail(checkEmailDto);
 	}
@@ -239,7 +237,7 @@ public class UacUserController extends BaseController{
 	 */
 	@PostMapping(value = "/checkUserName")
 	@ApiOperation(httpMethod = "POST", value = "校验真实姓名唯一性")
-	public Wrapper<Boolean> checkUserName(CheckUserNameDto checkUserNameDto) {
+	public Wrapper<Boolean> checkUserName(@RequestBody CheckUserNameDto checkUserNameDto) {
 		logger.info(" 校验真实姓名唯一性 checkUserNameDto={}", checkUserNameDto);
         return uacUserFeignApi.checkUserName(checkUserNameDto);
 	}
@@ -253,7 +251,7 @@ public class UacUserController extends BaseController{
 	 */
 	@PostMapping(value = "/checkUserPhone")
 	@ApiOperation(httpMethod = "POST", value = "校验用户电话号码唯一性")
-	public Wrapper<Boolean> checkUserPhone(CheckUserPhoneDto checkUserPhoneDto) {
+	public Wrapper<Boolean> checkUserPhone(@RequestBody CheckUserPhoneDto checkUserPhoneDto) {
 		logger.info(" 校验用户电话号码唯一性 checkUserPhoneDto={}", checkUserPhoneDto);
         return uacUserFeignApi.checkUserPhone(checkUserPhoneDto);
 	}
@@ -267,7 +265,7 @@ public class UacUserController extends BaseController{
 	 */
 	@PostMapping(value = "/checkNewPassword")
 	@ApiOperation(httpMethod = "POST", value = "校验新密码是否与原始密码相同")
-	public Wrapper<Boolean> checkNewPassword(CheckNewPasswordDto checkNewPasswordDto) {
+	public Wrapper<Boolean> checkNewPassword(@RequestBody CheckNewPasswordDto checkNewPasswordDto) {
 		logger.info(" 校验新密码是否与原始密码相同 checkNewPasswordDto={}", checkNewPasswordDto);
         return uacUserFeignApi.checkNewPassword(checkNewPasswordDto);
 	}
@@ -283,7 +281,7 @@ public class UacUserController extends BaseController{
 	@LogAnnotation
 	@PostMapping(value = "/modifyUserEmail/{email}/{emailCode}")
 	@ApiOperation(httpMethod = "POST", value = "修改用户信息")
-	public Wrapper<Integer> modifyUserEmail(String email, String emailCode) {
+	public Wrapper<Integer> modifyUserEmail(@PathVariable String email, @PathVariable String emailCode) {
 		logger.info(" 修改用户信息 email={}, emailCode={}", email, emailCode);
 		return uacUserFeignApi.modifyUserEmail(email, emailCode);
 	}
@@ -311,7 +309,7 @@ public class UacUserController extends BaseController{
 	@PostMapping(value = "/modifyUserPwd")
 	@LogAnnotation
 	@ApiOperation(httpMethod = "POST", value = "用户修改密码")
-	public Wrapper<Integer> modifyUserPwd(UserModifyPwdDto userModifyPwdDto) {
+	public Wrapper<Integer> modifyUserPwd(@RequestBody UserModifyPwdDto userModifyPwdDto) {
 		logger.info("==》vue用户修改密码, userModifyPwdDto={}", userModifyPwdDto);
 		return uacUserFeignApi.modifyUserPwd(userModifyPwdDto);
 	}
@@ -325,7 +323,7 @@ public class UacUserController extends BaseController{
 	 */
 	@PostMapping(value = "/registerUser")
 	@ApiOperation(httpMethod = "POST", value = "注册新用户")
-	public Wrapper registerUser(UserRegisterDto registerDto) {
+	public Wrapper registerUser(@RequestBody UserRegisterDto registerDto) {
 		logger.info("vue注册开始。注册参数：{}", registerDto);
 		return uacUserFeignApi.registerUser(registerDto);
 	}

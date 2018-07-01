@@ -21,6 +21,7 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -39,7 +40,7 @@ public class UacLogFeignClient extends BaseController implements UacLogFeignApi 
 	private UacLogService uacLogService;
 
 	@Override
-	public Wrapper queryLogListWithPage(UacLogMainDto uacLogQueryDtoPage) {
+	public Wrapper queryLogListWithPage(@RequestBody UacLogMainDto uacLogQueryDtoPage) {
 		logger.info("查询日志处理列表 uacLogQueryDtoPage={}", uacLogQueryDtoPage);
 		PageInfo pageInfo = uacLogService.queryLogListWithPage(uacLogQueryDtoPage);
 		return WrapMapper.ok(pageInfo);

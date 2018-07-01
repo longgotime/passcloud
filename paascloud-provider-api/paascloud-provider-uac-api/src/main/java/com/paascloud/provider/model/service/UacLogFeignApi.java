@@ -19,13 +19,14 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 日志管理.
  *
  * @author paascloud.net@gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac",configuration = OAuth2FeignAutoConfiguration.class, fallback = UacLogFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacLogFeignApiHystrix.class)
 public interface UacLogFeignApi {
 
 	/**
@@ -35,6 +36,6 @@ public interface UacLogFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/queryListWithPage")
+	@PostMapping(value = "/uac/log/queryListWithPage")
 	Wrapper queryLogListWithPage(@ApiParam(name = "uacLogQueryDtoPage", value = "日志查询条件") @RequestBody UacLogMainDto uacLogQueryDtoPage);
 }

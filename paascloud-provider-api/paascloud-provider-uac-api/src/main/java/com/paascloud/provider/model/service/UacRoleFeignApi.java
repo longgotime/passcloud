@@ -26,6 +26,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac",configuration = OAuth2FeignAutoConfiguration.class, fallback = UacRoleFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacRoleFeignApiHystrix.class)
 public interface UacRoleFeignApi{
 
 	/**
@@ -45,7 +46,7 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/queryRoleListWithPage")
+	@PostMapping(value = "/uac/role/queryRoleListWithPage")
 	Wrapper<PageInfo<RoleVo>> queryUacRoleListWithPage(@ApiParam(name = "role", value = "角色信息") @RequestBody RoleDto role);
 
 	/**
@@ -55,8 +56,8 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/deleteRoleById/{id}")
-	Wrapper deleteUacRoleById(@ApiParam(name = "id", value = "角色id") @PathVariable Long id);
+	@PostMapping(value = "/uac/role/deleteRoleById/{id}")
+	Wrapper deleteUacRoleById(@ApiParam(name = "id", value = "角色id") @PathVariable("id") Long id);
 	/**
 	 * 批量删除角色.
 	 *
@@ -64,7 +65,7 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/batchDeleteByIdList")
+	@PostMapping(value = "/uac/role/batchDeleteByIdList")
 	Wrapper batchDeleteByIdList(@ApiParam(name = "deleteIdList", value = "角色Id") @RequestBody List<Long> deleteIdList);
 
 	/**
@@ -74,7 +75,7 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/modifyRoleStatusById")
+	@PostMapping(value = "/uac/role/modifyRoleStatusById")
 	Wrapper modifyUacRoleStatusById(@ApiParam(name = "modifyRoleStatusDto", value = "修改角色状态数据") @RequestBody ModifyStatusDto modifyStatusDto);
 
 
@@ -85,7 +86,7 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/save")
+	@PostMapping(value = "/uac/role/save")
 	Wrapper save(@ApiParam(name = "role", value = "角色信息") @RequestBody RoleDto role);
 
 	/**
@@ -95,7 +96,7 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/bindAction")
+	@PostMapping(value = "/uac/role/bindAction")
 	Wrapper bindAction(@ApiParam(name = "bindAuth", value = "权限信息") @RequestBody RoleBindActionDto roleBindActionDto);
 
 	/**
@@ -105,7 +106,7 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/bindMenu")
+	@PostMapping(value = "/uac/role/bindMenu")
 	Wrapper bindMenu(@ApiParam(name = "bindAuth", value = "权限信息") @RequestBody RoleBindMenuDto roleBindMenuDto);
 
 
@@ -116,7 +117,7 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/bindUser")
+	@PostMapping(value = "/uac/role/bindUser")
 	Wrapper bindUser(@ApiParam(name = "uacRoleBindUserReqDto", value = "角色绑定用户") @RequestBody RoleBindUserReqDto roleBindUserReqDto);
 
 	/**
@@ -126,8 +127,8 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/getBindUser/{roleId}")
-	Wrapper<RoleBindUserDto> getBindUser(@ApiParam(name = "roleId", value = "角色id") @PathVariable Long roleId);
+	@PostMapping(value = "/uac/role/getBindUser/{roleId}")
+	Wrapper<RoleBindUserDto> getBindUser(@ApiParam(name = "roleId", value = "角色id") @PathVariable("id") Long roleId);
 
 
 	/**
@@ -137,8 +138,8 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/queryRoleInfoById/{id}")
-	Wrapper<RoleVo> queryRoleInfo(@PathVariable Long id);
+	@PostMapping(value = "/uac/role/queryRoleInfoById/{id}")
+	Wrapper<RoleVo> queryRoleInfo(@PathVariable("id") Long id);
 
 	/**
 	 * 验证角色编码是否存在.
@@ -147,7 +148,7 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkRoleCode")
+	@PostMapping(value = "/uac/role/checkRoleCode")
 	@ApiOperation(httpMethod = "POST", value = "验证角色编码是否存在")
 	Wrapper<Boolean> checkUacRoleCode(@ApiParam(name = "roleCode", value = "角色编码") @RequestBody CheckRoleCodeDto checkRoleCodeDto);
 
@@ -158,8 +159,8 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the auth tree by role id
 	 */
-	@PostMapping(value = "/getActionTreeByRoleId/{roleId}")
-	Wrapper<BindAuthVo> getActionTreeByRoleId(@ApiParam(name = "roleId", value = "角色id") @PathVariable Long roleId);
+	@PostMapping(value = "/uac/role/getActionTreeByRoleId/{roleId}")
+	Wrapper<BindAuthVo> getActionTreeByRoleId(@ApiParam(name = "roleId", value = "角色id") @PathVariable("roleId") Long roleId);
 
 	/**
 	 * 获取菜单树.
@@ -168,6 +169,6 @@ public interface UacRoleFeignApi{
 	 *
 	 * @return the menu tree by role id
 	 */
-	@PostMapping(value = "/getMenuTreeByRoleId/{roleId}")
-	Wrapper<BindAuthVo> getMenuTreeByRoleId(@ApiParam(name = "roleId", value = "角色id") @PathVariable Long roleId);
+	@PostMapping(value = "/uac/role/getMenuTreeByRoleId/{roleId}")
+	Wrapper<BindAuthVo> getMenuTreeByRoleId(@ApiParam(name = "roleId", value = "角色id") @PathVariable("roleId") Long roleId);
 }

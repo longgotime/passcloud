@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac",configuration = OAuth2FeignAutoConfiguration.class, fallback = UacTokenFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacTokenFeignApiHystrix.class)
 public interface UacTokenFeignApi{
 
 	/**
@@ -34,7 +35,7 @@ public interface UacTokenFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/uac/token/updateTokenOffLine")
+	@PostMapping(value = "/uac/uac/token/updateTokenOffLine")
 	Wrapper<Integer> updateTokenOffLine();
 
 	/**
@@ -44,6 +45,6 @@ public interface UacTokenFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/queryListWithPage")
+	@PostMapping(value = "/uac/token/queryListWithPage")
 	Wrapper queryUacActionListWithPage(@ApiParam(name = "token") @RequestBody TokenMainQueryDto token);
 }

@@ -21,6 +21,7 @@ import com.paascloud.wrapper.Wrapper;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public interface UacMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/uac/message/queryMessageKeyList")
+	@PostMapping(value = "/uac/uac/message/queryMessageKeyList")
 	Wrapper<List<String>> queryMessageKeyList(@RequestParam("messageKeyList") List<String> messageKeyList);
 
 	/**
@@ -51,6 +52,6 @@ public interface UacMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/uac/message/queryMessageListWithPage")
+	@PostMapping(value = "/uac/uac/message/queryMessageListWithPage")
 	Wrapper<PageInfo<MqMessageVo>> queryMessageListWithPage(@RequestBody MessageQueryDto messageQueryDto);
 }

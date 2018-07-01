@@ -11,29 +11,126 @@
 
 package com.paascloud.provider.model.service.hystrix;
 
-import com.paascloud.provider.model.dto.user.AuthUserDTO;
-import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
+import com.github.pagehelper.PageInfo;
+import com.paascloud.provider.model.dto.menu.UserMenuDto;
+import com.paascloud.provider.model.dto.user.*;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.provider.model.service.UacUserFeignApi;
+import com.paascloud.provider.model.vo.menu.MenuVo;
+import com.paascloud.provider.model.vo.role.UserBindRoleVo;
+import com.paascloud.provider.model.vo.user.UserVo;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 
 /**
- * 用户管理主页面.
+ * The type Uac user feign api hystrix.
  *
- * @author paascloud.net @gmail.com
+ * @author <a href="paascloud.net@gmail.com"/>刘兆明</a>
+ * @date 2018 /7/1 上午11:22
  */
 @Component
-public class UacUserFeignApiHystrix implements UacAuthUserFeignApi {
+public class UacUserFeignApiHystrix implements UacUserFeignApi {
 
 
 	@Override
-	public Wrapper<AuthUserDTO> getAuthUserDTO(String loginName) {
+	public Wrapper<PageInfo> queryUserListWithPage(UserInfoDto uacUser) {
 		return null;
 	}
 
 	@Override
-	public void handlerLoginData(HandlerLoginDTO handlerLoginDTO) {
+	public Wrapper<Integer> addUacUser(UserInfoDto user) {
+		return null;
+	}
 
+	@Override
+	public Wrapper<Integer> modifyUserStatusById(ModifyUserStatusDto modifyUserStatusDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Integer> deleteUserById(Long userId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<UserBindRoleVo> getBindRole(Long userId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Integer> bindUserRoles(BindUserRolesDto bindUserRolesDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<List<UserMenuDto>> queryUserMenuDtoData() {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Integer> bindUserMenus(BindUserMenusDto bindUserMenusDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<UserVo> getUacUserById(Long userId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<UserVo> resetLoginPwd(Long userId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<UserVo> queryUserInfo(String loginName) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkLoginName(CheckLoginNameDto checkLoginNameDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkEmail(CheckEmailDto checkEmailDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkUserName(CheckUserNameDto checkUserNameDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkUserPhone(CheckUserPhoneDto checkUserPhoneDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkNewPassword(CheckNewPasswordDto checkNewPasswordDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Integer> modifyUserEmail(String email, String emailCode) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<List<MenuVo>> getOwnAuthTree() {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Integer> modifyUserPwd(UserModifyPwdDto userModifyPwdDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper registerUser(UserRegisterDto registerDto) {
+		return null;
 	}
 }

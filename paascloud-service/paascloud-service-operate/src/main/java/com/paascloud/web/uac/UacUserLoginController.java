@@ -18,10 +18,7 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "Web - UacUserLoginController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacUserLoginController extends BaseController{
 
@@ -51,7 +48,7 @@ public class UacUserLoginController extends BaseController{
 	 */
 	@PostMapping(value = "/user/loginAfter/{applicationId}")
 	@ApiOperation(httpMethod = "POST", value = "登录成功获取用户菜单")
-	public Wrapper<LoginRespDto> loginAfter(Long applicationId) {
+	public Wrapper<LoginRespDto> loginAfter(@PathVariable Long applicationId) {
 		logger.info("登录成功获取用户菜单. applicationId={}", applicationId);
 		return uacUserLoginFeignApi.loginAfter(applicationId);
 	}

@@ -11,10 +11,12 @@
 
 package com.paascloud.gateway.config;
 
+import com.paascloud.security.core.AuthorizeConfigManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -33,17 +35,19 @@ import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurity
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     private final OAuth2WebSecurityExpressionHandler pcSecurityExpressionHandler;
     private final PcAccessDeniedHandler pcAccessDeniedHandler;
+    private final AuthorizeConfigManager authorizeConfigManager;
 
-	/**
-	 * Instantiates a new Resource server configuration.
-	 *
-	 * @param pcSecurityExpressionHandler the pc security expression handler
-	 * @param pcAccessDeniedHandler       the pc access denied handler
-	 */
-	@Autowired
-	public ResourceServerConfiguration(final OAuth2WebSecurityExpressionHandler pcSecurityExpressionHandler, final PcAccessDeniedHandler pcAccessDeniedHandler) {
-		this.pcSecurityExpressionHandler = pcSecurityExpressionHandler;
-		this.pcAccessDeniedHandler = pcAccessDeniedHandler;
+    @Autowired
+    public ResourceServerConfiguration(OAuth2WebSecurityExpressionHandler pcSecurityExpressionHandler, PcAccessDeniedHandler pcAccessDeniedHandler, AuthorizeConfigManager authorizeConfigManager) {
+        this.pcSecurityExpressionHandler = pcSecurityExpressionHandler;
+        this.pcAccessDeniedHandler = pcAccessDeniedHandler;
+        this.authorizeConfigManager = authorizeConfigManager;
+    }
+
+    @Override
+	public void configure(HttpSecurity http) throws Exception {
+		http.headers().frameOptions().disable();
+        authorizeConfigManager.config(http.authorizeRequests());
 	}
 
 	/**

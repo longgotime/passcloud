@@ -26,6 +26,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/deleteById/{id}")
+	@PostMapping(value = "/uac/group/deleteById/{id}")
 	Wrapper deleteGroupById(@ApiParam(name = "id", value = "组织id") @PathVariable Long id);
 
 	/**
@@ -55,7 +56,7 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/modifyStatus")
+	@PostMapping(value = "/uac/group/modifyStatus")
 	Wrapper modifyGroupStatus(@ApiParam(name = "modifyGroupStatus", value = "修改状态") @RequestBody IdStatusDto idStatusDto);
 
 
@@ -64,7 +65,7 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/getTree")
+	@PostMapping(value = "/uac/group/getTree")
 	Wrapper<List<MenuVo>> getTree();
 
 	/**
@@ -74,7 +75,7 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/save")
+	@PostMapping(value = "/uac/group/save")
 	Wrapper editGroup(@ApiParam(name = "group", value = "组织信息") @RequestBody GroupDto group);
 
 
@@ -85,16 +86,16 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the edit group page info
 	 */
-	@PostMapping(value = "/queryById/{id}")
+	@PostMapping(value = "/uac/group/queryById/{id}")
 	@ApiOperation(httpMethod = "POST", value = "获取编辑页面数据")
-	Wrapper<GroupVo> getEditGroupPageInfo(@ApiParam(name = "id", value = "组织id") @PathVariable Long id);
+	Wrapper<GroupVo> getEditGroupPageInfo(@ApiParam(name = "id", value = "组织id") @PathVariable("id") Long id);
 
 	/**
 	 * 根据当前登录人查询组织列表
 	 *
 	 * @return the group tree by id
 	 */
-	@PostMapping(value = "/getGroupTree")
+	@PostMapping(value = "/uac/group/getGroupTree")
 	Wrapper<List<GroupZtreeVo>> getGroupTreeById();
 	/**
 	 * 通过组织ID查询组织树
@@ -103,8 +104,8 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the group tree by id
 	 */
-	@PostMapping(value = "/getGroupTree/{groupId}")
-	Wrapper<List<GroupZtreeVo>> getGroupTreeById(@ApiParam(name = "groupId", value = "通过组织ID查询组织列表") @PathVariable Long groupId);
+	@PostMapping(value = "/uac/group/getGroupTree/{groupId}")
+	Wrapper<List<GroupZtreeVo>> getGroupTreeById(@ApiParam(name = "groupId", value = "通过组织ID查询组织列表") @PathVariable("id") Long groupId);
 
 	/**
 	 * Check group name with edit wrapper.
@@ -113,7 +114,7 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkGroupName")
+	@PostMapping(value = "/uac/group/checkGroupName")
 	Wrapper<Boolean> checkGroupName(@ApiParam(name = "checkGroupName", value = "组织名称") @RequestBody CheckGroupNameDto checkGroupNameDto);
 
 	/**
@@ -123,7 +124,7 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkGroupCode")
+	@PostMapping(value = "/uac/group/checkGroupCode")
 	Wrapper<Boolean> checkGroupCode(@ApiParam(name = "checkGroupCode", value = "组织相关信息") @RequestBody CheckGroupCodeDto checkGroupCodeDto);
 
 	/**
@@ -131,7 +132,7 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "queryGroupType")
+	@PostMapping(value = "/uac/group/queryGroupType")
 	Wrapper<List<Map<String, String>>> queryGroupType();
 
 	/**
@@ -141,7 +142,7 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/bindUser")
+	@PostMapping(value = "/uac/group/bindUser")
 	Wrapper bindUser4Role(@ApiParam(name = "uacGroupBindUserReqDto", value = "组织绑定用户") @RequestBody GroupBindUserReqDto groupBindUserReqDto);
 
 	/**
@@ -151,7 +152,7 @@ public interface UacGroupFeignApi{
 	 *
 	 * @return the group bind user page info
 	 */
-	@PostMapping(value = "/getBindUser/{groupId}")
-	Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@ApiParam(name = "groupId", value = "组织id") @PathVariable Long groupId);
+	@PostMapping(value = "/uac/group/getBindUser/{groupId}")
+	Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@ApiParam(name = "groupId", value = "组织id") @PathVariable("groupId") Long groupId);
 
 }

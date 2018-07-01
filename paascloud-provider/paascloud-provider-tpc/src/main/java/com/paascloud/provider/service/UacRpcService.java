@@ -17,7 +17,7 @@ import com.paascloud.base.dto.MqMessageVo;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.provider.exceptions.TpcBizException;
 import com.paascloud.provider.model.service.UacMqMessageFeignApi;
-import com.paascloud.provider.model.service.UacUserTokenFeignApi;
+import com.paascloud.provider.model.service.UacTokenFeignApi;
 import com.paascloud.wrapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Backoff;
@@ -36,13 +36,13 @@ import java.util.List;
 @Slf4j
 public class UacRpcService {
 	@Resource
-	private UacUserTokenFeignApi uacUserTokenFeignApi;
+	private UacTokenFeignApi uacTokenFeignApi;
 	@Resource
 	private UacMqMessageFeignApi uacMqMessageFeignApi;
 
 	@Retryable(value = Exception.class, backoff = @Backoff(delay = 5000, multiplier = 2))
 	public void batchUpdateTokenOffLine() {
-		Wrapper<Integer> wrapper = uacUserTokenFeignApi.updateTokenOffLine();
+		Wrapper<Integer> wrapper = uacTokenFeignApi.updateTokenOffLine();
 		if (wrapper == null) {
 			log.error("updateTokenOffLine 失败 result is null");
 			return;

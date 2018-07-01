@@ -16,6 +16,7 @@ import com.paascloud.security.core.AuthorizeConfigProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-//@Component
+@Component
 public class PcAuthorizeConfigManager implements AuthorizeConfigManager {
 
 	private final List<AuthorizeConfigProvider> authorizeConfigProviders;

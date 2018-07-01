@@ -23,6 +23,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac",configuration = OAuth2FeignAutoConfiguration.class, fallback = UacMenuFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacMenuFeignApiHystrix.class)
 public interface UacMenuFeignApi{
 
 
@@ -40,7 +41,7 @@ public interface UacMenuFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/getTree")
+	@PostMapping(value = "/uac/menu/getTree")
 	Wrapper<List<MenuVo>> queryMenuTreeList();
 
 	/**
@@ -50,8 +51,8 @@ public interface UacMenuFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/queryById/{id}")
-	Wrapper<ViewMenuVo> queryMenuVoById(@ApiParam(name = "id", value = "菜单id") @PathVariable Long id);
+	@PostMapping(value = "/uac/menu/queryById/{id}")
+	Wrapper<ViewMenuVo> queryMenuVoById(@ApiParam(name = "id", value = "菜单id") @PathVariable("id") Long id);
 
 
 	/**
@@ -61,7 +62,7 @@ public interface UacMenuFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/modifyStatus")
+	@PostMapping(value = "/uac/menu/modifyStatus")
 	Wrapper updateUacMenuStatusById(@ApiParam(name = "uacMenuStatusDto", value = "修改菜单状态Dto") @RequestBody UacMenuStatusDto uacMenuStatusDto);
 
 	/**
@@ -71,7 +72,7 @@ public interface UacMenuFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/save")
+	@PostMapping(value = "/uac/menu/save")
 	Wrapper saveMenu(@ApiParam(name = "saveMenu", value = "保存菜单") @RequestBody UacEditMenuDto uacMenuAddDto);
 
 	/**
@@ -81,9 +82,9 @@ public interface UacMenuFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/deleteById/{id}")
+	@PostMapping(value = "/uac/menu/deleteById/{id}")
 	@ApiOperation(httpMethod = "POST", value = "删除菜单")
-	Wrapper<Integer> deleteUacMenuById(@ApiParam(name = "id", value = "菜单id") @PathVariable Long id);
+	Wrapper<Integer> deleteUacMenuById(@ApiParam(name = "id", value = "菜单id") @PathVariable("id") Long id);
 
 	/**
 	 * 检测菜单编码是否已存在
@@ -92,7 +93,7 @@ public interface UacMenuFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkMenuCode")
+	@PostMapping(value = "/uac/menu/checkMenuCode")
 	@ApiOperation(httpMethod = "POST", value = "检测菜单编码是否已存在")
 	Wrapper<Boolean> checkUacMenuActionCode(@ApiParam(name = "uacMenuCheckCodeDto", value = "id与url") @RequestBody UacMenuCheckCodeDto uacMenuCheckCodeDto);
 
@@ -103,7 +104,7 @@ public interface UacMenuFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkMenuName")
+	@PostMapping(value = "/uac/menu/checkMenuName")
 	@ApiOperation(httpMethod = "POST", value = "检测菜单名称唯一性")
 	Wrapper<Boolean> checkUacMenuName(@ApiParam(name = "uacMenuCheckNameDto", value = "id与name") @RequestBody UacMenuCheckNameDto uacMenuCheckNameDto);
 
@@ -115,7 +116,7 @@ public interface UacMenuFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkMenuUrl")
+	@PostMapping(value = "/uac/menu/checkMenuUrl")
 	@ApiOperation(httpMethod = "POST", value = "检测菜单URL唯一性")
 	Wrapper<Boolean> checkUacMenuUrl(@ApiParam(name = "uacMenuCheckUrlDto", value = "id与url") @RequestBody UacMenuCheckUrlDto uacMenuCheckUrlDto);
 }

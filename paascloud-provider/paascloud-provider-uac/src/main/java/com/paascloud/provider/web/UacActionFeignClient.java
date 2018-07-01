@@ -30,6 +30,8 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
@@ -51,27 +53,27 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 	private UacActionService uacActionService;
 
 	@Override
-	public Wrapper queryUacActionListWithPage(ActionMainQueryDto action) {
+	public Wrapper queryUacActionListWithPage(@RequestBody ActionMainQueryDto action) {
 		logger.info("查询角色列表actionQuery={}", action);
 		PageInfo pageInfo = uacActionService.queryActionListWithPage(action);
 		return WrapMapper.ok(pageInfo);
 	}
 
 	@Override
-	public Wrapper deleteUacActionById(Long id) {
+	public Wrapper deleteUacActionById(@PathVariable("id") Long id) {
 		int result = uacActionService.deleteActionById(id);
 		return super.handleResult(result);
 	}
 
 	@Override
-	public Wrapper batchDeleteByIdList(List<Long> deleteIdList) {
+	public Wrapper batchDeleteByIdList(@RequestBody List<Long> deleteIdList) {
 		logger.info("批量删除角色 idList={}", deleteIdList);
 		uacActionService.batchDeleteByIdList(deleteIdList);
 		return WrapMapper.ok();
 	}
 
 	@Override
-	public Wrapper save(UacActionDto action) {
+	public Wrapper save(@RequestBody UacActionDto action) {
 		LoginAuthDto loginAuthDto = RequestUtil.getLoginUser();
 		UacAction uacAction = new UacAction();
 		BeanUtils.copyProperties(action,uacAction);
@@ -80,7 +82,7 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 	}
 
 	@Override
-	public Wrapper modifyActionStatus(ModifyStatusDto modifyStatusDto) {
+	public Wrapper modifyActionStatus(@RequestBody ModifyStatusDto modifyStatusDto) {
 		logger.info("根据角色Id修改权限状态 modifyStatusDto={}", modifyStatusDto);
 		Long actionId = modifyStatusDto.getId();
 		Preconditions.checkArgument(actionId != null, "权限ID不能为空");
@@ -95,7 +97,7 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 	}
 
 	@Override
-	public Wrapper<Boolean> checkActionCode(UacActionCheckCodeDto uacActionCheckCodeDto) {
+	public Wrapper<Boolean> checkActionCode(@RequestBody UacActionCheckCodeDto uacActionCheckCodeDto) {
 		logger.info("校验权限编码唯一性 uacActionCheckCodeDto={}", uacActionCheckCodeDto);
 
 		Long id = uacActionCheckCodeDto.getActionId();
@@ -114,7 +116,7 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 	}
 
 	@Override
-	public Wrapper<Boolean> checkActionUrl(UacActionCheckUrlDto uacActionCheckUrlDto) {
+	public Wrapper<Boolean> checkActionUrl(@RequestBody UacActionCheckUrlDto uacActionCheckUrlDto) {
 		logger.info("检测权限URL唯一性 uacActionCheckUrlDto={}", uacActionCheckUrlDto);
 
 		Long id = uacActionCheckUrlDto.getActionId();

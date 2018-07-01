@@ -11,11 +11,17 @@
 
 package com.paascloud.provider.model.service.hystrix;
 
+import com.paascloud.provider.model.dto.menu.*;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.provider.model.service.UacMenuFeignApi;
+import com.paascloud.provider.model.vo.menu.MenuVo;
+import com.paascloud.provider.model.vo.menu.ViewMenuVo;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 菜单主页面.
@@ -23,16 +29,45 @@ import org.springframework.stereotype.Component;
  * @author paascloud.net @gmail.com
  */
 @Component
-public class UacMenuFeignApiHystrix implements UacAuthUserFeignApi {
-
+public class UacMenuFeignApiHystrix implements UacMenuFeignApi {
 
 	@Override
-	public Wrapper<AuthUserDTO> getAuthUserDTO(String loginName) {
+	public Wrapper<List<MenuVo>> queryMenuTreeList() {
 		return null;
 	}
 
 	@Override
-	public void handlerLoginData(HandlerLoginDTO handlerLoginDTO) {
+	public Wrapper<ViewMenuVo> queryMenuVoById(Long id) {
+		return null;
+	}
 
+	@Override
+	public Wrapper updateUacMenuStatusById(UacMenuStatusDto uacMenuStatusDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper saveMenu(UacEditMenuDto uacMenuAddDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Integer> deleteUacMenuById(Long id) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkUacMenuActionCode(UacMenuCheckCodeDto uacMenuCheckCodeDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkUacMenuName(UacMenuCheckNameDto uacMenuCheckNameDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> checkUacMenuUrl(UacMenuCheckUrlDto uacMenuCheckUrlDto) {
+		return null;
 	}
 }

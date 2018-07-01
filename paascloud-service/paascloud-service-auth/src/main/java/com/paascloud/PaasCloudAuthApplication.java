@@ -16,6 +16,7 @@ import com.paascloud.service.service.PcSmsCodeSender;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
@@ -29,10 +30,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *
  * @author paascloud.net@gmail.com
  */
-@EnableHystrix
 @EnableFeignClients
-@EnableDiscoveryClient
-@SpringBootApplication
+@SpringCloudApplication
 public class PaasCloudAuthApplication {
 
 	/**
