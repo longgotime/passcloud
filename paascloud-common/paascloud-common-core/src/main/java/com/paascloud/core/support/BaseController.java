@@ -48,8 +48,7 @@ public class BaseController {
 	 * @return the login auth dto
 	 */
 	protected LoginAuthDto getLoginAuthDto() {
-//		LoginAuthDto loginAuthDto = (LoginAuthDto) ThreadLocalMap.get(GlobalConstant.Sys.TOKEN_AUTH_DTO);
-		String authJson = request.getHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO);
+		String authJson = request.getHeader(GlobalConstant.Sys.CURRENT_USER_NAME);
 		LoginAuthDto loginAuthDto = null;
 		try {
 			loginAuthDto = JacksonUtil.parseJson(URLDecoder.decode(authJson, "UTF-8"), LoginAuthDto.class);

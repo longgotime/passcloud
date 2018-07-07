@@ -37,9 +37,6 @@ import java.lang.reflect.Method;
 @Slf4j
 public class TokenInterceptor implements HandlerInterceptor {
 
-	@Value("${paascloud.oauth2.jwtSigningKey}")
-	private String jwtSigningKey;
-
 	private static final String OPTIONS = "OPTIONS";
 	private static final String AUTH_PATH1 = "/auth";
 	private static final String AUTH_PATH2 = "/oauth";
@@ -108,10 +105,10 @@ public class TokenInterceptor implements HandlerInterceptor {
 		String token = StringUtils.substringAfter(request.getHeader(HttpHeaders.AUTHORIZATION), "Bearer ");
 		log.info("<== preHandle - 权限拦截器.  token={}", token);
 		// 暂时写死
-		LoginAuthDto loginUser = new LoginAuthDto(1L, "admin", "超级管理员", 1L, "paascloud");
-		log.info("<== preHandle - 权限拦截器.  loginUser={}", loginUser);
-		ThreadLocalMap.put(GlobalConstant.Sys.TOKEN_AUTH_DTO, loginUser);
-		log.info("<== preHandle - 权限拦截器.  url={}, loginUser={}", uri, loginUser);
+//		LoginAuthDto loginUser = new LoginAuthDto(1L, "admin", "超级管理员", 1L, "paascloud");
+//		log.info("<== preHandle - 权限拦截器.  loginUser={}", loginUser);
+//		ThreadLocalMap.put(GlobalConstant.Sys.TOKEN_AUTH_DTO, loginUser);
+//		log.info("<== preHandle - 权限拦截器.  url={}, loginUser={}", uri, loginUser);
 		return true;
 	}
 

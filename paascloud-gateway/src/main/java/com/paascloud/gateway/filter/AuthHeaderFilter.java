@@ -102,7 +102,7 @@ public class AuthHeaderFilter extends ZuulFilter {
 		return null;
 	}
 
-	private void doSomething(RequestContext requestContext) throws ZuulException, IOException {
+	private void doSomething(RequestContext requestContext) throws ZuulException {
 		HttpServletRequest request = requestContext.getRequest();
 		String requestURI = request.getRequestURI();
 
@@ -118,15 +118,7 @@ public class AuthHeaderFilter extends ZuulFilter {
 
 		if (authHeader.startsWith(BEARER_TOKEN_TYPE)) {
 			requestContext.addZuulRequestHeader(HttpHeaders.AUTHORIZATION, authHeader);
-            String name = authentication.getName();
-
-            LoginAuthDto loginAuthDto = new LoginAuthDto();
-            loginAuthDto.setUserId(1L);
-            loginAuthDto.setUserName("超级管理员");
-            loginAuthDto.setLoginName("admin");
-            loginAuthDto.setGroupId(1L);
-            loginAuthDto.setGroupName("paascloud");
-            requestContext.addZuulRequestHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO, URLEncoder.encode(JacksonUtil.toJson(loginAuthDto), "UTF-8"));
+            requestContext.addZuulRequestHeader(GlobalConstant.Sys.CURRENT_USER_NAME, authentication.getName());
 
 			log.info("authHeader={} ", authHeader);
 			// 传递给后续微服务

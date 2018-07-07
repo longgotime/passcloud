@@ -85,7 +85,7 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		authUserDTO.setUserId(user.getId());
 		authUserDTO.setGroupId(user.getGroupId());
 		authUserDTO.setGroupName(user.getGroupName());
-		authUserDTO.setLoginName(user.getGroupName());
+		authUserDTO.setLoginName(user.getLoginName());
 		authUserDTO.setNickName(user.getUserName());
 		authUserDTO.setStatus(user.getStatus());
 		authUserDTO.setLoginPwd(user.getLoginPwd());
