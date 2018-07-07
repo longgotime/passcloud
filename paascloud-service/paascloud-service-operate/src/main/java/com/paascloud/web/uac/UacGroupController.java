@@ -121,7 +121,7 @@ public class UacGroupController extends BaseController{
 	 */
 	@PostMapping(value = "/getGroupTree")
 	@ApiOperation(httpMethod = "POST", value = "根据当前登录人查询组织列表")
-	public Wrapper<List<GroupZtreeVo>> getGroupTreeById() {
+	public Wrapper<List<GroupZtreeVo>> getGroupTree() {
 		logger.info("根据当前登录人查询组织列表");
 		return uacGroupFeignApi.getGroupTreeById();
 	}
@@ -131,7 +131,7 @@ public class UacGroupController extends BaseController{
 	 *
 	 * @return the group tree by id
 	 */
-	@PostMapping(value = "/getGroupTree")
+	@PostMapping(value = "/getGroupTreeById")
 	@ApiOperation(httpMethod = "POST", value = "根据当前登录人查询组织列表")
 	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(@PathVariable Long groupId) {
 		logger.info("通过组织ID查询组织列表 groupId={}", groupId);

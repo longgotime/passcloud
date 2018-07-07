@@ -11,16 +11,20 @@
 
 package com.paascloud.service.service;
 
+import com.google.common.collect.Lists;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
 import com.paascloud.security.core.SecurityUser;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * The class Uac user details service.
@@ -47,6 +51,15 @@ public class UacUserDetailsServiceImpl implements UserDetailsService {
 			throw new BadCredentialsException("用户微服务故障, 请稍候重试");
 		}
 		AuthUserDTO authUserDTO = result.getResult();
-		return new SecurityUser(authUserDTO.getUserId(), authUserDTO.getLoginName(), authUserDTO.getLoginPwd(), authUserDTO.getNickName(), authUserDTO.getGroupId(), authUserDTO.getGroupName(), authUserDTO.getStatus(), authUserDTO.getAuthorities());
+
+		List<String> authUrlList = authUserDTO.getAuthUrlList();
+
+		List<GrantedAuthority> authorities = Lists.newArrayList();
+		for (String url : authUrlList) {
+			GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(url);
+			authorities.add(grantedAuthority);
+		}
+
+		return new SecurityUser(authUserDTO.getUserId(), authUserDTO.getLoginName(), authUserDTO.getLoginPwd(), authUserDTO.getNickName(), authUserDTO.getGroupId(), authUserDTO.getGroupName(), authUserDTO.getStatus(), authorities);
 	}
 }

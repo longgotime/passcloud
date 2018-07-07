@@ -47,7 +47,7 @@ public interface UacGroupFeignApi{
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/group/deleteById/{id}")
-	Wrapper deleteGroupById(@ApiParam(name = "id", value = "组织id") @PathVariable Long id);
+	Wrapper deleteGroupById(@ApiParam(name = "id", value = "组织id") @PathVariable("id") Long id);
 
 	/**
 	 * 根据id修改组织状态
@@ -105,7 +105,7 @@ public interface UacGroupFeignApi{
 	 * @return the group tree by id
 	 */
 	@PostMapping(value = "/uac/group/getGroupTree/{groupId}")
-	Wrapper<List<GroupZtreeVo>> getGroupTreeById(@ApiParam(name = "groupId", value = "通过组织ID查询组织列表") @PathVariable("id") Long groupId);
+	Wrapper<List<GroupZtreeVo>> getGroupTreeById(@ApiParam(name = "groupId", value = "通过组织ID查询组织列表") @PathVariable("groupId") Long groupId);
 
 	/**
 	 * Check group name with edit wrapper.

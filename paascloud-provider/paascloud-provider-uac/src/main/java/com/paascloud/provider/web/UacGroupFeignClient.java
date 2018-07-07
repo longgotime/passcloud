@@ -51,7 +51,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	private UacGroupService uacGroupService;
 
 	@Override
-	public Wrapper deleteGroupById(Long id) {
+	public Wrapper deleteGroupById(@PathVariable("id") Long id) {
 		return null;
 	}
 
@@ -106,7 +106,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	}
 
 	@Override
-	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(@PathVariable("id") Long groupId) {
+	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(@PathVariable("groupId") Long groupId) {
 		logger.info("通过组织ID查询组织列表 groupId={}", groupId);
 		List<GroupZtreeVo> tree = uacGroupService.getGroupTree(groupId);
 		return WrapMapper.wrap(Wrapper.SUCCESS_CODE, "操作成功", tree);

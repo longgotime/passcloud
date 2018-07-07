@@ -41,9 +41,5 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
 
-      <table tableName="pc_mq_message_data" domainObjectName="MqMessageData">
-        <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-      </table>
-
         </context>
     </generatorConfiguration>

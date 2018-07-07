@@ -46,7 +46,7 @@ public class UacUserLoginController extends BaseController{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/user/loginAfter/{applicationId}")
+	@PostMapping(value = "/operate/user/loginAfter/{applicationId}")
 	@ApiOperation(httpMethod = "POST", value = "登录成功获取用户菜单")
 	public Wrapper<LoginRespDto> loginAfter(@PathVariable Long applicationId) {
 		logger.info("登录成功获取用户菜单. applicationId={}", applicationId);
@@ -76,7 +76,7 @@ public class UacUserLoginController extends BaseController{
 	 *
 	 * @return the wrapper
 	 */
-	@GetMapping(value = "/auth/user/refreshToken")
+	@PostMapping(value = "/auth/user/refreshToken")
 	@ApiOperation(httpMethod = "POST", value = "刷新token")
 	public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) {
 		return uacUserLoginFeignApi.refreshToken(request, refreshToken, accessToken);

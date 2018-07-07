@@ -18,16 +18,16 @@
                 <property name="forceBigDecimals" value="false"/>
             </javaTypeResolver>
             <!-- 生成模型的包名和位置 -->
-            <javaModelGenerator targetPackage="com.paascloud.provider.model.domain" targetProject="D:\git\liuzm-git\paascloud-git\paascloud-master\paascloud-generator\paascloud-generator-uac\src\main\java">
+            <javaModelGenerator targetPackage="com.paascloud.provider.model.domain" targetProject="/Users/yangxue/Documents/git/passcloud-git/paascloud-master/paascloud-generator/paascloud-generator-uac/src/main/java">
                 <property name="enableSubPackages" value="true"/>
                 <property name="trimStrings" value="true"/>
             </javaModelGenerator>
             <!-- 生成映射文件的包名和位置 -->
-            <sqlMapGenerator targetPackage="mapper" targetProject="D:\git\liuzm-git\paascloud-git\paascloud-master\paascloud-generator\paascloud-generator-uac\src\main\resources">
+            <sqlMapGenerator targetPackage="mapper" targetProject="/Users/yangxue/Documents/git/passcloud-git/paascloud-master/paascloud-generator/paascloud-generator-uac/src/main/resources">
                 <property name="enableSubPackages" value="true"/>
             </sqlMapGenerator>
             <!-- 生成DAO的包名和位置 -->
-            <javaClientGenerator type="XMLMAPPER" targetPackage="com.paascloud.provider.mapper" targetProject="D:\git\liuzm-git\paascloud-git\paascloud-master\paascloud-generator\paascloud-generator-uac\src\main\java">
+            <javaClientGenerator type="XMLMAPPER" targetPackage="com.paascloud.provider.mapper" targetProject="/Users/yangxue/Documents/git/passcloud-git/paascloud-master/paascloud-generator/paascloud-generator-uac/src/main/java">
                 <property name="enableSubPackages" value="true"/>
             </javaClientGenerator>
             <!-- 要生成哪些表 -->
@@ -38,6 +38,6 @@
             <table tableName="pc_uac_role" domainObjectName="UacRole"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
             -->
             <!--<table tableName="pc_uac_user_token" domainObjectName="UacUserToken"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-            <table tableName="pc_mq_message_data" domainObjectName="MqMessageData"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+            <table tableName="pc_uac_user" domainObjectName="PcUacUser"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         </context>
     </generatorConfiguration>

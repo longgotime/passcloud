@@ -115,9 +115,9 @@ public interface UacAuthFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@GetMapping(value = "/uac/auth/activeUser/{activeUserToken}")
+	@PostMapping(value = "/uac/auth/activeUser/{activeUserToken}")
 	@ApiOperation(httpMethod = "POST", value = "激活用户")
-	Wrapper activeUser(@PathVariable String activeUserToken);
+	Wrapper activeUser(@PathVariable("activeUserToken") String activeUserToken);
 
 	/**
 	 * 查询日志.

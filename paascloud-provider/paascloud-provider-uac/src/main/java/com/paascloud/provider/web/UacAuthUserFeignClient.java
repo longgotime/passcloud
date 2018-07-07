@@ -11,14 +11,17 @@
 
 package com.paascloud.provider.web;
 
+import com.google.common.collect.Lists;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.enums.LogTypeEnum;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.provider.model.domain.UacAction;
 import com.paascloud.provider.model.domain.UacLog;
 import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.provider.service.UacActionService;
 import com.paascloud.provider.service.UacLogService;
 import com.paascloud.provider.service.UacUserService;
 import com.paascloud.provider.service.UacUserTokenService;
@@ -30,6 +33,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -56,6 +61,8 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 	private UacUserTokenService uacUserTokenService;
 	@Resource
 	private UacLogService uacLogService;
+	@Resource
+	private UacActionService uacActionService;
 
 
 	@Override
@@ -66,7 +73,12 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 			throw new BadCredentialsException("用户名不存在或者密码错误");
 		}
 		user = uacUserService.findUserInfoByUserId(user.getId());
-		Collection<GrantedAuthority> grantedAuthorities = uacUserService.loadUserAuthorities(user.getId());
+
+		List<UacAction> ownAuthList = uacActionService.getOwnActionListByUserId(user.getId());
+		List<String> authList = Lists.newArrayList();
+		for (UacAction action : ownAuthList) {
+			authList.add(action.getUrl());
+		}
 
 		AuthUserDTO authUserDTO = new AuthUserDTO();
 
@@ -76,9 +88,10 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		authUserDTO.setLoginName(user.getGroupName());
 		authUserDTO.setNickName(user.getUserName());
 		authUserDTO.setStatus(user.getStatus());
+		authUserDTO.setLoginPwd(user.getLoginPwd());
 
-		authUserDTO.setAuthorities(grantedAuthorities);
-
+		authUserDTO.setAuthUrlList(authList);
+		logger.info("查询用户成功 user={}", authUserDTO);
 		return WrapMapper.ok(authUserDTO);
 	}
 

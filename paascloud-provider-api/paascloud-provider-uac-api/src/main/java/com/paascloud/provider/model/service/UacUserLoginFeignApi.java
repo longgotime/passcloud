@@ -43,7 +43,7 @@ public interface UacUserLoginFeignApi{
 	 */
 	@PostMapping(value = "/uac/user/loginAfter/{applicationId}")
 	@ApiOperation(httpMethod = "POST", value = "登录成功获取用户菜单")
-	Wrapper<LoginRespDto> loginAfter(@PathVariable Long applicationId);
+	Wrapper<LoginRespDto> loginAfter(@PathVariable("applicationId") Long applicationId);
 
 	/**
 	 * 登出.
@@ -65,7 +65,7 @@ public interface UacUserLoginFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@GetMapping(value = "/uac/auth/user/refreshToken")
+	@PostMapping(value = "/uac/auth/user/refreshToken")
 	@ApiOperation(httpMethod = "POST", value = "刷新token")
 	Wrapper<String> refreshToken(HttpServletRequest request, @RequestParam(value = "refreshToken") String refreshToken, @RequestParam(value = "accessToken") String accessToken);
 

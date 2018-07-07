@@ -20,6 +20,7 @@ import com.paascloud.wrapper.Wrapper;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -37,7 +38,7 @@ public interface UacAuthUserFeignApi {
 	 *
 	 * @return the auth user dto
 	 */
-	@GetMapping(value = "/uac/auth/getAuthUserDTO/{loginName}")
+	@PostMapping(value = "/uac/auth/getAuthUserDTO/{loginName}")
 	Wrapper<AuthUserDTO> getAuthUserDTO(@PathVariable("loginName") String loginName);
 
 	/**
@@ -45,7 +46,7 @@ public interface UacAuthUserFeignApi {
 	 *
 	 * @param handlerLoginDTO the handler login dto
 	 */
-	@GetMapping(value = "/uac/auth/handlerLoginDTO")
+	@PostMapping(value = "/uac/auth/handlerLoginDTO")
 	void handlerLoginData(@RequestBody HandlerLoginDTO handlerLoginDTO);
 
 }

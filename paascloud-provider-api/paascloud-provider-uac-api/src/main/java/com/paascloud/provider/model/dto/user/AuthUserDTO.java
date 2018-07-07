@@ -18,6 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * The class Auth user dto.
@@ -44,5 +45,5 @@ public class AuthUserDTO implements Serializable {
 
 	private String groupName;
 
-	private Collection<GrantedAuthority> authorities;
+	List<String> authUrlList;
 }

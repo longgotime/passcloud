@@ -55,11 +55,13 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 	@Resource
 	private UacUserService uacUserService;
 	@Resource
-	private PaascloudProperties paascloudProperties;
-	@Resource
 	private RedisTemplate<String, Object> redisTemplate;
 	@Value("${paascloud.auth.refresh-token-url}")
 	private String refreshTokenUrl;
+
+    private final int ACCESS_TOKEN_VALIDATE_SECONDS = 7200;
+
+    private final int REFRESH_TOKEN_VALIDITY_SECONDS = 2592000;
 
 	/**
 	 * Save user token.
@@ -80,19 +82,16 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 
 		// 存入mysql数据库
 		UacUserToken uacUserToken = new UacUserToken();
-		OAuth2ClientProperties[] clients = paascloudProperties.getSecurity().getOauth2().getClients();
-		int accessTokenValidateSeconds = clients[0].getAccessTokenValidateSeconds();
-		int refreshTokenValiditySeconds = clients[0].getRefreshTokenValiditySeconds();
 		uacUserToken.setOs(os);
 		uacUserToken.setBrowser(browser);
 		uacUserToken.setAccessToken(accessToken);
-		uacUserToken.setAccessTokenValidity(accessTokenValidateSeconds);
+		uacUserToken.setAccessTokenValidity(ACCESS_TOKEN_VALIDATE_SECONDS);
 		uacUserToken.setLoginIp(remoteAddr);
 		uacUserToken.setLoginLocation(remoteLocation);
 		uacUserToken.setLoginTime(uacUser.getLastLoginTime());
 		uacUserToken.setLoginName(loginAuthDto.getLoginName());
 		uacUserToken.setRefreshToken(refreshToken);
-		uacUserToken.setRefreshTokenValidity(refreshTokenValiditySeconds);
+		uacUserToken.setRefreshTokenValidity(REFRESH_TOKEN_VALIDITY_SECONDS);
 		uacUserToken.setStatus(UacUserTokenStatusEnum.ON_LINE.getStatus());
 		uacUserToken.setUserId(userId);
 		uacUserToken.setUserName(loginAuthDto.getUserName());
@@ -103,7 +102,7 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 		uacUserTokenMapper.insertSelective(uacUserToken);
 		UserTokenDto userTokenDto = new ModelMapper().map(uacUserToken, UserTokenDto.class);
 		// 存入redis数据库
-		updateRedisUserToken(accessToken, accessTokenValidateSeconds, userTokenDto);
+		updateRedisUserToken(accessToken, ACCESS_TOKEN_VALIDATE_SECONDS, userTokenDto);
 	}
 
 	private void updateRedisUserToken(String accessToken, int accessTokenValidateSeconds, UserTokenDto userTokenDto) {
@@ -140,9 +139,7 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 		UacUserToken uacUserToken = new ModelMapper().map(tokenDto, UacUserToken.class);
 		uacUserToken.setUpdateInfo(loginAuthDto);
 		uacUserTokenMapper.updateByPrimaryKeySelective(uacUserToken);
-		OAuth2ClientProperties[] clients = paascloudProperties.getSecurity().getOauth2().getClients();
-		int accessTokenValidateSeconds = clients[0].getAccessTokenValidateSeconds();
-		updateRedisUserToken(uacUserToken.getAccessToken(), accessTokenValidateSeconds, tokenDto);
+		updateRedisUserToken(uacUserToken.getAccessToken(), ACCESS_TOKEN_VALIDATE_SECONDS, tokenDto);
 	}
 
 	/**
