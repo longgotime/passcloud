@@ -20,6 +20,7 @@ import com.paascloud.provider.model.enums.UacUserTokenStatusEnum;
 import com.paascloud.provider.model.service.UacUserLoginFeignApi;
 import com.paascloud.provider.service.UacLoginService;
 import com.paascloud.provider.service.UacUserTokenService;
+import com.paascloud.security.core.SecurityUtils;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -28,6 +29,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -55,9 +57,9 @@ public class UacUserLoginFeignClient extends BaseController implements UacUserLo
 
 
 	@Override
-	public Wrapper<LoginRespDto> loginAfter(Long applicationId) {
-		logger.info("登录成功获取用户菜单. applicationId={}", applicationId);
-		LoginRespDto result = uacLoginService.loginAfter(applicationId);
+	public Wrapper<LoginRespDto> loginAfter(@PathVariable("applicationId") Long applicationId, @PathVariable("loginName") String loginName) {
+		logger.info("登录成功获取用户菜单. applicationId={}, loginName={}", applicationId, loginName);
+		LoginRespDto result = uacLoginService.loginAfter(applicationId, loginName);
 		return WrapMapper.ok(result);
 	}
 

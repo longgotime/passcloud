@@ -13,6 +13,7 @@ package com.paascloud.provider.model.service.hystrix;
 
 import com.paascloud.provider.model.dto.user.LoginRespDto;
 import com.paascloud.provider.model.service.UacUserLoginFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -28,17 +29,17 @@ import javax.servlet.http.HttpServletRequest;
 public class UacUserLoginFeignApiHystrix implements UacUserLoginFeignApi {
 
 	@Override
-	public Wrapper<LoginRespDto> loginAfter(Long applicationId) {
-		return null;
+	public Wrapper<LoginRespDto> loginAfter(Long applicationId, String loginName) {
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper loginAfter(String accessToken) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) {
-		return null;
+		return WrapMapper.error();
 	}
 }

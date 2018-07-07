@@ -11,12 +11,14 @@
 
 package com.paascloud.web.uac;
 
+import com.google.common.base.Preconditions;
 import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.dto.user.LoginRespDto;
 import com.paascloud.provider.model.service.UacUserLoginFeignApi;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,11 +48,16 @@ public class UacUserLoginController extends BaseController{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/operate/user/loginAfter/{applicationId}")
+	@PostMapping(value = "/user/loginAfter/{applicationId}")
 	@ApiOperation(httpMethod = "POST", value = "登录成功获取用户菜单")
 	public Wrapper<LoginRespDto> loginAfter(@PathVariable Long applicationId) {
 		logger.info("登录成功获取用户菜单. applicationId={}", applicationId);
-		return uacUserLoginFeignApi.loginAfter(applicationId);
+		String loginName = this.getLoginAuthDto().getLoginName();
+		if (StringUtils.isEmpty(loginName)) {
+			logger.error("操作超时, 请重新登录 loginName={}", loginName);
+			Preconditions.checkArgument(StringUtils.isNotEmpty(loginName), "操作超时, 请重新登录");
+		}
+		return uacUserLoginFeignApi.loginAfter(applicationId, loginName);
 	}
 
 

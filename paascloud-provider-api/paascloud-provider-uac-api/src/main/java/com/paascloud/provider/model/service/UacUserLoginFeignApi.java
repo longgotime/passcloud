@@ -41,9 +41,9 @@ public interface UacUserLoginFeignApi{
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/uac/user/loginAfter/{applicationId}")
+	@PostMapping(value = "/uac/user/loginAfter/{applicationId}/{loginName}")
 	@ApiOperation(httpMethod = "POST", value = "登录成功获取用户菜单")
-	Wrapper<LoginRespDto> loginAfter(@PathVariable("applicationId") Long applicationId);
+	Wrapper<LoginRespDto> loginAfter(@PathVariable("applicationId") Long applicationId, @PathVariable("loginName") String loginName);
 
 	/**
 	 * 登出.

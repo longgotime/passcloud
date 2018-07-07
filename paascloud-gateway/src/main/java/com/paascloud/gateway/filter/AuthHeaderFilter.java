@@ -14,16 +14,26 @@ package com.paascloud.gateway.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+import com.paascloud.JacksonUtil;
 import com.paascloud.PublicUtil;
+import com.paascloud.RedisKeyUtil;
+import com.paascloud.base.constant.GlobalConstant;
+import com.paascloud.base.dto.LoginAuthDto;
+import com.paascloud.base.dto.UserTokenDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.base.exception.BusinessException;
 import com.paascloud.core.interceptor.CoreHeaderInterceptor;
 import com.paascloud.core.utils.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * The class Auth header filter.
@@ -34,12 +44,14 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class AuthHeaderFilter extends ZuulFilter {
 
-	private static final String BEARER_TOKEN_TYPE = "bearer ";
+	private static final String BEARER_TOKEN_TYPE = "Bearer ";
 	private static final String OPTIONS = "OPTIONS";
 	private static final String AUTH_PATH = "/auth";
 	private static final String LOGOUT_URI = "/oauth/token";
 	private static final String ALIPAY_CALL_URI = "/pay/alipayCallback";
 
+	@Resource
+	private RedisTemplate<String, Object> redisTemplate;
 
 	/**
 	 * Filter type string.
@@ -89,14 +101,15 @@ public class AuthHeaderFilter extends ZuulFilter {
 		return null;
 	}
 
-	private void doSomething(RequestContext requestContext) throws ZuulException {
+	private void doSomething(RequestContext requestContext) throws ZuulException, IOException {
 		HttpServletRequest request = requestContext.getRequest();
 		String requestURI = request.getRequestURI();
 
-		if (OPTIONS.equalsIgnoreCase(request.getMethod()) || !requestURI.contains(AUTH_PATH) || !requestURI.contains(LOGOUT_URI) || !requestURI.contains(ALIPAY_CALL_URI)) {
+		if (OPTIONS.equalsIgnoreCase(request.getMethod()) || requestURI.contains(AUTH_PATH) || requestURI.contains(LOGOUT_URI) || requestURI.contains(ALIPAY_CALL_URI)) {
 			return;
 		}
 		String authHeader = RequestUtil.getAuthHeader(request);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		if (PublicUtil.isEmpty(authHeader)) {
 			throw new ZuulException("刷新页面重试", 403, "check token fail");
@@ -104,6 +117,16 @@ public class AuthHeaderFilter extends ZuulFilter {
 
 		if (authHeader.startsWith(BEARER_TOKEN_TYPE)) {
 			requestContext.addZuulRequestHeader(HttpHeaders.AUTHORIZATION, authHeader);
+            String name = authentication.getName();
+
+            LoginAuthDto loginAuthDto = new LoginAuthDto();
+            loginAuthDto.setUserId(1L);
+            loginAuthDto.setUserName("admin");
+            loginAuthDto.setLoginName("admin");
+            loginAuthDto.setGroupId(1L);
+            loginAuthDto.setGroupName("paascloud");
+
+            requestContext.addZuulRequestHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO, JacksonUtil.toJson(loginAuthDto));
 
 			log.info("authHeader={} ", authHeader);
 			// 传递给后续微服务

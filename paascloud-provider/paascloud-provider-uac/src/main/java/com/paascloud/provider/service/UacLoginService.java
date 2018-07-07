@@ -17,7 +17,7 @@ import com.paascloud.provider.model.dto.user.LoginRespDto;
 /**
  * The interface Uac login service.
  *
- * @author paascloud.net@gmail.com
+ * @author paascloud.net @gmail.com
  */
 public interface UacLoginService {
 
@@ -25,9 +25,9 @@ public interface UacLoginService {
 	 * Login after login resp dto.
 	 *
 	 * @param applicationId the application id
-	 *
+	 * @param loginName     the login name
 	 * @return the login resp dto
 	 */
-	LoginRespDto loginAfter(Long applicationId);
+	LoginRespDto loginAfter(Long applicationId, String loginName);
 
 }

@@ -11,6 +11,7 @@
 
 package com.paascloud.core.support;
 
+import com.paascloud.JacksonUtil;
 import com.paascloud.PublicUtil;
 import com.paascloud.ThreadLocalMap;
 import com.paascloud.base.constant.GlobalConstant;
@@ -23,6 +24,11 @@ import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import sun.security.util.SecurityConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * The class Base controller.
@@ -30,6 +36,8 @@ import org.slf4j.LoggerFactory;
  * @author paascloud.net@gmail.com
  */
 public class BaseController {
+	@Autowired
+	private HttpServletRequest request;
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -39,7 +47,14 @@ public class BaseController {
 	 * @return the login auth dto
 	 */
 	protected LoginAuthDto getLoginAuthDto() {
-		LoginAuthDto loginAuthDto = (LoginAuthDto) ThreadLocalMap.get(GlobalConstant.Sys.TOKEN_AUTH_DTO);
+//		LoginAuthDto loginAuthDto = (LoginAuthDto) ThreadLocalMap.get(GlobalConstant.Sys.TOKEN_AUTH_DTO);
+		String authDto = request.getHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO);
+		LoginAuthDto loginAuthDto = null;
+		try {
+			loginAuthDto = JacksonUtil.parseJson(authDto, LoginAuthDto.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if (PublicUtil.isEmpty(loginAuthDto)) {
 			throw new BusinessException(ErrorCodeEnum.UAC10011041);
 		}

@@ -80,6 +80,7 @@ public class GlobalConstant {
 		 * 全局用户名
 		 */
 		public static final String TOKEN_AUTH_DTO = "CURRENT_USER_DTO";
+		public static final String CURRENT_USER_NAME = "CURRENT_USER_NAME";
 
 		/**
 		 * 超级管理员的用户ID

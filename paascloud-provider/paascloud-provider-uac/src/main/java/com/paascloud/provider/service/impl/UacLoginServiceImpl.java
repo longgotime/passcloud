@@ -49,13 +49,8 @@ public class UacLoginServiceImpl implements UacLoginService {
 	private UacMenuService uacMenuService;
 
 	@Override
-	public LoginRespDto loginAfter(Long applicationId) {
+	public LoginRespDto loginAfter(Long applicationId, String loginName) {
 		LoginRespDto loginRespDto = new LoginRespDto();
-		String loginName = SecurityUtils.getCurrentLoginName();
-		if (StringUtils.isEmpty(loginName)) {
-			log.error("操作超时, 请重新登录 loginName={}", loginName);
-			Preconditions.checkArgument(StringUtils.isNotEmpty(loginName), "操作超时, 请重新登录");
-		}
 
 		UacUser uacUser = uacUserService.findByLoginName(loginName);
 		if (PublicUtil.isEmpty(uacUser)) {
