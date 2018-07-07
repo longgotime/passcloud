@@ -29,6 +29,7 @@ import sun.security.util.SecurityConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 /**
  * The class Base controller.
@@ -48,10 +49,10 @@ public class BaseController {
 	 */
 	protected LoginAuthDto getLoginAuthDto() {
 //		LoginAuthDto loginAuthDto = (LoginAuthDto) ThreadLocalMap.get(GlobalConstant.Sys.TOKEN_AUTH_DTO);
-		String authDto = request.getHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO);
+		String authJson = request.getHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO);
 		LoginAuthDto loginAuthDto = null;
 		try {
-			loginAuthDto = JacksonUtil.parseJson(authDto, LoginAuthDto.class);
+			loginAuthDto = JacksonUtil.parseJson(URLDecoder.decode(authJson, "UTF-8"), LoginAuthDto.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -34,6 +34,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * The class Auth header filter.
@@ -121,12 +122,11 @@ public class AuthHeaderFilter extends ZuulFilter {
 
             LoginAuthDto loginAuthDto = new LoginAuthDto();
             loginAuthDto.setUserId(1L);
-            loginAuthDto.setUserName("admin");
+            loginAuthDto.setUserName("超级管理员");
             loginAuthDto.setLoginName("admin");
             loginAuthDto.setGroupId(1L);
             loginAuthDto.setGroupName("paascloud");
-
-            requestContext.addZuulRequestHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO, JacksonUtil.toJson(loginAuthDto));
+            requestContext.addZuulRequestHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO, URLEncoder.encode(JacksonUtil.toJson(loginAuthDto), "UTF-8"));
 
 			log.info("authHeader={} ", authHeader);
 			// 传递给后续微服务
