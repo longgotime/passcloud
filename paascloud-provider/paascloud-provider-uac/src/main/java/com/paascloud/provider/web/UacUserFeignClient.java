@@ -16,7 +16,7 @@ import com.paascloud.Md5Util;
 import com.paascloud.PublicUtil;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
-import com.paascloud.core.support.BaseFeignClient;
+import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
@@ -53,7 +53,7 @@ import java.util.Objects;
 @RefreshScope
 @RestController
 @Api(value = "API - UacUserFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignApi {
+public class UacUserFeignClient extends BaseController implements UacUserFeignApi {
 
 	@Resource
 	private UacUserService uacUserService;
@@ -61,6 +61,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 	@Resource
 	private UacRoleService uacRoleService;
 
+	/**
+	 * 查询角色列表.
+	 *
+	 * @param uacUser the uac user
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<PageInfo> queryUserListWithPage(@RequestBody UserInfoDto uacUser) {
 		logger.info("查询用户列表uacUser={}", uacUser);
@@ -70,6 +77,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(pageInfo);
 	}
 
+	/**
+	 * 新增用户
+	 *
+	 * @param user the user
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Integer> addUacUser(@RequestBody UserInfoDto user) {
 		logger.info(" 新增用户 user={}", user);
@@ -80,6 +94,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok();
 	}
 
+	/**
+	 * 根据Id修改用户状态.
+	 *
+	 * @param modifyUserStatusDto the modify user status dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Integer> modifyUserStatusById(@RequestBody ModifyUserStatusDto modifyUserStatusDto) {
 		logger.info(" 根据Id修改用户状态 modifyUserStatusDto={}", modifyUserStatusDto);
@@ -92,6 +113,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.handleResult(result);
 	}
 
+	/**
+	 * 通过Id删除用户.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Integer> deleteUserById(@PathVariable("userId") Long userId) {
 		logger.info(" 通过Id删除用户 userId={}", userId);
@@ -99,6 +127,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.handleResult(result);
 	}
 
+	/**
+	 * 获取用户绑定角色页面数据.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the bind role
+	 */
 	@Override
 	public Wrapper<UserBindRoleVo> getBindRole(@PathVariable("userId") Long userId) {
 		logger.info("获取用户绑定角色页面数据. userId={}", userId);
@@ -113,6 +148,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(bindUserDto);
 	}
 
+	/**
+	 * 用户绑定角色.
+	 *
+	 * @param bindUserRolesDto the bind user roles dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Integer> bindUserRoles(@RequestBody BindUserRolesDto bindUserRolesDto) {
 		logger.info("用户绑定角色 bindUserRolesDto={}", bindUserRolesDto);
@@ -121,6 +163,11 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok();
 	}
 
+	/**
+	 * 查询用户常用功能数据.
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<List<UserMenuDto>> queryUserMenuDtoData() {
 		logger.info("查询用户常用功能数据");
@@ -130,6 +177,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(userMenuDtoList);
 	}
 
+	/**
+	 * 绑定用户常用菜单.
+	 *
+	 * @param bindUserMenusDto the bind user menus dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Integer> bindUserMenus(@RequestBody BindUserMenusDto bindUserMenusDto) {
 		logger.info("绑定用户常用菜单");
@@ -141,6 +195,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.handleResult(result);
 	}
 
+	/**
+	 * 根据用户Id查询用户信息.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the uac user by id
+	 */
 	@Override
 	public Wrapper<UserVo> getUacUserById(@PathVariable("userId") Long userId) {
 		logger.info("getUacUserById - 根据用户Id查询用户信息. userId={}", userId);
@@ -151,6 +212,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(userVo);
 	}
 
+	/**
+	 * 根据用户Id重置密码.
+	 *
+	 * @param userId the user id
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<UserVo> resetLoginPwd(@PathVariable("userId") Long userId) {
 		logger.info("resetLoginPwd - 根据用户Id重置密码. userId={}", userId);
@@ -159,6 +227,11 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok();
 	}
 
+	/**
+	 * 根据userId查询用户详细信息（连表查询）.
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<UserVo> queryUserInfo(@PathVariable("loginName") String loginName) {
 		logger.info("根据userId查询用户详细信息");
@@ -175,6 +248,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(userVo);
 	}
 
+	/**
+	 * 校验登录名唯一性.
+	 *
+	 * @param checkLoginNameDto the check login name dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Boolean> checkLoginName(@RequestBody CheckLoginNameDto checkLoginNameDto) {
 		logger.info("校验登录名唯一性 checkLoginNameDto={}", checkLoginNameDto);
@@ -193,6 +273,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(result < 1);
 	}
 
+	/**
+	 * 校验登录名唯一性.
+	 *
+	 * @param checkEmailDto the check email dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Boolean> checkEmail(@RequestBody CheckEmailDto checkEmailDto) {
 		logger.info("校验邮箱唯一性 checkEmailDto={}", checkEmailDto);
@@ -211,6 +298,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(result < 1);
 	}
 
+	/**
+	 * 校验真实姓名唯一性.
+	 *
+	 * @param checkUserNameDto the check user name dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Boolean> checkUserName(@RequestBody CheckUserNameDto checkUserNameDto) {
 		logger.info(" 校验真实姓名唯一性 checkUserNameDto={}", checkUserNameDto);
@@ -228,6 +322,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(result < 1);
 	}
 
+	/**
+	 * 校验用户电话号码唯一性.
+	 *
+	 * @param checkUserPhoneDto the check user phone dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Boolean> checkUserPhone(@RequestBody CheckUserPhoneDto checkUserPhoneDto) {
 		logger.info(" 校验用户电话号码唯一性 checkUserPhoneDto={}", checkUserPhoneDto);
@@ -245,6 +346,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(result < 1);
 	}
 
+	/**
+	 * 校验新密码是否与原始密码相同.
+	 *
+	 * @param checkNewPasswordDto 修改密码实体
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Boolean> checkNewPassword(@RequestBody CheckNewPasswordDto checkNewPasswordDto) {
 		logger.info(" 校验新密码是否与原始密码相同 checkNewPasswordDto={}", checkNewPasswordDto);
@@ -263,6 +371,15 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(result < 1);
 	}
 
+
+	/**
+	 * 修改用户邮箱
+	 *
+	 * @param email     the email
+	 * @param emailCode the email code
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Integer> modifyUserEmail(@PathVariable("email") String email, @PathVariable("emailCode") String emailCode) {
 		logger.info(" 修改用户信息 email={}, emailCode={}", email, emailCode);
@@ -272,6 +389,11 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok();
 	}
 
+	/**
+	 * 获取已有权限树
+	 *
+	 * @return the auth tree by role id
+	 */
 	@Override
 	public Wrapper<List<MenuVo>> getOwnAuthTree() {
 	    // FIXME
@@ -279,6 +401,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.ok(tree);
 	}
 
+	/**
+	 * 用户修改密码
+	 *
+	 * @param userModifyPwdDto the user modify pwd dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Integer> modifyUserPwd(@RequestBody UserModifyPwdDto userModifyPwdDto) {
 		logger.info("==》vue用户修改密码, userModifyPwdDto={}", userModifyPwdDto);
@@ -293,6 +422,13 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
 		return WrapMapper.handleResult(result);
 	}
 
+	/**
+	 * 注册
+	 *
+	 * @param registerDto the register dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper registerUser(@RequestBody UserRegisterDto registerDto) {
 		logger.info("vue注册开始。注册参数：{}", registerDto);

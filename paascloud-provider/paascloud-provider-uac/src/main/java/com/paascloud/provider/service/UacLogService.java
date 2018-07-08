@@ -14,9 +14,9 @@ package com.paascloud.provider.service;
 
 import com.github.pagehelper.PageInfo;
 import com.paascloud.base.dto.LoginAuthDto;
-import com.paascloud.core.annotation.OperationLogDto;
 import com.paascloud.core.support.IService;
 import com.paascloud.provider.model.domain.UacLog;
+import com.paascloud.provider.model.dto.log.OperationLogDto;
 import com.paascloud.provider.model.dto.log.UacLogMainDto;
 
 import java.util.List;

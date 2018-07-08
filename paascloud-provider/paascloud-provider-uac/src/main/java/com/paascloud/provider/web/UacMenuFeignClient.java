@@ -13,7 +13,7 @@ package com.paascloud.provider.web;
 
 import com.google.common.base.Preconditions;
 import com.paascloud.base.dto.LoginAuthDto;
-import com.paascloud.core.support.BaseFeignClient;
+import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.domain.UacMenu;
 import com.paascloud.provider.model.dto.menu.*;
 import com.paascloud.provider.model.service.UacMenuFeignApi;
@@ -42,11 +42,16 @@ import java.util.List;
 @RefreshScope
 @RestController
 @Api(value = "API - UacMenuFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacMenuFeignClient extends BaseFeignClient implements UacMenuFeignApi {
+public class UacMenuFeignClient extends BaseController implements UacMenuFeignApi {
 
 	@Resource
 	private UacMenuService uacMenuService;
 
+	/**
+	 * 获取菜单列表数据
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<List<MenuVo>> queryMenuTreeList() {
 		//FIXME
@@ -54,12 +59,26 @@ public class UacMenuFeignClient extends BaseFeignClient implements UacMenuFeignA
 		return WrapMapper.ok(menuVoList);
 	}
 
+	/**
+	 * 编辑菜单时根据编号查询菜单信息.
+	 *
+	 * @param id the id
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<ViewMenuVo> queryMenuVoById(@PathVariable("id") Long id) {
 		ViewMenuVo menuVo = uacMenuService.getViewVoById(id);
 		return WrapMapper.ok(menuVo);
 	}
 
+	/**
+	 * 根据id修改菜单的禁用状态
+	 *
+	 * @param uacMenuStatusDto the uac menu status dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper updateUacMenuStatusById(@RequestBody UacMenuStatusDto uacMenuStatusDto) {
 		logger.info("根据id修改菜单的禁用状态 uacMenuStatusDto={}", uacMenuStatusDto);
@@ -68,6 +87,13 @@ public class UacMenuFeignClient extends BaseFeignClient implements UacMenuFeignA
 		return WrapMapper.ok();
 	}
 
+	/**
+	 * 新增菜单.
+	 *
+	 * @param uacMenuAddDto the uac menu add dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper saveMenu(@RequestBody UacEditMenuDto uacMenuAddDto) {
 		UacMenu uacMenu = new UacMenu();
@@ -77,6 +103,13 @@ public class UacMenuFeignClient extends BaseFeignClient implements UacMenuFeignA
 		return WrapMapper.ok();
 	}
 
+	/**
+	 * 根据id删除菜单
+	 *
+	 * @param id the id
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Integer> deleteUacMenuById(@PathVariable("id") Long id) {
 		logger.info(" 根据id删除菜单 id={}", id);
@@ -95,6 +128,13 @@ public class UacMenuFeignClient extends BaseFeignClient implements UacMenuFeignA
 		return WrapMapper.handleResult(result);
 	}
 
+	/**
+	 * 检测菜单编码是否已存在
+	 *
+	 * @param uacMenuCheckCodeDto the uac menu check code dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Boolean> checkUacMenuActionCode(@RequestBody UacMenuCheckCodeDto uacMenuCheckCodeDto) {
 		logger.info("校验菜单编码唯一性 uacMenuCheckCodeDto={}", uacMenuCheckCodeDto);
@@ -114,6 +154,13 @@ public class UacMenuFeignClient extends BaseFeignClient implements UacMenuFeignA
 		return WrapMapper.ok(result < 1);
 	}
 
+	/**
+	 * 检测菜单名称唯一性
+	 *
+	 * @param uacMenuCheckNameDto the uac menu check name dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Boolean> checkUacMenuName(@RequestBody UacMenuCheckNameDto uacMenuCheckNameDto) {
 		logger.info("校验菜单名称唯一性 uacMenuCheckNameDto={}", uacMenuCheckNameDto);
@@ -134,6 +181,13 @@ public class UacMenuFeignClient extends BaseFeignClient implements UacMenuFeignA
 		return WrapMapper.ok(result < 1);
 	}
 
+	/**
+	 * 检测菜单URL唯一性
+	 *
+	 * @param uacMenuCheckUrlDto the uac menu check url dto
+	 *
+	 * @return the wrapper
+	 */
 	@Override
 	public Wrapper<Boolean> checkUacMenuUrl(@RequestBody UacMenuCheckUrlDto uacMenuCheckUrlDto) {
 		logger.info("检测菜单URL唯一性 uacMenuCheckUrlDto={}", uacMenuCheckUrlDto);

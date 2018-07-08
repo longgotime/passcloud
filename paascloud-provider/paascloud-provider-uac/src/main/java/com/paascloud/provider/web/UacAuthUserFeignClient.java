@@ -11,23 +11,28 @@
 
 package com.paascloud.provider.web;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.paascloud.base.dto.CheckValidDto;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.enums.LogTypeEnum;
-import com.paascloud.core.support.BaseFeignClient;
+import com.paascloud.core.support.BaseController;
+import com.paascloud.provider.model.constant.UacApiConstant;
 import com.paascloud.provider.model.domain.UacAction;
 import com.paascloud.provider.model.domain.UacLog;
 import com.paascloud.provider.model.domain.UacUser;
+import com.paascloud.provider.model.dto.log.OperationLogDto;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
+import com.paascloud.provider.model.dto.user.ResetLoginPwdDto;
+import com.paascloud.provider.model.dto.user.UserRegisterDto;
+import com.paascloud.provider.model.enums.UacUserStatusEnum;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
-import com.paascloud.provider.service.UacActionService;
-import com.paascloud.provider.service.UacLogService;
-import com.paascloud.provider.service.UacUserService;
-import com.paascloud.provider.service.UacUserTokenService;
+import com.paascloud.provider.service.*;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -36,6 +41,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +54,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "API - UacAuthUserFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUserFeignApi {
+public class UacAuthUserFeignClient extends BaseController implements UacAuthUserFeignApi {
 
 	@Resource
 	private TaskExecutor taskExecutor;
@@ -59,8 +66,173 @@ public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUs
 	private UacLogService uacLogService;
 	@Resource
 	private UacActionService uacActionService;
+	@Resource
+	private SmsService smsService;
+	@Resource
+	private EmailService emailService;
 
 
+	/**
+	 * 校验手机号码.
+	 *
+	 * @param mobileNo the mobile no
+	 *
+	 * @return the wrapper
+	 */
+	@Override
+	public Wrapper<Boolean> checkPhoneActive(String mobileNo) {
+		UacUser uacUser = new UacUser();
+		uacUser.setStatus(UacUserStatusEnum.ENABLE.getKey());
+		uacUser.setMobileNo(mobileNo);
+		int count = uacUserService.selectCount(uacUser);
+		return WrapMapper.ok(count > 0);
+	}
+
+	/**
+	 * 校验邮箱.
+	 *
+	 * @param email the email
+	 *
+	 * @return the wrapper
+	 */
+	@Override
+	public Wrapper<Boolean> checkEmailActive(String email) {
+		UacUser uacUser = new UacUser();
+		uacUser.setStatus(UacUserStatusEnum.ENABLE.getKey());
+		uacUser.setEmail(email);
+		int count = uacUserService.selectCount(uacUser);
+		return WrapMapper.ok(count > 0);
+	}
+
+	/**
+	 * 校验数据.
+	 *
+	 * @param checkValidDto the check valid dto
+	 *
+	 * @return the wrapper
+	 */
+	@Override
+	public Wrapper checkValid(CheckValidDto checkValidDto) {
+		String type = checkValidDto.getType();
+		String validValue = checkValidDto.getValidValue();
+
+		Preconditions.checkArgument(StringUtils.isNotEmpty(validValue), "参数错误");
+		String message = null;
+		boolean result = false;
+		//开始校验
+		if (UacApiConstant.Valid.LOGIN_NAME.equals(type)) {
+			result = uacUserService.checkLoginName(validValue);
+			if (!result) {
+				message = "用户名已存在";
+			}
+		}
+		if (UacApiConstant.Valid.EMAIL.equals(type)) {
+			result = uacUserService.checkEmail(validValue);
+			if (!result) {
+				message = "邮箱已存在";
+			}
+		}
+
+		if (UacApiConstant.Valid.MOBILE_NO.equals(type)) {
+			result = uacUserService.checkMobileNo(validValue);
+			if (!result) {
+				message = "手机号码已存在";
+			}
+		}
+
+		return WrapMapper.wrap(Wrapper.SUCCESS_CODE, message, result);
+	}
+
+	/**
+	 * 重置密码-邮箱-提交.
+	 *
+	 * @param email the email
+	 *
+	 * @return the wrapper
+	 */
+	@Override
+	public Wrapper<String> submitResetPwdEmail(String email) {
+		logger.info("重置密码-邮箱-提交, email={}", email);
+		emailService.submitResetPwdEmail(email);
+		return WrapMapper.ok();
+	}
+
+
+	/**
+	 * 重置密码-手机-提交.
+	 *
+	 * @param mobile   the mobile
+	 * @param response the response
+	 *
+	 * @return the wrapper
+	 */
+	@Override
+	public Wrapper<String> submitResetPwdPhone(String mobile, HttpServletResponse response) {
+		logger.info("重置密码-手机-提交, mobile={}", mobile);
+		String token = smsService.submitResetPwdPhone(mobile, response);
+		return WrapMapper.ok(token);
+	}
+
+	/**
+	 * 重置密码-最终提交.
+	 *
+	 * @param resetLoginPwdDto the reset login pwd dto
+	 *
+	 * @return the wrapper
+	 */
+	@Override
+	public Wrapper<Boolean> checkResetSmsCode(ResetLoginPwdDto resetLoginPwdDto) {
+		uacUserService.resetLoginPwd(resetLoginPwdDto);
+		return WrapMapper.ok();
+	}
+
+	/**
+	 * 注册用户.
+	 *
+	 * @param user the user
+	 *
+	 * @return the wrapper
+	 */
+	@Override
+	public Wrapper registerUser(UserRegisterDto user) {
+		uacUserService.register(user);
+		return WrapMapper.ok();
+	}
+
+	/**
+	 * 激活用户.
+	 *
+	 * @param activeUserToken the active user token
+	 *
+	 * @return the wrapper
+	 */
+	@Override
+	public Wrapper activeUser(String activeUserToken) {
+		uacUserService.activeUser(activeUserToken);
+		return WrapMapper.ok("激活成功");
+	}
+
+	/**
+	 * 查询日志.
+	 *
+	 * @param operationLogDto the operation log dto
+	 *
+	 * @return the integer
+	 */
+	@Override
+	public Wrapper<Integer> saveLog(OperationLogDto operationLogDto) {
+		logger.info("saveLog - 保存操作日志. operationLogDto={}", operationLogDto);
+		uacLogService.saveOperationLog(operationLogDto);
+		return WrapMapper.ok();
+	}
+
+	/**
+	 * Gets auth user dto.
+	 *
+	 * @param loginName the login name
+	 *
+	 * @return the auth user dto
+	 */
 	@Override
 	public Wrapper<AuthUserDTO> getAuthUserDTO(@PathVariable("loginName") String loginName) {
 
@@ -91,8 +263,13 @@ public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUs
 		return WrapMapper.ok(authUserDTO);
 	}
 
+	/**
+	 * Handler login data.
+	 *
+	 * @param handlerLoginDTO the handler login dto
+	 */
 	@Override
-	public void handlerLoginData(@RequestBody HandlerLoginDTO handlerLoginDTO) {
+	public Wrapper<?> handlerLoginData(@RequestBody HandlerLoginDTO handlerLoginDTO) {
 
 		String accessToken = handlerLoginDTO.getAccessToken();
 		String refreshToken = handlerLoginDTO.getRefreshToken();
@@ -128,6 +305,12 @@ public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUs
 		log.setLogName(LogTypeEnum.LOGIN_LOG.getName());
 
 		taskExecutor.execute(() -> uacLogService.saveLog(log, loginAuthDto));
+		return WrapMapper.ok();
+	}
 
+	@Override
+	public Wrapper callbackQQ(HttpServletRequest request) {
+		logger.info("callback - callback qq. request={}", request);
+		return WrapMapper.ok();
 	}
 }
