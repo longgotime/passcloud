@@ -12,14 +12,10 @@
 package com.paascloud.core.config;
 
 import com.paascloud.core.interceptor.SqlLogInterceptor;
-import com.paascloud.core.interceptor.TokenInterceptor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
  * 加载LWR规则.
@@ -40,10 +36,10 @@ public class CoreConfiguration {
 	}
 
 
-	@Bean
-	@ConditionalOnMissingBean(HandlerInterceptor.class)
-	@ConditionalOnProperty(prefix = "paascloud.token.interceptor", name = "enable", havingValue = "true")
-	public TokenInterceptor tokenInterceptor() {
-		return new TokenInterceptor();
-	}
+//	@Bean
+//	@ConditionalOnMissingBean(HandlerInterceptor.class)
+//	@ConditionalOnProperty(prefix = "paascloud.token.interceptor", name = "enable", havingValue = "true")
+//	public TokenInterceptor tokenInterceptor() {
+//		return new TokenInterceptor();
+//	}
 }

@@ -11,10 +11,12 @@
 
 package com.paascloud.gateway.filter;
 
+import com.alibaba.fastjson.JSONObject;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.paascloud.JacksonUtil;
+import com.paascloud.Md5Util;
 import com.paascloud.PublicUtil;
 import com.paascloud.RedisKeyUtil;
 import com.paascloud.base.constant.GlobalConstant;
@@ -25,15 +27,19 @@ import com.paascloud.base.exception.BusinessException;
 import com.paascloud.core.interceptor.CoreHeaderInterceptor;
 import com.paascloud.core.utils.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import springfox.documentation.swagger2.mappers.ModelMapper;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
@@ -102,14 +108,14 @@ public class AuthHeaderFilter extends ZuulFilter {
 		return null;
 	}
 
-	private void doSomething(RequestContext requestContext) throws ZuulException {
+	private void doSomething(RequestContext requestContext) throws ZuulException, UnsupportedEncodingException {
 		HttpServletRequest request = requestContext.getRequest();
 		String requestURI = request.getRequestURI();
-
-		if (OPTIONS.equalsIgnoreCase(request.getMethod()) || requestURI.contains(AUTH_PATH) || requestURI.contains(LOGOUT_URI) || requestURI.contains(ALIPAY_CALL_URI)) {
+        log.info("AuthHeaderFilter - requestURI={}...", requestURI);
+		if (OPTIONS.equalsIgnoreCase(request.getMethod()) || requestURI.contains(AUTH_PATH) || requestURI.contains("v2/api-docs")|| requestURI.contains(LOGOUT_URI) || requestURI.contains(ALIPAY_CALL_URI)) {
 			return;
 		}
-		String authHeader = RequestUtil.getAuthHeader(request);
+		String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		if (PublicUtil.isEmpty(authHeader)) {
@@ -117,12 +123,20 @@ public class AuthHeaderFilter extends ZuulFilter {
 		}
 
 		if (authHeader.startsWith(BEARER_TOKEN_TYPE)) {
-			requestContext.addZuulRequestHeader(HttpHeaders.AUTHORIZATION, authHeader);
+
+		    log.info("authHeader={} ", authHeader);
+
+		    requestContext.addZuulRequestHeader(HttpHeaders.AUTHORIZATION, authHeader);
+            String token = StringUtils.substringAfter(request.getHeader(HttpHeaders.AUTHORIZATION), "Bearer ");
+            LoginAuthDto authDto =(LoginAuthDto) redisTemplate.opsForValue().get(RedisKeyUtil.getAccessTokenKey(token.trim()));
+
             requestContext.addZuulRequestHeader(GlobalConstant.Sys.CURRENT_USER_NAME, authentication.getName());
 
-			log.info("authHeader={} ", authHeader);
-			// 传递给后续微服务
-			requestContext.addZuulRequestHeader(CoreHeaderInterceptor.HEADER_LABEL, authHeader);
+            if (!HttpMethod.GET.toString().equalsIgnoreCase(request.getMethod())) {
+                log.info("authDto={} ", authDto);
+                requestContext.addZuulRequestHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO, URLEncoder.encode(JSONObject.toJSONString(authDto), "UTF-8"));
+            }
+
 		}
 	}
 

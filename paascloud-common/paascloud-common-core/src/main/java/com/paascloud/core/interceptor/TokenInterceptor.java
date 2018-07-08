@@ -11,13 +11,9 @@
 
 package com.paascloud.core.interceptor;
 
-import com.paascloud.ThreadLocalMap;
 import com.paascloud.annotation.NoNeedAccessAuthentication;
-import com.paascloud.base.constant.GlobalConstant;
-import com.paascloud.base.dto.LoginAuthDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.method.HandlerMethod;

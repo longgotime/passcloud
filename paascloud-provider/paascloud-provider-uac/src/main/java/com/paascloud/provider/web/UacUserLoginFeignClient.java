@@ -28,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,7 +59,8 @@ public class UacUserLoginFeignClient extends BaseController implements UacUserLo
 
 	@Override
 	public Wrapper<LoginRespDto> loginAfter(@PathVariable("applicationId") Long applicationId, @PathVariable("loginName") String loginName) {
-		logger.info("登录成功获取用户菜单. applicationId={}, loginName={}", applicationId, loginName);
+
+        logger.info("登录成功获取用户菜单. applicationId={}, loginName={}", applicationId, loginName);
 		LoginRespDto result = uacLoginService.loginAfter(applicationId, loginName);
 		return WrapMapper.ok(result);
 	}

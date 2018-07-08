@@ -98,7 +98,7 @@ public class RedisKeyUtil {
 
 	public static String getAccessTokenKey(String token) {
 		Preconditions.checkArgument(StringUtils.isNotEmpty(token), "非法请求token参数不存在");
-		return ACCESS_TOKEN + ":" + token;
+		return ACCESS_TOKEN + ":" + Md5Util.stringMD5(token);
 	}
 
 	public static String createMqKey(String topic, String tag, String refNo, String body) {

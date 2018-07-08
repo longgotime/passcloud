@@ -30,7 +30,6 @@ import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
 import com.paascloud.provider.mq.producer.EmailProducer;
 import com.paascloud.provider.service.*;
-import com.paascloud.provider.utils.Md5Util;
 import com.xiaoleilu.hutool.date.DateUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;

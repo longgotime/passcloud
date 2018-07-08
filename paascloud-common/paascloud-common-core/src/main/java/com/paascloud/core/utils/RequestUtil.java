@@ -115,22 +115,6 @@ public class RequestUtil {
 
 	}
 
-	/**
-	 * Gets auth header.
-	 *
-	 * @param request the request
-	 *
-	 * @return the auth header
-	 */
-	public static String getAuthHeader(HttpServletRequest request) {
-
-		String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-		if (org.apache.commons.lang.StringUtils.isEmpty(authHeader)) {
-			throw new BusinessException(ErrorCodeEnum.UAC10011040);
-		}
-		return authHeader;
-	}
-
 	public static String[] extractAndDecodeHeader(String header) throws IOException {
 
 		byte[] base64Token = header.substring(6).getBytes("UTF-8");

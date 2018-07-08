@@ -13,8 +13,6 @@ import com.paascloud.PublicUtil;
 import com.paascloud.RedisKeyUtil;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.dto.UserTokenDto;
-import com.paascloud.config.properties.OAuth2ClientProperties;
-import com.paascloud.config.properties.PaascloudProperties;
 import com.paascloud.core.support.BaseService;
 import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.provider.mapper.UacUserTokenMapper;
@@ -100,13 +98,12 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 		uacUserToken.setGroupName(loginAuthDto.getGroupName());
 		uacUserToken.setId(generateId());
 		uacUserTokenMapper.insertSelective(uacUserToken);
-		UserTokenDto userTokenDto = new ModelMapper().map(uacUserToken, UserTokenDto.class);
-		// 存入redis数据库
-		updateRedisUserToken(accessToken, ACCESS_TOKEN_VALIDATE_SECONDS, userTokenDto);
+        // 存入redis数据库
+		this.updateRedisUserToken(accessToken, ACCESS_TOKEN_VALIDATE_SECONDS, loginAuthDto);
 	}
 
-	private void updateRedisUserToken(String accessToken, int accessTokenValidateSeconds, UserTokenDto userTokenDto) {
-		redisTemplate.opsForValue().set(RedisKeyUtil.getAccessTokenKey(accessToken), userTokenDto, accessTokenValidateSeconds, TimeUnit.SECONDS);
+	private void updateRedisUserToken(String accessToken, int accessTokenValidateSeconds, LoginAuthDto loginAuthDto) {
+		redisTemplate.opsForValue().set(RedisKeyUtil.getAccessTokenKey(accessToken.trim()), loginAuthDto, accessTokenValidateSeconds, TimeUnit.SECONDS);
 	}
 
 	/**
@@ -118,14 +115,10 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 	 */
 	@Override
 	public UserTokenDto getByAccessToken(String accessToken) {
-		UserTokenDto userTokenDto = (UserTokenDto) redisTemplate.opsForValue().get(RedisKeyUtil.getAccessTokenKey(accessToken));
-		if (userTokenDto == null) {
-			UacUserToken uacUserToken = new UacUserToken();
-			uacUserToken.setAccessToken(accessToken);
-			uacUserToken = uacUserTokenMapper.selectOne(uacUserToken);
-			userTokenDto = new ModelMapper().map(uacUserToken, UserTokenDto.class);
-		}
-		return userTokenDto;
+        UacUserToken uacUserToken = new UacUserToken();
+        uacUserToken.setAccessToken(accessToken);
+        uacUserToken = uacUserTokenMapper.selectOne(uacUserToken);
+        return new ModelMapper().map(uacUserToken, UserTokenDto.class);
 	}
 
 	/**

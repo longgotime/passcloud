@@ -1,6 +1,6 @@
 package com.paascloud.provider;
 
-import com.paascloud.provider.utils.Md5Util;
+import com.paascloud.Md5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;

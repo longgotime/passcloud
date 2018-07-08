@@ -9,7 +9,7 @@
  * 项目官网: http://paascloud.net
  */
 
-package com.paascloud.gateway;
+package com.paascloud;
 
 import com.didispace.swagger.butler.EnableSwaggerButler;
 import org.springframework.boot.SpringApplication;
