@@ -15,6 +15,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.paascloud.PublicUtil;
 import com.paascloud.base.constant.GlobalConstant;
+import com.paascloud.base.dto.ElementImgUrlDto;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.config.properties.PaascloudProperties;

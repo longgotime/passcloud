@@ -16,8 +16,8 @@ import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.dto.ProductCategoryDto;
 import com.paascloud.provider.model.dto.ProductReqDto;
 import com.paascloud.provider.model.vo.ProductDetailVo;
-import com.paascloud.provider.service.MdcProductCategoryQueryFeignApi;
-import com.paascloud.provider.service.MdcProductQueryFeignApi;
+import com.paascloud.provider.service.MdcProductCategoryFeignApi;
+import com.paascloud.provider.service.MdcProductFeignApi;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,10 +39,10 @@ import java.util.List;
 public class MallAuthRestController extends BaseController {
 
 	@Resource
-	private MdcProductQueryFeignApi mdcProductQueryFeignApi;
+	private MdcProductFeignApi mdcProductFeignApi;
 
 	@Resource
-	private MdcProductCategoryQueryFeignApi mdcProductCategoryQueryFeignApi;
+	private MdcProductCategoryFeignApi mdcProductCategoryFeignApi;
 
 	/**
 	 * 查询商品列表.
@@ -55,7 +55,7 @@ public class MallAuthRestController extends BaseController {
 	@ApiOperation(httpMethod = "POST", value = "查询商品列表")
 	public Wrapper<PageInfo> queryProductList(@RequestBody ProductReqDto productReqDto) {
 		logger.info("getProductCategoryDtoByPid - 查询分类信息 productReqDto={}", productReqDto);
-		return mdcProductCategoryQueryFeignApi.getProductList(productReqDto);
+		return mdcProductCategoryFeignApi.getProductList(productReqDto);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class MallAuthRestController extends BaseController {
 	@ApiOperation(httpMethod = "POST", value = "查询商品详情信息")
 	public Wrapper<ProductDetailVo> queryProductDetail(@PathVariable Long productId) {
 		logger.info("getProductCategoryDtoByPid - 查询商品详情信息 productId={}", productId);
-		return mdcProductQueryFeignApi.getProductDetail(productId);
+		return mdcProductFeignApi.getProductDetail(productId);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class MallAuthRestController extends BaseController {
 	@GetMapping(value = "/category/getProductCategoryDtoByPid/{pid}")
 	public Wrapper<List<ProductCategoryDto>> getProductCategoryDtoByPid(@PathVariable Long pid) {
 		logger.info("getProductCategoryDtoByPid - 查询分类信息 pid={}", pid);
-		Wrapper<List<ProductCategoryDto>> productCategoryData = mdcProductCategoryQueryFeignApi.getProductCategoryData(pid);
+		Wrapper<List<ProductCategoryDto>> productCategoryData = mdcProductCategoryFeignApi.getProductCategoryData(pid);
 		logger.info("productCategoryData={}", productCategoryData);
 		return productCategoryData;
 	}

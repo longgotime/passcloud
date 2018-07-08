@@ -11,8 +11,18 @@
 
 package com.paascloud.provider.service.hystrix;
 
+import com.github.pagehelper.PageInfo;
+import com.paascloud.base.dto.UpdateStatusDto;
+import com.paascloud.provider.model.dto.MdcCategoryCheckNameDto;
+import com.paascloud.provider.model.dto.MdcEditCategoryDto;
+import com.paascloud.provider.model.dto.ProductCategoryDto;
+import com.paascloud.provider.model.dto.ProductReqDto;
+import com.paascloud.provider.model.vo.MdcCategoryVo;
 import com.paascloud.provider.service.MdcProductCategoryFeignApi;
+import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * The class Mdc product category feign hystrix.
@@ -21,4 +31,43 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MdcProductCategoryFeignHystrix implements MdcProductCategoryFeignApi {
+    @Override
+    public Wrapper<Boolean> checkCategoryName(MdcCategoryCheckNameDto categoryCheckNameDto) {
+        return null;
+    }
+
+    @Override
+    public Wrapper<List<MdcCategoryVo>> queryCategoryTreeList() {
+        return null;
+    }
+
+    @Override
+    public Wrapper<MdcCategoryVo> queryCategoryVoById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Wrapper updateMdcCategoryStatusById(UpdateStatusDto updateStatusDto) {
+        return null;
+    }
+
+    @Override
+    public Wrapper saveCategory(MdcEditCategoryDto mdcCategoryAddDto) {
+        return null;
+    }
+
+    @Override
+    public Wrapper<Integer> deleteMdcCategoryById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Wrapper<List<ProductCategoryDto>> getProductCategoryData(Long pid) {
+        return null;
+    }
+
+    @Override
+    public Wrapper<PageInfo> getProductList(ProductReqDto productReqDto) {
+        return null;
+    }
 }

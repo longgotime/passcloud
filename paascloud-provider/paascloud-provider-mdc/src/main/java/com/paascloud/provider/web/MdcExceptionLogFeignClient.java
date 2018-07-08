@@ -12,6 +12,7 @@
 package com.paascloud.provider.web;
 
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.GlobalExceptionLogDto;
 import com.paascloud.provider.service.MdcExceptionLogFeignApi;
 import com.paascloud.provider.service.MdcExceptionLogService;
@@ -36,7 +37,7 @@ import javax.annotation.Resource;
 @RefreshScope
 @RestController
 @Api(value = "API - MdcExceptionLogFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class MdcExceptionLogFeignClient extends BaseController implements MdcExceptionLogFeignApi {
+public class MdcExceptionLogFeignClient extends BaseFeignClient implements MdcExceptionLogFeignApi {
 	@Resource
 	private MdcExceptionLogService mdcExceptionLogService;
 

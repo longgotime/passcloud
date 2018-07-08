@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.service.hystrix;
 
+import com.paascloud.base.dto.ElementImgUrlDto;
 import com.paascloud.provider.model.dto.oss.*;
 import com.paascloud.provider.service.OpcOssFeignApi;
 import com.paascloud.wrapper.Wrapper;
@@ -37,7 +38,7 @@ public class OpcOssFeignApiHystrix implements OpcOssFeignApi {
 	}
 
 	@Override
-	public Wrapper<List<ElementImgUrlDto>> listFileUrl(final OptBatchGetUrlRequest urlRequest) {
+	public Wrapper<List<ElementImgUrlDto>> listFileUrl(OptBatchGetUrlRequest urlRequest) {
 		return null;
 	}
 

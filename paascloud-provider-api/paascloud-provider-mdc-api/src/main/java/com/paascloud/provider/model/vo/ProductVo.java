@@ -12,11 +12,10 @@
 package com.paascloud.provider.model.vo;
 
 import com.paascloud.base.dto.BaseVo;
-import com.paascloud.provider.model.dto.oss.ElementImgUrlDto;
+import com.paascloud.base.dto.ElementImgUrlDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -48,7 +47,6 @@ public class ProductVo extends BaseVo {
 	/**
 	 * 产品主图,url相对地址
 	 */
-	@Column(name = "main_image")
 	private String mainImage;
 
 	/**
@@ -69,7 +67,6 @@ public class ProductVo extends BaseVo {
 	/**
 	 * 图片地址,json格式,扩展用
 	 */
-	@Column(name = "sub_images")
 	private String subImages;
 
 	/**

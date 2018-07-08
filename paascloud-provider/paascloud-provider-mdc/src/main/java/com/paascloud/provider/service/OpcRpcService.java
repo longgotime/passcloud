@@ -12,7 +12,7 @@
 package com.paascloud.provider.service;
 
 
-import com.paascloud.provider.model.dto.oss.ElementImgUrlDto;
+import com.paascloud.base.dto.ElementImgUrlDto;
 import com.paascloud.provider.model.dto.oss.OptBatchGetUrlRequest;
 import com.paascloud.provider.model.dto.oss.OptGetUrlRequest;
 import com.paascloud.provider.model.dto.robot.ChatRobotMsgDto;

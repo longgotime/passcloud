@@ -12,6 +12,7 @@
 package com.paascloud.provider.model.dto;
 
 
+import com.paascloud.base.dto.LoginAuthDto;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -57,4 +58,6 @@ public class MdcEditCategoryDto implements Serializable {
 	 * 分类编码
 	 */
 	private String categoryCode;
+
+	private LoginAuthDto loginAuthDto;
 }

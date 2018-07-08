@@ -12,6 +12,7 @@
 package com.paascloud.provider.model.dto;
 
 
+import com.paascloud.base.dto.LoginAuthDto;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -88,4 +89,6 @@ public class MdcEditProductDto implements Serializable {
 	 * 商品详情
 	 */
 	private String detail;
+
+	private LoginAuthDto loginAuthDto;
 }

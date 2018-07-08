@@ -11,7 +11,11 @@
 
 package com.paascloud.provider.service.hystrix;
 
+import com.github.pagehelper.PageInfo;
+import com.paascloud.provider.model.dto.MdcEditProductDto;
 import com.paascloud.provider.model.dto.ProductDto;
+import com.paascloud.provider.model.vo.ProductDetailVo;
+import com.paascloud.provider.model.vo.ProductVo;
 import com.paascloud.provider.service.MdcProductFeignApi;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
@@ -23,14 +27,43 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MdcProductFeignHystrix implements MdcProductFeignApi {
-
 	@Override
-	public Wrapper<Integer> updateProductStockById(final ProductDto productDto) {
+	public Wrapper<Integer> updateProductStockById(ProductDto productDto) {
 		return null;
 	}
 
 	@Override
-	public Wrapper<String> getMainImage(final Long productId) {
+	public Wrapper<String> getMainImage(Long productId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<PageInfo<ProductVo>> queryProductListWithPage(ProductVo mdcProduct) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<ProductVo> getById(Long id) {
+		return null;
+	}
+
+	@Override
+	public Wrapper saveCategory(MdcEditProductDto mdcCategoryAddDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<ProductVo> deleteProductById(Long id) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<ProductDetailVo> getProductDetail(Long productId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<ProductDto> selectById(Long productId) {
 		return null;
 	}
 }

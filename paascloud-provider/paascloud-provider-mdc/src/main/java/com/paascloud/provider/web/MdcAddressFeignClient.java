@@ -12,10 +12,12 @@
 package com.paascloud.provider.web;
 
 import com.paascloud.PublicUtil;
+import com.paascloud.TreeNode;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.MdcAddress;
 import com.paascloud.provider.model.dto.AddressDTO;
-import com.paascloud.provider.service.MdcAddressQueryFeignApi;
+import com.paascloud.provider.service.MdcAddressFeignApi;
 import com.paascloud.provider.service.MdcAddressService;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
@@ -25,9 +27,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * The class Mdc product query feign client.
@@ -37,18 +41,11 @@ import javax.annotation.Resource;
 @RefreshScope
 @RestController
 @Api(value = "API - MdcAddressQueryFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class MdcAddressQueryFeignClient extends BaseController implements MdcAddressQueryFeignApi {
+public class MdcAddressFeignClient extends BaseFeignClient implements MdcAddressFeignApi {
 
 	@Resource
 	private MdcAddressService mdcAddressService;
 
-	/**
-	 * 根据ID获取地址信息.
-	 *
-	 * @param addressId the address id
-	 *
-	 * @return the by id
-	 */
 	@Override
 	@ApiOperation(httpMethod = "POST", value = "根据ID获取地址信息")
 	public Wrapper<AddressDTO> getById(@PathVariable("addressId") Long addressId) {
@@ -60,5 +57,12 @@ public class MdcAddressQueryFeignClient extends BaseController implements MdcAdd
 			BeanUtils.copyProperties(mdcAddress, addressDTO);
 		}
 		return WrapMapper.ok(addressDTO);
+	}
+
+	@Override
+	public Wrapper<List<TreeNode>> get4City() {
+		logger.info("get4City - 获取四级地址");
+		List<TreeNode> treeNodeList = mdcAddressService.get4City();
+		return WrapMapper.ok(treeNodeList);
 	}
 }

@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.service;
 
+import com.paascloud.base.dto.ElementImgUrlDto;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.support.IService;
 import com.paascloud.provider.model.domain.OptAttachment;

@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.service;
 
+import com.paascloud.base.dto.ElementImgUrlDto;
 import com.paascloud.provider.model.dto.oss.*;
 import com.paascloud.provider.service.hystrix.OpcOssFeignApiHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;

@@ -12,6 +12,7 @@
 package com.paascloud.provider.model.dto;
 
 
+import com.paascloud.base.dto.LoginAuthDto;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -80,4 +81,6 @@ public class MdcEditDictDto implements Serializable {
 	 * 备注
 	 */
 	private String remark;
+
+	private LoginAuthDto loginAuthDto;
 }

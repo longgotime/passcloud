@@ -16,6 +16,7 @@ import com.github.pagehelper.PageInfo;
 import com.paascloud.base.dto.MessageQueryDto;
 import com.paascloud.base.dto.MqMessageVo;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.service.MdcMqMessageFeignApi;
 import com.paascloud.provider.service.MqMessageService;
 import com.paascloud.wrapper.WrapMapper;
@@ -37,7 +38,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "API - MdcMqMessageFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class MdcMqMessageFeignClient extends BaseController implements MdcMqMessageFeignApi {
+public class MdcMqMessageFeignClient extends BaseFeignClient implements MdcMqMessageFeignApi {
 	@Resource
 	private MqMessageService mqMessageService;
 

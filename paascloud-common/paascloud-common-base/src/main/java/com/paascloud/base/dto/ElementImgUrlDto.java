@@ -9,7 +9,7 @@
  * 项目官网: http://paascloud.net
  */
 
-package com.paascloud.provider.model.dto.oss;
+package com.paascloud.base.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

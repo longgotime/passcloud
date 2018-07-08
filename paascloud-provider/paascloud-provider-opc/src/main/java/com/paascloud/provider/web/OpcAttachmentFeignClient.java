@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.web;
 
+import com.paascloud.base.dto.ElementImgUrlDto;
 import com.paascloud.base.exception.BusinessException;
 import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.exceptions.OpcBizException;

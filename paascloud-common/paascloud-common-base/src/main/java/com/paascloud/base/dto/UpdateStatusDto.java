@@ -37,4 +37,6 @@ public class UpdateStatusDto implements Serializable {
 	 */
 	@ApiModelProperty(value = "状态")
 	private Integer status;
+
+	private LoginAuthDto loginAuthDto;
 }
