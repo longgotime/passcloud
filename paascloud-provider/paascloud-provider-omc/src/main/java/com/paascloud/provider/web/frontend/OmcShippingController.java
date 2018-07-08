@@ -50,7 +50,7 @@ public class OmcShippingController extends BaseController {
 
 		logger.info("addShipping - 增加收货人地址. shipping={}", shipping);
 		int result = omcShippingService.saveShipping(getLoginAuthDto(), shipping);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 
 	}
 
@@ -67,7 +67,7 @@ public class OmcShippingController extends BaseController {
 		Long userId = getLoginAuthDto().getUserId();
 		logger.info("deleteShipping - 删除收货人地址. userId={}, shippingId={}", userId, shippingId);
 		int result = omcShippingService.deleteShipping(userId, shippingId);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class OmcShippingController extends BaseController {
 	public Wrapper updateShipping(OmcShipping shipping) {
 		logger.info("updateShipping - 编辑收货人地址. shipping={}", shipping);
 		int result = omcShippingService.saveShipping(getLoginAuthDto(), shipping);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class OmcShippingController extends BaseController {
 	public Wrapper setDefaultAddress(@PathVariable Long addressId) {
 		logger.info("updateShipping - 设置默认地址. addressId={}", addressId);
 		int result = omcShippingService.setDefaultAddress(getLoginAuthDto(), addressId);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	/**

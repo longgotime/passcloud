@@ -132,7 +132,7 @@ public class TpcMqConsumerController extends BaseController {
 		consumer.setUpdateInfo(loginAuthDto);
 
 		int result = tpcMqConsumerService.update(consumer);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	/**
@@ -148,6 +148,6 @@ public class TpcMqConsumerController extends BaseController {
 	public Wrapper deleteConsumerById(@PathVariable Long id) {
 		logger.info("删除consumer id={}", id);
 		int result = tpcMqConsumerService.deleteConsumerById(id);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 }

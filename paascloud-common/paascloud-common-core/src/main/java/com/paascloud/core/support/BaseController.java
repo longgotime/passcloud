@@ -11,24 +11,18 @@
 
 package com.paascloud.core.support;
 
-import com.paascloud.JacksonUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.paascloud.PublicUtil;
-import com.paascloud.ThreadLocalMap;
 import com.paascloud.base.constant.GlobalConstant;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.base.exception.BusinessException;
-import com.paascloud.core.generator.IncrementIdGenerator;
-import com.paascloud.core.generator.UniqueIdGenerator;
-import com.paascloud.wrapper.WrapMapper;
-import com.paascloud.wrapper.Wrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.security.util.SecurityConstants;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 /**
@@ -48,67 +42,18 @@ public class BaseController {
 	 * @return the login auth dto
 	 */
 	protected LoginAuthDto getLoginAuthDto() {
-		String authJson = request.getHeader(GlobalConstant.Sys.CURRENT_USER_NAME);
-		LoginAuthDto loginAuthDto = null;
-        loginAuthDto = new LoginAuthDto(1L, "admin", "1111", 1L, "PAASCLOUD");
+		String authJson = request.getHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO);
+        LoginAuthDto loginAuthDto;
+        try {
+            loginAuthDto = JSONObject.parseObject(URLDecoder.decode(authJson, "UTF-8"), LoginAuthDto.class);
+        } catch (UnsupportedEncodingException e) {
+            logger.error("getLoginAuthDto - WEB-转换登录信息失败 ex={}", e.getMessage(), e);
+            throw new BusinessException(ErrorCodeEnum.UAC10011041);
+        }
         if (PublicUtil.isEmpty(loginAuthDto)) {
 			throw new BusinessException(ErrorCodeEnum.UAC10011041);
 		}
 		return loginAuthDto;
 	}
-
-	/**
-	 * Handle result wrapper.
-	 *
-	 * @param <T>    the type parameter
-	 * @param result the result
-	 *
-	 * @return the wrapper
-	 */
-	protected <T> Wrapper<T> handleResult(T result) {
-		boolean flag = isFlag(result);
-
-		if (flag) {
-			return WrapMapper.wrap(Wrapper.SUCCESS_CODE, "操作成功", result);
-		} else {
-			return WrapMapper.wrap(Wrapper.ERROR_CODE, "操作失败", result);
-		}
-	}
-
-	/**
-	 * Handle result wrapper.
-	 *
-	 * @param <E>      the type parameter
-	 * @param result   the result
-	 * @param errorMsg the error msg
-	 *
-	 * @return the wrapper
-	 */
-	protected <E> Wrapper<E> handleResult(E result, String errorMsg) {
-		boolean flag = isFlag(result);
-
-		if (flag) {
-			return WrapMapper.wrap(Wrapper.SUCCESS_CODE, "操作成功", result);
-		} else {
-			return WrapMapper.wrap(Wrapper.ERROR_CODE, errorMsg, result);
-		}
-	}
-
-	private boolean isFlag(Object result) {
-		boolean flag;
-		if (result instanceof Integer) {
-			flag = (Integer) result > 0;
-		} else if (result instanceof Boolean) {
-			flag = (Boolean) result;
-		} else {
-			flag = PublicUtil.isNotEmpty(result);
-		}
-		return flag;
-	}
-
-	protected long generateId() {
-		return UniqueIdGenerator.getInstance(IncrementIdGenerator.getServiceId()).nextId();
-	}
-
 }
   

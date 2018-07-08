@@ -16,6 +16,7 @@ import com.paascloud.provider.model.domain.OmcOrder;
 import com.paascloud.provider.model.dto.OrderDto;
 import com.paascloud.provider.service.OmcOrderFeignApi;
 import com.paascloud.provider.service.OmcOrderService;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,7 +47,7 @@ public class OmcOrderFeignClient extends BaseController implements OmcOrderFeign
 		ModelMapper modelMapper = new ModelMapper();
 		OmcOrder omcOrder = modelMapper.map(orderDto, OmcOrder.class);
 		int updateResult = omcOrderService.update(omcOrder);
-		return handleResult(updateResult);
+		return WrapMapper.handleResult(updateResult);
 
 	}
 }

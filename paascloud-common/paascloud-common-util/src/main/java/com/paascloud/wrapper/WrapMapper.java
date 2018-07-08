@@ -11,12 +11,13 @@
 
 package com.paascloud.wrapper;
 
+import com.paascloud.PublicUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * The class Wrap mapper.
  *
- * @author paascloud.net@gmail.com
+ * @author paascloud.net @gmail.com
  */
 public class WrapMapper {
 
@@ -33,7 +34,6 @@ public class WrapMapper {
 	 * @param code    the code
 	 * @param message the message
 	 * @param o       the o
-	 *
 	 * @return the wrapper
 	 */
 	public static <E> Wrapper<E> wrap(int code, String message, E o) {
@@ -46,7 +46,6 @@ public class WrapMapper {
 	 * @param <E>     the element type
 	 * @param code    the code
 	 * @param message the message
-	 *
 	 * @return the wrapper
 	 */
 	public static <E> Wrapper<E> wrap(int code, String message) {
@@ -58,7 +57,6 @@ public class WrapMapper {
 	 *
 	 * @param <E>  the element type
 	 * @param code the code
-	 *
 	 * @return the wrapper
 	 */
 	public static <E> Wrapper<E> wrap(int code) {
@@ -70,7 +68,6 @@ public class WrapMapper {
 	 *
 	 * @param <E> the element type
 	 * @param e   the e
-	 *
 	 * @return the wrapper
 	 */
 	public static <E> Wrapper<E> wrap(Exception e) {
@@ -82,7 +79,6 @@ public class WrapMapper {
 	 *
 	 * @param <E>     the element type
 	 * @param wrapper the wrapper
-	 *
 	 * @return the e
 	 */
 	public static <E> E unWrap(Wrapper<E> wrapper) {
@@ -93,7 +89,6 @@ public class WrapMapper {
 	 * Wrap ERROR. code=100
 	 *
 	 * @param <E> the element type
-	 *
 	 * @return the wrapper
 	 */
 	public static <E> Wrapper<E> illegalArgument() {
@@ -104,7 +99,6 @@ public class WrapMapper {
 	 * Wrap ERROR. code=500
 	 *
 	 * @param <E> the element type
-	 *
 	 * @return the wrapper
 	 */
 	public static <E> Wrapper<E> error() {
@@ -117,7 +111,6 @@ public class WrapMapper {
 	 *
 	 * @param <E>     the type parameter
 	 * @param message the message
-	 *
 	 * @return the wrapper
 	 */
 	public static <E> Wrapper<E> error(String message) {
@@ -128,7 +121,6 @@ public class WrapMapper {
 	 * Wrap SUCCESS. code=200
 	 *
 	 * @param <E> the element type
-	 *
 	 * @return the wrapper
 	 */
 	public static <E> Wrapper<E> ok() {
@@ -138,12 +130,63 @@ public class WrapMapper {
 	/**
 	 * Ok wrapper.
 	 *
-	 * @param <E> the type parameter
-	 * @param o   the o
-	 *
+	 * @param <E>     the type parameter
+	 * @param message the message
 	 * @return the wrapper
 	 */
-	public static <E> Wrapper<E> ok(E o) {
-		return new Wrapper<>(Wrapper.SUCCESS_CODE, Wrapper.SUCCESS_MESSAGE, o);
+	public static <E> Wrapper<E> ok(String message) {
+		return wrap(Wrapper.SUCCESS_CODE, StringUtils.isBlank(message) ? Wrapper.SUCCESS_MESSAGE : message);
+	}
+
+	/**
+	 * Ok wrapper.
+	 *
+	 * @param <E>    the type parameter
+	 * @param result the result
+	 * @return the wrapper
+	 */
+	public static <E> Wrapper<E> ok(E result) {
+		return WrapMapper.wrap(Wrapper.SUCCESS_CODE, Wrapper.SUCCESS_MESSAGE, result);
+	}
+
+	/**
+	 * Handle result wrapper.
+	 *
+	 * @param <T>    the type parameter
+	 * @param result the result
+	 * @return the wrapper
+	 */
+	public static <T> Wrapper<T> handleResult(T result) {
+		return handleResult(result, null);
+	}
+
+	/**
+	 * Handle result wrapper.
+	 *
+	 * @param <E>     the type parameter
+	 * @param result  the result
+	 * @param message the message
+	 * @return the wrapper
+	 */
+	public static <E> Wrapper<E> handleResult(E result, String message) {
+		boolean flag = isFlag(result);
+
+		if (flag) {
+			return WrapMapper.wrap(Wrapper.SUCCESS_CODE, "操作成功", result);
+		} else {
+			return WrapMapper.wrap(Wrapper.ERROR_CODE, StringUtils.isBlank(message) ? Wrapper.SUCCESS_MESSAGE : message, result);
+		}
+	}
+
+	private static boolean isFlag(Object result) {
+		boolean flag;
+		if (result instanceof Integer) {
+			flag = (Integer) result > 0;
+		} else if (result instanceof Boolean) {
+			flag = (Boolean) result;
+		} else {
+			flag = PublicUtil.isNotEmpty(result);
+		}
+		return flag;
 	}
 }

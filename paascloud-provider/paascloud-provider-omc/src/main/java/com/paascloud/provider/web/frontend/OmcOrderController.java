@@ -101,7 +101,7 @@ public class OmcOrderController extends BaseController {
 		logger.info("操作人信息. loginAuthDto={}", loginAuthDto);
 
 		int result = omcOrderService.cancelOrderDoc(loginAuthDto, orderNo);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	/**

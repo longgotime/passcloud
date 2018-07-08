@@ -113,6 +113,6 @@ public class MdcDictMainController extends BaseController {
 		}
 
 		int result = mdcDictService.deleteByKey(id);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 }

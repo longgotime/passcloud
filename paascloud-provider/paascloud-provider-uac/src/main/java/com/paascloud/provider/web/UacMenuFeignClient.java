@@ -90,7 +90,7 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 		}
 
 		int result = uacMenuService.deleteUacMenuById(id, loginAuthDto);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override

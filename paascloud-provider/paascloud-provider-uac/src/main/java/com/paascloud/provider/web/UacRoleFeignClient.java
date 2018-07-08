@@ -72,7 +72,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     @Override
     public Wrapper deleteUacRoleById(@PathVariable("id") Long id) {
         int result = uacRoleService.deleteRoleById(id);
-        return super.handleResult(result);
+        return WrapMapper.handleResult(result);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         uacRole.setUpdateInfo(loginAuthDto);
 
         int result = uacRoleService.update(uacRole);
-        return super.handleResult(result);
+        return WrapMapper.handleResult(result);
     }
 
     @Override

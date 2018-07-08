@@ -15,6 +15,7 @@ import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.vo.CartProductVo;
 import com.paascloud.provider.service.OmcCartFeignApi;
 import com.paascloud.provider.service.OmcCartService;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,7 +46,7 @@ public class MallCartFeignClient extends BaseController implements OmcCartFeignA
 	public Wrapper updateCartList(@RequestBody List<CartProductVo> cartProductVoList) {
 		logger.info("updateCartList - 更新购物车. cartProductVoList={}", cartProductVoList);
 		int result = omcCartService.updateCartList(cartProductVoList);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class MallCartFeignClient extends BaseController implements OmcCartFeignA
 	public Wrapper addProduct(@RequestParam("userId") Long userId, @RequestParam("productId") Long productId, @RequestParam(value = "count") Integer count) {
 		logger.info("updateCartList - 保存购物车信息. productId={}, count={}", productId, count);
 		int result = omcCartService.saveCart(userId, productId, count);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override
@@ -61,7 +62,7 @@ public class MallCartFeignClient extends BaseController implements OmcCartFeignA
 	public Wrapper updateProduct(@RequestParam("userId") Long userId, @RequestParam("productId") Long productId, @RequestParam("count") Integer count) {
 		logger.info("updateProduct - 更新购物车信息. productId={}, count={}", productId, count);
 		int result = omcCartService.updateCart(userId, productId, count);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class MallCartFeignClient extends BaseController implements OmcCartFeignA
 	public Wrapper deleteProduct(@RequestParam("userId") Long userId, @RequestParam("productIds") String productIds) {
 		logger.info("deleteProduct - 删除购物车商品信息. productIds={}, userId={}", productIds, userId);
 		int result = omcCartService.deleteProduct(userId, productIds);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override
@@ -77,6 +78,6 @@ public class MallCartFeignClient extends BaseController implements OmcCartFeignA
 	public Wrapper selectOrUnSelect(@RequestParam(name = "userId") Long userId, @RequestParam(name = "productId", required = false) Long productId, @RequestParam(name = "checked") Integer checked) {
 		logger.info("selectOrUnSelect - 选中或者反选商品信息. productId={}, userId={}, checked={}", productId, userId, checked);
 		int result = omcCartService.selectOrUnSelect(userId, productId, checked);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 }

@@ -100,14 +100,14 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 		uacUser.setStatus(modifyUserStatusDto.getStatus());
 
 		int result = uacUserService.modifyUserStatusById(uacUser, loginAuthDto);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override
 	public Wrapper<Integer> deleteUserById(@PathVariable("userId") Long userId) {
 		logger.info(" 通过Id删除用户 userId={}", userId);
 		int result = uacUserService.deleteUserById(userId);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 
 		int result = uacUserService.bindUserMenus(menuIdList, getLoginAuthDto());
 
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override
@@ -297,7 +297,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 
 		int result = uacUserService.userModifyPwd(userModifyPwdDto, loginAuthDto);
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override

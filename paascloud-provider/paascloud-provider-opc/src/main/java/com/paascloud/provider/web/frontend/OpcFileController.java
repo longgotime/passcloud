@@ -168,7 +168,7 @@ public class OpcFileController extends BaseController {
 			logger.error("删除取文件, 出现异常={}", e.getMessage(), e);
 			return WrapMapper.error();
 		}
-		return handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 }

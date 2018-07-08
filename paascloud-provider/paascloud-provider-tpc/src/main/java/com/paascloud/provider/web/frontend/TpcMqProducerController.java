@@ -101,7 +101,7 @@ public class TpcMqProducerController extends BaseController {
 		producer.setUpdateInfo(loginAuthDto);
 
 		int result = tpcMqProducerService.update(producer);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	/**
@@ -117,6 +117,6 @@ public class TpcMqProducerController extends BaseController {
 	public Wrapper deleteProducerById(@PathVariable Long id) {
 		logger.info("删除producer id={}", id);
 		int result = tpcMqProducerService.deleteProducerById(id);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 }

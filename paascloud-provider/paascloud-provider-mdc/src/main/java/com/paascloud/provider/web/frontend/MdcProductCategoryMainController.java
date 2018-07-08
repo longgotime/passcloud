@@ -117,6 +117,6 @@ public class MdcProductCategoryMainController extends BaseController {
 		}
 
 		int result = mdcProductCategoryService.deleteByKey(id);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 }

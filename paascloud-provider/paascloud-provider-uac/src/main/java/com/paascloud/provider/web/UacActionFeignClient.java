@@ -62,7 +62,7 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 	@Override
 	public Wrapper deleteUacActionById(@PathVariable("id") Long id) {
 		int result = uacActionService.deleteActionById(id);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 		uacRole.setUpdateInfo(getLoginAuthDto());
 
 		int result = uacActionService.update(uacRole);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	@Override

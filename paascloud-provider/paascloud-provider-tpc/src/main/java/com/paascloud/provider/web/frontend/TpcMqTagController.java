@@ -85,7 +85,7 @@ public class TpcMqTagController extends BaseController {
 		tag.setUpdateInfo(loginAuthDto);
 
 		int result = tpcMqTagService.update(tag);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 
 	/**
@@ -101,6 +101,6 @@ public class TpcMqTagController extends BaseController {
 	public Wrapper deleteTagById(@ApiParam(value = "Tag ID") @PathVariable Long id) {
 		logger.info("删除tag id={}", id);
 		int result = tpcMqTagService.deleteTagById(id);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 }

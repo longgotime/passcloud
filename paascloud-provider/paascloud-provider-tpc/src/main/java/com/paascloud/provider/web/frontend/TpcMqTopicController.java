@@ -85,6 +85,6 @@ public class TpcMqTopicController extends BaseController {
 		topic.setUpdateInfo(loginAuthDto);
 
 		int result = tpcMqTopicService.update(topic);
-		return super.handleResult(result);
+		return WrapMapper.handleResult(result);
 	}
 }
