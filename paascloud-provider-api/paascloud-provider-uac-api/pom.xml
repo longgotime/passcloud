@@ -32,6 +32,14 @@
       <artifactId>pagehelper</artifactId>
       <version>5.0.3</version>
     </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>com.liuzm.paascloud.provider.api</groupId>
+            <artifactId>paascloud-provider-mdc-api</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>com.liuzm.paascloud.provider.api</groupId>
+			<artifactId>paascloud-provider-omc-api</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>
