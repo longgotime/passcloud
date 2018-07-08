@@ -11,11 +11,16 @@
 
 package com.paascloud.provider.service;
 
+import com.paascloud.provider.model.dto.OmcCancelOrderDto;
+import com.paascloud.provider.model.dto.OmcCreateOrderDto;
 import com.paascloud.provider.model.dto.OrderDto;
+import com.paascloud.provider.model.dto.OrderPageQuery;
 import com.paascloud.provider.service.hystrix.OmcOrderFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,13 +31,103 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @FeignClient(value = "paascloud-provider-omc", configuration = OAuth2FeignAutoConfiguration.class, fallback = OmcOrderFeignHystrix.class)
 public interface OmcOrderFeignApi {
-	/**
-	 * Update order by id wrapper.
-	 *
-	 * @param order the order
-	 *
-	 * @return the wrapper
-	 */
-	@PostMapping(value = "/api/order/updateOrderById")
+    /**
+     * Update order by id wrapper.
+     *
+     * @param order the order
+     * @return the wrapper
+     */
+    @PostMapping(value = "/api/order/updateOrderById")
 	Wrapper updateOrderById(@RequestBody OrderDto order);
+
+    /**
+     * 获取购物车数量.
+     *
+     * @return the cart count
+     */
+    @PostMapping(value = "/api/mdc/order/getCartCount")
+	Wrapper<Integer> getCartCount();
+
+    /**
+     * 获取购物车商品数量.
+     *
+     * @param userId the user id
+     * @return the order cart product
+     */
+    @PostMapping("/api/mdc/order/getOrderCartProduct/{userId}")
+	@ApiOperation(httpMethod = "POST", value = "获取购物车商品数量")
+	Wrapper getOrderCartProduct(@PathVariable("userId") Long userId);
+
+    /**
+     * 创建订单.
+     *
+     * @param omcCreateOrderDto the omc create order dto
+     * @return the wrapper
+     */
+    @PostMapping("/api/mdc/order/createOrderDoc")
+	@ApiOperation(httpMethod = "POST", value = "创建订单")
+	Wrapper createOrderDoc(@RequestBody OmcCreateOrderDto omcCreateOrderDto);
+
+
+    /**
+     * 取消订单.
+     *
+     * @param cancelOrderDto the cancel order dto
+     * @return the wrapper
+     */
+    @PostMapping("/api/mdc/order/cancelOrderDoc")
+	@ApiOperation(httpMethod = "POST", value = "取消订单")
+	Wrapper cancelOrderDoc(@RequestBody OmcCancelOrderDto cancelOrderDto);
+
+    /**
+     * 查询订单详情.
+     *
+     * @param orderNo the order no
+     * @param userId  the user id
+     * @return the wrapper
+     */
+    @PostMapping("/api/mdc/order/queryUserOrderDetailList/{orderNo}/{userId}")
+	@ApiOperation(httpMethod = "POST", value = "查询订单详情")
+	Wrapper queryUserOrderDetailList(@PathVariable("orderNo") String orderNo, @PathVariable("userId") Long userId);
+
+    /**
+     * Query user order detail wrapper.
+     *
+     * @param orderNo the order no
+     * @return the wrapper
+     */
+    @PostMapping("/api/mdc/order/queryUserOrderDetail/{orderNo}")
+	@ApiOperation(httpMethod = "POST", value = "查询订单详情")
+	Wrapper queryUserOrderDetail(@PathVariable String orderNo);
+
+    /**
+     * Query user order list with page wrapper.
+     *
+     * @param orderPageQuery the order page query
+     * @return the wrapper
+     */
+    @PostMapping("/api/mdc/order/queryUserOrderListWithPage")
+	@ApiOperation(httpMethod = "POST", value = "查询用户订单列表")
+	Wrapper queryUserOrderListWithPage(@RequestBody OrderPageQuery orderPageQuery);
+
+    /**
+     * Query order list with page wrapper.
+     *
+     * @param orderPageQuery the order page query
+     * @return the wrapper
+     */
+    @PostMapping("/api/mdc/order/queryOrderListWithPage")
+	@ApiOperation(httpMethod = "POST", value = "查询用户订单列表")
+	Wrapper queryOrderListWithPage(@RequestBody OrderPageQuery orderPageQuery);
+
+    /**
+     * 查询订单状态.
+     *
+     * @param orderNo the order no
+     * @param userId  the user id
+     * @return the wrapper
+     */
+    @PostMapping("/api/mdc/order/queryOrderPayStatus/{orderNo}/{userId}")
+	@ApiOperation(httpMethod = "POST", value = "查询订单状态")
+	Wrapper<Boolean> queryOrderPayStatus(@PathVariable("orderNo") String orderNo, @PathVariable("userId") Long userId);
 }

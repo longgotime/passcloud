@@ -34,4 +34,9 @@ public class OrderPageQuery extends BaseQuery {
 	 * 订单号
 	 */
 	private String orderNo;
+
+	/**
+	 * 用户ID
+	 */
+	private Long userId;
 }

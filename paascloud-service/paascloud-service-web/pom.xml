@@ -76,5 +76,15 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-oauth2</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.alipay</groupId>
+      <artifactId>alipay-sdk-java</artifactId>
+      <version>20170725114550</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alipay</groupId>
+      <artifactId>alipay-trade-sdk</artifactId>
+      <version>20161215</version>
+    </dependency>
   </dependencies>
 </project>

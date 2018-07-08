@@ -11,7 +11,10 @@
 
 package com.paascloud.provider.service.hystrix;
 
+import com.paascloud.provider.model.dto.OmcCancelOrderDto;
+import com.paascloud.provider.model.dto.OmcCreateOrderDto;
 import com.paascloud.provider.model.dto.OrderDto;
+import com.paascloud.provider.model.dto.OrderPageQuery;
 import com.paascloud.provider.service.OmcOrderFeignApi;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
@@ -26,6 +29,51 @@ public class OmcOrderFeignHystrix implements OmcOrderFeignApi {
 
 	@Override
 	public Wrapper updateOrderById(final OrderDto order) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Integer> getCartCount() {
+		return null;
+	}
+
+	@Override
+	public Wrapper getOrderCartProduct(Long userId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper createOrderDoc(OmcCreateOrderDto omcCreateOrderDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper cancelOrderDoc(OmcCancelOrderDto cancelOrderDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper queryUserOrderDetailList(String orderNo, Long userId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper queryUserOrderDetail(String orderNo) {
+		return null;
+	}
+
+	@Override
+	public Wrapper queryUserOrderListWithPage(OrderPageQuery orderPageQuery) {
+		return null;
+	}
+
+	@Override
+	public Wrapper queryOrderListWithPage(OrderPageQuery orderPageQuery) {
+		return null;
+	}
+
+	@Override
+	public Wrapper<Boolean> queryOrderPayStatus(String orderNo, Long userId) {
 		return null;
 	}
 }

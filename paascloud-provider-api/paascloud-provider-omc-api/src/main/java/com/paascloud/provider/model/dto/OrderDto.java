@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.model.dto;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -114,4 +115,6 @@ public class OrderDto implements Serializable {
 	 * 更新时间
 	 */
 	private Date updateTime;
+
+	private LoginAuthDto loginAuthDto;
 }

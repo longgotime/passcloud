@@ -36,7 +36,7 @@ public interface OmcShippingMapper extends MyMapper<OmcShipping> {
 	 *
 	 * @return the int
 	 */
-	int deleteByShippingIdUserId(@Param("userId") Long userId, @Param("shippingId") Integer shippingId);
+	int deleteByShippingIdUserId(@Param("userId") Long userId, @Param("shippingId") Long shippingId);
 
 	/**
 	 * Select by shipping id user id omc shipping.

@@ -9,17 +9,14 @@
  * 项目官网: http://paascloud.net
  */
 
-package com.paascloud.provider.web.frontend;
+package com.paascloud.operate.controller.omc;
 
-import com.github.pagehelper.PageInfo;
-import com.paascloud.base.dto.BaseQuery;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.provider.model.dto.OmcCancelOrderDto;
+import com.paascloud.provider.model.dto.OmcCreateOrderDto;
 import com.paascloud.provider.model.dto.OrderPageQuery;
-import com.paascloud.provider.model.vo.OrderProductVo;
-import com.paascloud.provider.model.vo.OrderVo;
-import com.paascloud.provider.service.OmcCartService;
-import com.paascloud.provider.service.OmcOrderService;
+import com.paascloud.provider.service.OmcOrderFeignApi;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -32,7 +29,7 @@ import javax.annotation.Resource;
 /**
  * The class Omc order controller.
  *
- * @author paascloud.net@gmail.com
+ * @author paascloud.net @gmail.com
  */
 @RestController
 @RequestMapping(value = "/order")
@@ -40,9 +37,7 @@ import javax.annotation.Resource;
 public class OmcOrderController extends BaseController {
 
 	@Resource
-	private OmcOrderService omcOrderService;
-	@Resource
-	private OmcCartService omcCartService;
+	private OmcOrderFeignApi omcOrderFeignApi;
 
 	/**
 	 * 获取购物车数量.
@@ -59,19 +54,17 @@ public class OmcOrderController extends BaseController {
 	 *
 	 * @return the order cart product
 	 */
-	@PostMapping("/getOrderCartProduct")
+	@PostMapping("/getOrderCartProduct/{userId}")
 	@ApiOperation(httpMethod = "POST", value = "获取购物车商品数量")
-	public Wrapper getOrderCartProduct() {
+	public Wrapper getOrderCartProduct(@PathVariable("userId") Long userId) {
 		logger.info("getOrderCartProduct - 获取购物车商品数量");
-		OrderProductVo orderCartProduct = omcCartService.getOrderCartProduct(getLoginAuthDto().getUserId());
-		return WrapMapper.ok(orderCartProduct);
+		return omcOrderFeignApi.getOrderCartProduct(userId);
 	}
 
 	/**
 	 * 创建订单.
 	 *
 	 * @param shippingId the shipping id
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping("createOrderDoc/{shippingId}")
@@ -80,9 +73,8 @@ public class OmcOrderController extends BaseController {
 		logger.info("createOrderDoc - 创建订单. shippingId={}", shippingId);
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 		logger.info("操作人信息. loginAuthDto={}", loginAuthDto);
-
-		OrderVo orderDoc = omcOrderService.createOrderDoc(loginAuthDto, shippingId);
-		return WrapMapper.ok(orderDoc);
+		OmcCreateOrderDto omcCreateOrderDto = new OmcCreateOrderDto(shippingId, loginAuthDto);
+		return omcOrderFeignApi.createOrderDoc(omcCreateOrderDto);
 	}
 
 
@@ -90,7 +82,6 @@ public class OmcOrderController extends BaseController {
 	 * 取消订单.
 	 *
 	 * @param orderNo the order no
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping("cancelOrderDoc/{orderNo}")
@@ -100,15 +91,14 @@ public class OmcOrderController extends BaseController {
 		LoginAuthDto loginAuthDto = getLoginAuthDto();
 		logger.info("操作人信息. loginAuthDto={}", loginAuthDto);
 
-		int result = omcOrderService.cancelOrderDoc(loginAuthDto, orderNo);
-		return WrapMapper.handleResult(result);
+		OmcCancelOrderDto omcCancelOrderDto = new OmcCancelOrderDto(orderNo, loginAuthDto);
+		return omcOrderFeignApi.cancelOrderDoc(omcCancelOrderDto);
 	}
 
 	/**
 	 * 查询订单详情.
 	 *
 	 * @param orderNo the order no
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping("queryUserOrderDetailList/{orderNo}")
@@ -119,59 +109,64 @@ public class OmcOrderController extends BaseController {
 		Long userId = getLoginAuthDto().getUserId();
 		logger.info("操作人信息. userId={}", userId);
 
-		OrderVo orderVo = omcOrderService.getOrderDetail(userId, orderNo);
-		return WrapMapper.ok(orderVo);
+		return omcOrderFeignApi.queryUserOrderDetailList(orderNo, userId);
 	}
 
+	/**
+	 * Query user order detail wrapper.
+	 *
+	 * @param orderNo the order no
+	 * @return the wrapper
+	 */
 	@PostMapping("queryUserOrderDetail/{orderNo}")
 	@ApiOperation(httpMethod = "POST", value = "查询订单详情")
 	public Wrapper queryUserOrderDetail(@PathVariable String orderNo) {
 		logger.info("queryUserOrderDetail - 查询订单明细. orderNo={}", orderNo);
 
-		OrderVo orderVo = omcOrderService.getOrderDetail(orderNo);
-		return WrapMapper.ok(orderVo);
+		return omcOrderFeignApi.queryUserOrderDetail(orderNo);
 	}
 
 	/**
 	 * Query user order list with page wrapper.
 	 *
-	 * @param baseQuery the base query
-	 *
+	 * @param orderPageQuery the order page query
 	 * @return the wrapper
 	 */
 	@PostMapping("queryUserOrderListWithPage")
 	@ApiOperation(httpMethod = "POST", value = "查询用户订单列表")
-	public Wrapper queryUserOrderListWithPage(@RequestBody BaseQuery baseQuery) {
-		logger.info("queryUserOrderListWithPage - 查询用户订单集合. baseQuery={}", baseQuery);
+	public Wrapper queryUserOrderListWithPage(@RequestBody OrderPageQuery orderPageQuery) {
+		logger.info("queryUserOrderListWithPage - 查询用户订单集合. orderPageQuery={}", orderPageQuery);
 
 		Long userId = getLoginAuthDto().getUserId();
-		logger.info("操作人信息. userId={}", userId);
-
-		PageInfo pageInfo = omcOrderService.queryUserOrderListWithPage(userId, baseQuery);
-		return WrapMapper.ok(pageInfo);
+		orderPageQuery.setUserId(userId);
+		return omcOrderFeignApi.queryUserOrderListWithPage(orderPageQuery);
 	}
 
+	/**
+	 * Query order list with page wrapper.
+	 *
+	 * @param orderPageQuery the order page query
+	 * @return the wrapper
+	 */
 	@PostMapping("queryOrderListWithPage")
 	@ApiOperation(httpMethod = "POST", value = "查询用户订单列表")
 	public Wrapper queryOrderListWithPage(@RequestBody OrderPageQuery orderPageQuery) {
 		logger.info("queryOrderListWithPage - 查询订单集合. orderPageQuery={}", orderPageQuery);
-		PageInfo pageInfo = omcOrderService.queryOrderListWithPage(orderPageQuery);
-		return WrapMapper.ok(pageInfo);
+		return omcOrderFeignApi.queryOrderListWithPage(orderPageQuery);
 	}
 
 	/**
 	 * 查询订单状态.
 	 *
 	 * @param orderNo the order no
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping("queryOrderPayStatus/{orderNo}")
 	@ApiOperation(httpMethod = "POST", value = "查询订单状态")
 	public Wrapper<Boolean> queryOrderPayStatus(@PathVariable String orderNo) {
 		logger.info("queryOrderPayStatus - 查询订单状态. orderNo={}", orderNo);
-		boolean result = omcOrderService.queryOrderPayStatus(getLoginAuthDto().getUserId(), orderNo);
-		return WrapMapper.ok(result);
+		Long userId = getLoginAuthDto().getUserId();
+		return omcOrderFeignApi.queryOrderPayStatus(orderNo, userId);
 	}
 
 }
