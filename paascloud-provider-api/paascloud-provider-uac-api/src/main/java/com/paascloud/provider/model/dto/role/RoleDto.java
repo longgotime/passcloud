@@ -12,7 +12,9 @@
 package com.paascloud.provider.model.dto.role;
 
 import com.paascloud.base.dto.BaseVo;
+import com.paascloud.base.dto.LoginAuthDto;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -21,6 +23,7 @@ import java.io.Serializable;
  *
  * @author paascloud.net @gmail.com
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class RoleDto extends BaseVo implements Serializable {
 
@@ -42,4 +45,9 @@ public class RoleDto extends BaseVo implements Serializable {
 	 * 备注
 	 */
 	private String remark;
+
+	/**
+	 * 登录人信息
+	 */
+	private LoginAuthDto loginAuthDto;
 }

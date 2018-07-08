@@ -1,6 +1,7 @@
 package com.paascloud.provider.model.dto.group;
 
 import com.paascloud.base.dto.BaseVo;
+import com.paascloud.base.dto.LoginAuthDto;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -134,5 +135,7 @@ public class GroupDto extends BaseVo implements Serializable {
 	 * 四级地址数组
 	 */
 	private List<Long> addressList;
+
+	private LoginAuthDto loginAuthDto;
 
 }

@@ -11,7 +11,13 @@
 
 package com.paascloud.core.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
+import com.paascloud.ThreadLocalMap;
 import com.paascloud.annotation.NoNeedAccessAuthentication;
+import com.paascloud.base.constant.GlobalConstant;
+import com.paascloud.base.dto.LoginAuthDto;
+import com.paascloud.base.enums.ErrorCodeEnum;
+import com.paascloud.base.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -23,7 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.net.URLDecoder;
 
 /**
  * The class Token interceptor.
@@ -53,6 +61,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object arg2, Exception ex) throws Exception {
 		if (ex != null) {
 			log.error("<== afterCompletion - 解析token失败. ex={}", ex.getMessage(), ex);
+            ThreadLocalMap.remove(GlobalConstant.Sys.TOKEN_AUTH_DTO);
 			this.handleException(response);
 		}
 	}
@@ -67,6 +76,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 */
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object arg2, ModelAndView mv) {
+        ThreadLocalMap.remove(GlobalConstant.Sys.TOKEN_AUTH_DTO);
 	}
 
 	/**
@@ -86,7 +96,6 @@ public class TokenInterceptor implements HandlerInterceptor {
 			log.info("<== preHandle - 配置URL不走认证.  url={}", uri);
 			return true;
 		}
-		log.info("<== preHandle - 调试模式不走认证.  OPTIONS={}", request.getMethod().toUpperCase());
 
 		if (OPTIONS.equalsIgnoreCase(request.getMethod())) {
 			log.info("<== preHandle - 调试模式不走认证.  url={}", uri);
@@ -98,13 +107,19 @@ public class TokenInterceptor implements HandlerInterceptor {
 			return true;
 		}
 
-		String token = StringUtils.substringAfter(request.getHeader(HttpHeaders.AUTHORIZATION), "Bearer ");
-		log.info("<== preHandle - 权限拦截器.  token={}", token);
-		// 暂时写死
-//		LoginAuthDto loginUser = new LoginAuthDto(1L, "admin", "超级管理员", 1L, "paascloud");
-//		log.info("<== preHandle - 权限拦截器.  loginUser={}", loginUser);
-//		ThreadLocalMap.put(GlobalConstant.Sys.TOKEN_AUTH_DTO, loginUser);
-//		log.info("<== preHandle - 权限拦截器.  url={}, loginUser={}", uri, loginUser);
+        String authJson = request.getHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO);
+
+        LoginAuthDto loginUser;
+        try {
+            loginUser = JSONObject.parseObject(URLDecoder.decode(authJson, "UTF-8"), LoginAuthDto.class);
+        } catch (UnsupportedEncodingException e) {
+            log.error("getLoginAuthDto - WEB-转换登录信息失败 ex={}", e.getMessage(), e);
+            throw new BusinessException(ErrorCodeEnum.UAC10011041);
+        }
+
+		log.info("<== preHandle - 权限拦截器.  loginUser={}", loginUser);
+		ThreadLocalMap.put(GlobalConstant.Sys.TOKEN_AUTH_DTO, loginUser);
+
 		return true;
 	}
 

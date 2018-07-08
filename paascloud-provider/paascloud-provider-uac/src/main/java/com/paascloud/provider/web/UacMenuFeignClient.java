@@ -13,7 +13,7 @@ package com.paascloud.provider.web;
 
 import com.google.common.base.Preconditions;
 import com.paascloud.base.dto.LoginAuthDto;
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.UacMenu;
 import com.paascloud.provider.model.dto.menu.*;
 import com.paascloud.provider.model.service.UacMenuFeignApi;
@@ -42,14 +42,15 @@ import java.util.List;
 @RefreshScope
 @RestController
 @Api(value = "API - UacMenuFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacMenuFeignClient extends BaseController implements UacMenuFeignApi {
+public class UacMenuFeignClient extends BaseFeignClient implements UacMenuFeignApi {
 
 	@Resource
 	private UacMenuService uacMenuService;
 
 	@Override
 	public Wrapper<List<MenuVo>> queryMenuTreeList() {
-		List<MenuVo> menuVoList = uacMenuService.getMenuVoList(getLoginAuthDto().getUserId(), null);
+		//FIXME
+		List<MenuVo> menuVoList = null; //uacMenuService.getMenuVoList(getLoginAuthDto().getUserId(), null);
 		return WrapMapper.ok(menuVoList);
 	}
 
@@ -62,7 +63,7 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 	@Override
 	public Wrapper updateUacMenuStatusById(@RequestBody UacMenuStatusDto uacMenuStatusDto) {
 		logger.info("根据id修改菜单的禁用状态 uacMenuStatusDto={}", uacMenuStatusDto);
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
+		LoginAuthDto loginAuthDto = uacMenuStatusDto.getLoginAuthDto();
 		uacMenuService.updateUacMenuStatusById(uacMenuStatusDto, loginAuthDto);
 		return WrapMapper.ok();
 	}
@@ -70,7 +71,7 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 	@Override
 	public Wrapper saveMenu(@RequestBody UacEditMenuDto uacMenuAddDto) {
 		UacMenu uacMenu = new UacMenu();
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
+		LoginAuthDto loginAuthDto = uacMenuAddDto.getLoginAuthDto();
 		BeanUtils.copyProperties(uacMenuAddDto, uacMenu);
 		uacMenuService.saveUacMenu(uacMenu, loginAuthDto);
 		return WrapMapper.ok();
@@ -79,7 +80,8 @@ public class UacMenuFeignClient extends BaseController implements UacMenuFeignAp
 	@Override
 	public Wrapper<Integer> deleteUacMenuById(@PathVariable("id") Long id) {
 		logger.info(" 根据id删除菜单 id={}", id);
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
+		//FIXME
+		LoginAuthDto loginAuthDto = null; //getLoginAuthDto();
 
 		Preconditions.checkArgument(id != null, "菜单ID不能为空");
 

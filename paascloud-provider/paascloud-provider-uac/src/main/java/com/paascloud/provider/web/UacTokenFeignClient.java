@@ -12,7 +12,7 @@
 package com.paascloud.provider.web;
 
 import com.github.pagehelper.PageInfo;
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.token.TokenMainQueryDto;
 import com.paascloud.provider.model.service.UacTokenFeignApi;
 import com.paascloud.provider.service.UacUserTokenService;
@@ -36,7 +36,7 @@ import javax.annotation.Resource;
 @RefreshScope
 @RestController
 @Api(value = "API - UacTokenFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacTokenFeignClient extends BaseController implements UacTokenFeignApi {
+public class UacTokenFeignClient extends BaseFeignClient implements UacTokenFeignApi {
 
 
 	@Resource

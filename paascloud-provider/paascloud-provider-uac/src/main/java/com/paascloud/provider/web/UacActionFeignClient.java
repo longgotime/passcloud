@@ -14,8 +14,7 @@ package com.paascloud.provider.web;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Preconditions;
 import com.paascloud.base.dto.LoginAuthDto;
-import com.paascloud.core.support.BaseController;
-import com.paascloud.core.utils.RequestUtil;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.UacAction;
 import com.paascloud.provider.model.dto.action.ActionMainQueryDto;
 import com.paascloud.provider.model.dto.action.UacActionCheckCodeDto;
@@ -47,7 +46,7 @@ import java.util.List;
 @RefreshScope
 @RestController
 @Api(value = "API - UacActionFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacActionFeignClient extends BaseController implements UacActionFeignApi {
+public class UacActionFeignClient extends BaseFeignClient implements UacActionFeignApi {
 
 	@Resource
 	private UacActionService uacActionService;
@@ -74,7 +73,7 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 
 	@Override
 	public Wrapper save(@RequestBody UacActionDto action) {
-		LoginAuthDto loginAuthDto = RequestUtil.getLoginUser();
+		LoginAuthDto loginAuthDto = action.getLoginAuthDto();
 		UacAction uacAction = new UacAction();
 		BeanUtils.copyProperties(action,uacAction);
 		uacActionService.saveAction(uacAction, loginAuthDto);
@@ -90,7 +89,7 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 		UacAction uacRole = new UacAction();
 		uacRole.setId(actionId);
 		uacRole.setStatus(modifyStatusDto.getStatus());
-		uacRole.setUpdateInfo(getLoginAuthDto());
+		uacRole.setUpdateInfo(modifyStatusDto.getLoginAuthDto());
 
 		int result = uacActionService.update(uacRole);
 		return WrapMapper.handleResult(result);

@@ -14,7 +14,7 @@ package com.paascloud.provider.web;
 import com.google.common.collect.Lists;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.enums.LogTypeEnum;
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.UacAction;
 import com.paascloud.provider.model.domain.UacLog;
 import com.paascloud.provider.model.domain.UacUser;
@@ -28,18 +28,14 @@ import com.paascloud.provider.service.UacUserTokenService;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +47,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "API - UacAuthUserFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacAuthUserFeignClient extends BaseController implements UacAuthUserFeignApi {
+public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUserFeignApi {
 
 	@Resource
 	private TaskExecutor taskExecutor;

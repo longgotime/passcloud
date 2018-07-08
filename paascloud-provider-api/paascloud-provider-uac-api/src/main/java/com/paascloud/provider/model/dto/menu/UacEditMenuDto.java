@@ -1,5 +1,6 @@
 package com.paascloud.provider.model.dto.menu;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -61,4 +62,6 @@ public class UacEditMenuDto implements Serializable {
 	 */
 	@ApiModelProperty(value = "备注说明")
 	private String remark;
+
+	private LoginAuthDto loginAuthDto;
 }

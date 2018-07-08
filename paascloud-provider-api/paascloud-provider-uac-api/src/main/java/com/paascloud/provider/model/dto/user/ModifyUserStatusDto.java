@@ -1,5 +1,6 @@
 package com.paascloud.provider.model.dto.user;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,4 +28,6 @@ public class ModifyUserStatusDto implements Serializable {
 	 */
 	@ApiModelProperty(value = "状态")
 	private String status;
+
+	private LoginAuthDto loginAuthDto;
 }

@@ -13,6 +13,7 @@ package com.paascloud.provider.model.dto.action;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.paascloud.base.dto.BaseVo;
+import com.paascloud.base.dto.LoginAuthDto;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -103,4 +104,9 @@ public class UacActionDto extends BaseVo implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date updateTime;
+
+	/**
+	 * 登录信息
+	 */
+	private LoginAuthDto loginAuthDto;
 }

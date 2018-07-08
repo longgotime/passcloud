@@ -11,19 +11,14 @@
 
 package com.paascloud.core.support;
 
-import com.alibaba.fastjson.JSONObject;
 import com.paascloud.PublicUtil;
+import com.paascloud.ThreadLocalMap;
 import com.paascloud.base.constant.GlobalConstant;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.base.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 /**
  * The class Base controller.
@@ -31,8 +26,6 @@ import java.net.URLDecoder;
  * @author paascloud.net@gmail.com
  */
 public class BaseController {
-	@Autowired
-	private HttpServletRequest request;
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -42,17 +35,10 @@ public class BaseController {
 	 * @return the login auth dto
 	 */
 	protected LoginAuthDto getLoginAuthDto() {
-		String authJson = request.getHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO);
-        LoginAuthDto loginAuthDto;
-        try {
-            loginAuthDto = JSONObject.parseObject(URLDecoder.decode(authJson, "UTF-8"), LoginAuthDto.class);
-        } catch (UnsupportedEncodingException e) {
-            logger.error("getLoginAuthDto - WEB-转换登录信息失败 ex={}", e.getMessage(), e);
-            throw new BusinessException(ErrorCodeEnum.UAC10011041);
-        }
+        LoginAuthDto loginAuthDto = (LoginAuthDto) ThreadLocalMap.get(GlobalConstant.Sys.TOKEN_AUTH_DTO);
         if (PublicUtil.isEmpty(loginAuthDto)) {
-			throw new BusinessException(ErrorCodeEnum.UAC10011041);
-		}
+            throw new BusinessException(ErrorCodeEnum.UAC10011039);
+        }
 		return loginAuthDto;
 	}
 }

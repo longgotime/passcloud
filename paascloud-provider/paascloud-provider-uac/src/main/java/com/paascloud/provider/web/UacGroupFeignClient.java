@@ -13,7 +13,7 @@ package com.paascloud.provider.web;
 
 
 import com.paascloud.base.dto.LoginAuthDto;
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.UacGroup;
 import com.paascloud.provider.model.dto.group.*;
 import com.paascloud.provider.model.dto.user.IdStatusDto;
@@ -45,7 +45,7 @@ import java.util.Map;
  */
 @RestController
 @Api(value = "API - UacGroupFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacGroupFeignClient extends BaseController implements UacGroupFeignApi {
+public class UacGroupFeignClient extends BaseFeignClient implements UacGroupFeignApi {
 
 	@Resource
 	private UacGroupService uacGroupService;
@@ -60,7 +60,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 		logger.info("根据id修改组织状态 idStatusDto={}", idStatusDto);
 		UacGroup uacGroup = new UacGroup();
 		uacGroup.setId(idStatusDto.getId());
-		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+		LoginAuthDto loginAuthDto = idStatusDto.getLoginAuthDto();
 		Integer status = idStatusDto.getStatus();
 		uacGroup.setStatus(status);
 		int result = uacGroupService.updateUacGroupStatusById(idStatusDto, loginAuthDto);
@@ -73,14 +73,15 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 
 	@Override
 	public Wrapper<List<MenuVo>> getTree() {
-		Long userId = super.getLoginAuthDto().getUserId();
+		// FIXME
+		Long userId = null; //super.getLoginAuthDto().getUserId();
 		List<MenuVo> tree = uacGroupService.getGroupTreeListByUserId(userId);
 		return WrapMapper.ok(tree);
 	}
 
 	@Override
 	public Wrapper editGroup(@RequestBody GroupDto group) {
-		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+		LoginAuthDto loginAuthDto = group.getLoginAuthDto();
 		UacGroup uacGroup = new UacGroup();
 		BeanUtils.copyProperties(group,uacGroup);
 		uacGroupService.saveUacGroup(uacGroup, loginAuthDto);
@@ -98,7 +99,8 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	@Override
 	public Wrapper<List<GroupZtreeVo>> getGroupTreeById() {
 		logger.info("根据当前登录人查询组织列表");
-		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+		// FIXME
+		LoginAuthDto loginAuthDto = null; //super.getLoginAuthDto();
 		Long groupId = loginAuthDto.getGroupId();
 		UacGroup uacGroup = uacGroupService.queryById(groupId);
 		List<GroupZtreeVo> tree = uacGroupService.getGroupTree(uacGroup.getId());
@@ -159,7 +161,7 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	@Override
 	public Wrapper bindUser4Role(@RequestBody GroupBindUserReqDto groupBindUserReqDto) {
 		logger.info("组织绑定用户...  groupBindUserReqDto={}", groupBindUserReqDto);
-		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+		LoginAuthDto loginAuthDto = groupBindUserReqDto.getLoginAuthDto();
 		uacGroupService.bindUacUser4Group(groupBindUserReqDto, loginAuthDto);
 		return WrapMapper.ok();
 	}
@@ -167,7 +169,8 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 	@Override
 	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@PathVariable("groupId") Long groupId) {
 		logger.info("查询组织绑定用户页面数据 groupId={}", groupId);
-		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+		// FIXME
+		LoginAuthDto loginAuthDto = null; //super.getLoginAuthDto();
 		Long currentUserId = loginAuthDto.getUserId();
 		GroupBindUserDto bindUserDto = uacGroupService.getGroupBindUserDto(groupId, currentUserId);
 		return WrapMapper.ok(bindUserDto);

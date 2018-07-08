@@ -1,5 +1,6 @@
 package com.paascloud.provider.model.dto.user;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -22,4 +23,6 @@ public class BindUserMenusDto implements Serializable {
 	 */
 	@ApiModelProperty(value = "菜单ID")
 	private List<Long> menuIdList;
+
+	private LoginAuthDto loginAuthDto;
 }

@@ -1,5 +1,6 @@
 package com.paascloud.provider.model.dto.menu;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,5 +26,7 @@ public class UacMenuStatusDto implements Serializable {
 	 */
 	@ApiModelProperty(value = "菜单的状态", required = true)
 	private String status;
+
+	private LoginAuthDto loginAuthDto;
 
 }

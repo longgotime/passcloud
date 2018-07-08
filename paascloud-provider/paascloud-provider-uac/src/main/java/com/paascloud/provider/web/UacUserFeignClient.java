@@ -11,14 +11,12 @@
 
 package com.paascloud.provider.web;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.paascloud.Md5Util;
 import com.paascloud.PublicUtil;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
-import com.paascloud.core.support.BaseController;
-import com.paascloud.provider.model.domain.UacLog;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
@@ -55,7 +53,7 @@ import java.util.Objects;
 @RefreshScope
 @RestController
 @Api(value = "API - UacUserFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacUserFeignClient extends BaseController implements UacUserFeignApi {
+public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignApi {
 
 	@Resource
 	private UacUserService uacUserService;
@@ -75,26 +73,17 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	@Override
 	public Wrapper<Integer> addUacUser(@RequestBody UserInfoDto user) {
 		logger.info(" 新增用户 user={}", user);
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
+		LoginAuthDto loginAuthDto = user.getLoginAuthDto();
 		UacUser uacUser = new UacUser();
 		BeanUtils.copyProperties(user,uacUser);
 		uacUserService.saveUacUser(uacUser, loginAuthDto);
 		return WrapMapper.ok();
 	}
 
-	public Wrapper<PageInfo<UacLog>> queryUserLogListWithPage(@RequestBody UacLog log) {
-
-		logger.info("分页查询用户操作日志列表");
-		PageHelper.startPage(log.getPageNum(), log.getPageSize());
-		List<UacLog> list = uacUserService.queryUserLogListWithUserId(getLoginAuthDto().getUserId());
-		PageInfo<UacLog> pageInfo = new PageInfo<>(list);
-		return WrapMapper.ok(pageInfo);
-	}
-
 	@Override
 	public Wrapper<Integer> modifyUserStatusById(@RequestBody ModifyUserStatusDto modifyUserStatusDto) {
 		logger.info(" 根据Id修改用户状态 modifyUserStatusDto={}", modifyUserStatusDto);
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
+		LoginAuthDto loginAuthDto = modifyUserStatusDto.getLoginAuthDto();
 		UacUser uacUser = new UacUser();
 		uacUser.setId(modifyUserStatusDto.getUserId());
 		uacUser.setStatus(modifyUserStatusDto.getStatus());
@@ -113,7 +102,8 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	@Override
 	public Wrapper<UserBindRoleVo> getBindRole(@PathVariable("userId") Long userId) {
 		logger.info("获取用户绑定角色页面数据. userId={}", userId);
-		LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+		//FIXME
+		LoginAuthDto loginAuthDto = null;// super.getLoginAuthDto();
 		Long currentUserId = loginAuthDto.getUserId();
 		if (Objects.equals(userId, currentUserId)) {
 			throw new UacBizException(ErrorCodeEnum.UAC10011023);
@@ -126,7 +116,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	@Override
 	public Wrapper<Integer> bindUserRoles(@RequestBody BindUserRolesDto bindUserRolesDto) {
 		logger.info("用户绑定角色 bindUserRolesDto={}", bindUserRolesDto);
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
+		LoginAuthDto loginAuthDto = bindUserRolesDto.getLoginAuthDto();
 		uacUserService.bindUserRoles(bindUserRolesDto, loginAuthDto);
 		return WrapMapper.ok();
 	}
@@ -134,8 +124,8 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	@Override
 	public Wrapper<List<UserMenuDto>> queryUserMenuDtoData() {
 		logger.info("查询用户常用功能数据");
-
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
+		//FIXME
+		LoginAuthDto loginAuthDto = null; // getLoginAuthDto();
 		List<UserMenuDto> userMenuDtoList = uacUserService.queryUserMenuDtoData(loginAuthDto);
 		return WrapMapper.ok(userMenuDtoList);
 	}
@@ -146,7 +136,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 		List<Long> menuIdList = bindUserMenusDto.getMenuIdList();
 		logger.info("menuIdList = {}", menuIdList);
 
-		int result = uacUserService.bindUserMenus(menuIdList, getLoginAuthDto());
+		int result = uacUserService.bindUserMenus(menuIdList, bindUserMenusDto.getLoginAuthDto());
 
 		return WrapMapper.handleResult(result);
 	}
@@ -164,7 +154,8 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	@Override
 	public Wrapper<UserVo> resetLoginPwd(@PathVariable("userId") Long userId) {
 		logger.info("resetLoginPwd - 根据用户Id重置密码. userId={}", userId);
-		uacUserService.resetLoginPwd(userId, getLoginAuthDto());
+		//FIXME
+//		uacUserService.resetLoginPwd(userId, getLoginAuthDto());
 		return WrapMapper.ok();
 	}
 
@@ -275,14 +266,16 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 	@Override
 	public Wrapper<Integer> modifyUserEmail(@PathVariable("email") String email, @PathVariable("emailCode") String emailCode) {
 		logger.info(" 修改用户信息 email={}, emailCode={}", email, emailCode);
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
-		uacUserService.modifyUserEmail(email, emailCode, loginAuthDto);
+		// FIXME
+//		LoginAuthDto loginAuthDto = getLoginAuthDto();
+//		uacUserService.modifyUserEmail(email, emailCode, loginAuthDto);
 		return WrapMapper.ok();
 	}
 
 	@Override
 	public Wrapper<List<MenuVo>> getOwnAuthTree() {
-		List<MenuVo> tree = uacRoleService.getOwnAuthTree(getLoginAuthDto().getUserId());
+	    // FIXME
+		List<MenuVo> tree = null; // uacRoleService.getOwnAuthTree(getLoginAuthDto().getUserId());
 		return WrapMapper.ok(tree);
 	}
 
@@ -294,7 +287,7 @@ public class UacUserFeignClient extends BaseController implements UacUserFeignAp
 		logger.info("新密码 newPassword = {}", userModifyPwdDto.getNewPassword());
 		logger.info("登录名 loginName = {}", userModifyPwdDto.getLoginName());
 
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
+		LoginAuthDto loginAuthDto = userModifyPwdDto.getLoginAuthDto();
 
 		int result = uacUserService.userModifyPwd(userModifyPwdDto, loginAuthDto);
 		return WrapMapper.handleResult(result);

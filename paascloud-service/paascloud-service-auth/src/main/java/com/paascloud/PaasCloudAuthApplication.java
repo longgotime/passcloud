@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018. paascloud.net All Rights Reserved.
  * 项目名称：paascloud快速搭建企业级分布式微服务平台
- *  类名称：ForgetCheckAnswerDto.java
+ *  类名称：PaasCloudAuthApplication.java
  *  创建人：刘兆明
  *  联系方式：paascloud.net@gmail.com
  *  开源地址: https://github.com/paascloud
@@ -14,12 +14,9 @@ package com.paascloud;
 import com.paascloud.service.security.code.sms.SmsCodeSender;
 import com.paascloud.service.service.PcSmsCodeSender;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.client.SpringCloudApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

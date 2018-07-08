@@ -12,7 +12,7 @@
 package com.paascloud.provider.web;
 
 import com.github.pagehelper.PageInfo;
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.log.UacLogMainDto;
 import com.paascloud.provider.model.service.UacLogFeignApi;
 import com.paascloud.provider.service.UacLogService;
@@ -34,7 +34,7 @@ import javax.annotation.Resource;
 @RefreshScope
 @RestController
 @Api(value = "API - UacLogFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacLogFeignClient extends BaseController implements UacLogFeignApi {
+public class UacLogFeignClient extends BaseFeignClient implements UacLogFeignApi {
 
 	@Resource
 	private UacLogService uacLogService;

@@ -17,7 +17,7 @@ import com.github.pagehelper.PageInfo;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.core.support.BaseController;
-import com.paascloud.core.utils.RequestUtil;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.UacRole;
 import com.paascloud.provider.model.domain.UacRoleUser;
 import com.paascloud.provider.model.dto.base.ModifyStatusDto;
@@ -52,7 +52,7 @@ import java.util.List;
 @RefreshScope
 @RestController
 @Api(value = "API - UacRoleFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacRoleFeignClient extends BaseController implements UacRoleFeignApi {
+public class UacRoleFeignClient extends BaseFeignClient implements UacRoleFeignApi {
 
     @Resource
     private UacRoleService uacRoleService;
@@ -90,7 +90,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
             throw new UacBizException(ErrorCodeEnum.UAC10012001);
         }
 
-        LoginAuthDto loginAuthDto = getLoginAuthDto();
+        LoginAuthDto loginAuthDto = modifyStatusDto.getLoginAuthDto();
         Long userId = loginAuthDto.getUserId();
 
         UacRoleUser ru = uacRoleUserService.getByUserIdAndRoleId(userId, roleId);
@@ -110,7 +110,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
 
     @Override
     public Wrapper save(@RequestBody RoleDto role) {
-        LoginAuthDto loginAuthDto = RequestUtil.getLoginUser();
+        LoginAuthDto loginAuthDto = role.getLoginAuthDto();
         UacRole uacRole = new UacRole();
         BeanUtils.copyProperties(role,uacRole);
         uacRoleService.saveRole(uacRole, loginAuthDto);
@@ -134,7 +134,7 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     @Override
     public Wrapper bindUser(@RequestBody RoleBindUserReqDto roleBindUserReqDto) {
         logger.info("roleBindUser={}", roleBindUserReqDto);
-        LoginAuthDto loginAuthDto = getLoginAuthDto();
+        LoginAuthDto loginAuthDto = roleBindUserReqDto.getLoginAuthDto();
         uacRoleService.bindUser4Role(roleBindUserReqDto, loginAuthDto);
         return WrapMapper.ok();
     }
@@ -142,7 +142,8 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     @Override
     public Wrapper<RoleBindUserDto> getBindUser(@PathVariable("id") Long roleId) {
         logger.info("获取角色绑定用户页面数据. roleId={}", roleId);
-        LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+        // FIXME 修改
+        LoginAuthDto loginAuthDto = null;// super.getLoginAuthDto();
         Long currentUserId = loginAuthDto.getUserId();
         RoleBindUserDto bindUserDto = uacRoleService.getRoleBindUserDto(roleId, currentUserId);
         return WrapMapper.ok(bindUserDto);

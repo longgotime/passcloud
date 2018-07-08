@@ -20,7 +20,9 @@
 
     <modules>
         <module>paascloud-service-auth</module>
-		    <module>paascloud-service-operate</module>
+		    <module>paascloud-service-web</module>
+		    <module>paascloud-service-app</module>
+		    <module>paascloud-service-wechat</module>
     </modules>
 
     <dependencies>

@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.model.dto.group;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -34,4 +35,6 @@ public class GroupBindUserReqDto implements Serializable {
 
 	@ApiModelProperty(value = "用户id")
 	private List<Long> userIdList;
+
+	private LoginAuthDto loginAuthDto;
 }
