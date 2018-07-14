@@ -54,7 +54,7 @@ public interface MdcProductCategoryFeignApi {
      *
      * @return the wrapper
      */
-    @PostMapping(value = "/api/mdc/category/getTree")
+    @PostMapping(value = "/mdc/mdc/category/getTree")
     @ApiOperation(httpMethod = "POST", value = "获取商品分类树")
     Wrapper<List<MdcCategoryVo>> queryCategoryTreeList();
 
@@ -64,7 +64,7 @@ public interface MdcProductCategoryFeignApi {
      * @param id the id
      * @return the wrapper
      */
-    @PostMapping(value = "/api/mdc/category/queryById/{id}")
+    @PostMapping(value = "/mdc/mdc/category/queryById/{id}")
     @ApiOperation(httpMethod = "POST", value = "根据ID获取商品分类信息")
     Wrapper<MdcCategoryVo> queryCategoryVoById(@ApiParam(name = "id", value = "商品分类id") @PathVariable("id") Long id);
 
@@ -75,7 +75,7 @@ public interface MdcProductCategoryFeignApi {
      * @param updateStatusDto the update status dto
      * @return the wrapper
      */
-    @PostMapping(value = "/api/mdc/category/modifyStatus")
+    @PostMapping(value = "/mdc/mdc/category/modifyStatus")
     @ApiOperation(httpMethod = "POST", value = "根据id修改商品分类的禁用状态")
     Wrapper updateMdcCategoryStatusById(@ApiParam(name = "mdcCategoryStatusDto", value = "修改商品分类状态Dto") @RequestBody UpdateStatusDto updateStatusDto);
 
@@ -85,7 +85,7 @@ public interface MdcProductCategoryFeignApi {
      * @param mdcCategoryAddDto the mdc category add dto
      * @return the wrapper
      */
-    @PostMapping(value = "/api/mdc/category/save")
+    @PostMapping(value = "/mdc/mdc/category/save")
     @ApiOperation(httpMethod = "POST", value = "编辑商品分类")
     Wrapper saveCategory(@ApiParam(name = "saveCategory", value = "编辑商品分类") @RequestBody MdcEditCategoryDto mdcCategoryAddDto);
 
@@ -95,7 +95,7 @@ public interface MdcProductCategoryFeignApi {
      * @param id the id
      * @return the wrapper
      */
-    @PostMapping(value = "/api/mdc/category/deleteById/{id}")
+    @PostMapping(value = "/mdc/mdc/category/deleteById/{id}")
     @ApiOperation(httpMethod = "POST", value = "根据id删除商品分类")
     Wrapper<Integer> deleteMdcCategoryById(@ApiParam(name = "id", value = "商品分类id") @PathVariable("id") Long id);
 
@@ -106,7 +106,7 @@ public interface MdcProductCategoryFeignApi {
      *
      * @return the product category data
      */
-    @PostMapping(value = "/api/productCategory/getProductCategoryDtoByPid/{pid}")
+    @PostMapping(value = "/mdc/productCategory/getProductCategoryDtoByPid/{pid}")
     @NoNeedAccessAuthentication
     Wrapper<List<ProductCategoryDto>> getProductCategoryData(@PathVariable("pid") Long pid);
 
@@ -117,7 +117,7 @@ public interface MdcProductCategoryFeignApi {
      *
      * @return the product list
      */
-    @PostMapping(value = "/api/product/getProductList")
+    @PostMapping(value = "/mdc/product/getProductList")
     @NoNeedAccessAuthentication
     Wrapper<PageInfo> getProductList(@RequestBody ProductReqDto productReqDto);
 }

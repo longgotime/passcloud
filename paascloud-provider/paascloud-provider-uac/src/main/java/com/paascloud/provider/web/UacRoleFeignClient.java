@@ -17,6 +17,7 @@ import com.github.pagehelper.PageInfo;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.provider.model.domain.UacRole;
 import com.paascloud.provider.model.domain.UacRoleUser;
@@ -52,7 +53,7 @@ import java.util.List;
 @RefreshScope
 @RestController
 @Api(value = "API - UacRoleFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacRoleFeignClient extends BaseController implements UacRoleFeignApi {
+public class UacRoleFeignClient extends BaseFeignClient implements UacRoleFeignApi {
 
     @Resource
     private UacRoleService uacRoleService;
@@ -60,13 +61,6 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
     @Resource
     private UacRoleUserService uacRoleUserService;
 
-    /**
-     * 分页查询角色信息.
-     *
-     * @param role the role
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper<PageInfo<RoleVo>> queryUacRoleListWithPage(@RequestBody RoleDto role) {
         logger.info("查询角色列表roleQuery={}", role);
@@ -76,26 +70,12 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.ok(new PageInfo<>(roleVoList));
     }
 
-    /**
-     * 删除角色信息.
-     *
-     * @param id the id
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper deleteUacRoleById(@PathVariable("id") Long id) {
         int result = uacRoleService.deleteRoleById(id);
         return WrapMapper.handleResult(result);
     }
 
-    /**
-     * 批量删除角色.
-     *
-     * @param deleteIdList the delete id list
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper batchDeleteByIdList(@RequestBody List<Long> deleteIdList) {
         logger.info("批量删除角色 idList={}", deleteIdList);
@@ -103,13 +83,6 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.ok();
     }
 
-    /**
-     * 修改角色状态.
-     *
-     * @param modifyStatusDto the modify status dto
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper modifyUacRoleStatusById(@RequestBody ModifyStatusDto modifyStatusDto) {
         logger.info("根据角色Id修改角色状态 modifyStatusDto={}", modifyStatusDto);
@@ -136,14 +109,6 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.handleResult(result);
     }
 
-
-    /**
-     * 保存角色.
-     *
-     * @param role the role
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper save(@RequestBody RoleDto role) {
         LoginAuthDto loginAuthDto = role.getLoginAuthDto();
@@ -153,13 +118,6 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.ok();
     }
 
-    /**
-     * 角色分配权限.
-     *
-     * @param roleBindActionDto the role bind action dto
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper bindAction(@RequestBody RoleBindActionDto roleBindActionDto) {
         logger.info("角色分配权限. roleBindActionDto= {}", roleBindActionDto);
@@ -167,13 +125,6 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.ok();
     }
 
-    /**
-     * 角色绑定菜单.
-     *
-     * @param roleBindMenuDto the role bind menu dto
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper bindMenu(@RequestBody RoleBindMenuDto roleBindMenuDto) {
         logger.info("角色绑定菜单. roleBindMenuDto= {}", roleBindMenuDto);
@@ -181,13 +132,6 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.ok();
     }
 
-    /**
-     * 角色绑定用户.
-     *
-     * @param roleBindUserReqDto the role bind user req dto
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper bindUser(@RequestBody RoleBindUserReqDto roleBindUserReqDto) {
         logger.info("roleBindUser={}", roleBindUserReqDto);
@@ -196,30 +140,16 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.ok();
     }
 
-    /**
-     * 获取角色绑定用户页面数据.
-     *
-     * @param roleId the role id
-     *
-     * @return the wrapper
-     */
     @Override
-    public Wrapper<RoleBindUserDto> getBindUser(@PathVariable("id") Long roleId) {
-        logger.info("获取角色绑定用户页面数据. roleId={}", roleId);
-        // FIXME 修改
-        LoginAuthDto loginAuthDto = null;// super.getLoginAuthDto();
+    public Wrapper<RoleBindUserDto> getBindUser(@RequestBody GetBindUserDto getBindUserDto) {
+        logger.info("获取角色绑定用户页面数据. getBindUserDto={}", getBindUserDto);
+        LoginAuthDto loginAuthDto = getBindUserDto.getLoginAuthDto();
+        Long roleId = getBindUserDto.getRoleId();
         Long currentUserId = loginAuthDto.getUserId();
         RoleBindUserDto bindUserDto = uacRoleService.getRoleBindUserDto(roleId, currentUserId);
         return WrapMapper.ok(bindUserDto);
     }
 
-    /**
-     * 查看角色信息.
-     *
-     * @param id the id
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper<RoleVo> queryRoleInfo(@PathVariable("id") Long id) {
         UacRole role = uacRoleService.selectByKey(id);
@@ -228,14 +158,6 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.wrap(Wrapper.SUCCESS_CODE, Wrapper.SUCCESS_MESSAGE, roleVo);
     }
 
-
-    /**
-     * 验证角色编码是否存在.
-     *
-     * @param checkRoleCodeDto the check role code dto
-     *
-     * @return the wrapper
-     */
     @Override
     public Wrapper<Boolean> checkUacRoleCode(@RequestBody CheckRoleCodeDto checkRoleCodeDto) {
 
@@ -256,13 +178,6 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.ok(result < 1);
     }
 
-    /**
-     * 获取权限树
-     *
-     * @param roleId the role id
-     *
-     * @return the auth tree by role id
-     */
     @Override
     public Wrapper<BindAuthVo> getActionTreeByRoleId(@PathVariable("roleId") Long roleId) {
         logger.info("roleId={}", roleId);
@@ -270,13 +185,6 @@ public class UacRoleFeignClient extends BaseController implements UacRoleFeignAp
         return WrapMapper.ok(bindAuthVo);
     }
 
-    /**
-     * 获取菜单树.
-     *
-     * @param roleId the role id
-     *
-     * @return the menu tree by role id
-     */
     @Override
     public Wrapper<BindAuthVo> getMenuTreeByRoleId(@PathVariable("roleId") Long roleId) {
         logger.info("roleId={}", roleId);

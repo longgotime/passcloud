@@ -12,6 +12,8 @@
 package com.paascloud.provider.model.service;
 
 import com.github.pagehelper.PageInfo;
+import com.paascloud.base.dto.IdDTO;
+import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
 import com.paascloud.provider.model.service.hystrix.UacUserFeignApiHystrix;
@@ -23,10 +25,7 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,20 +42,17 @@ public interface UacUserFeignApi{
 	 * 查询角色列表.
 	 *
 	 * @param uacUser the uac user
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/queryListWithPage")
-	Wrapper<PageInfo> queryUserListWithPage(@ApiParam(name = "role", value = "角色信息") @RequestBody UserInfoDto uacUser);
+	Wrapper<PageInfo> queryUserListWithPage(@ApiParam(name = "role", value = "角色信息") @RequestBody QueryUserDTO uacUser);
 
 	/**
 	 * 新增用户
 	 *
 	 * @param user the user
-	 *
 	 * @return the wrapper
 	 */
-	
 	@PostMapping(value = "/uac/user/save")
 	Wrapper<Integer> addUacUser(@ApiParam(name = "user", value = "新增用户Dto") @RequestBody UserInfoDto user);
 
@@ -65,7 +61,6 @@ public interface UacUserFeignApi{
 	 * 根据Id修改用户状态.
 	 *
 	 * @param modifyUserStatusDto the modify user status dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/modifyUserStatusById")
@@ -75,10 +70,8 @@ public interface UacUserFeignApi{
 	 * 通过Id删除用户.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the wrapper
 	 */
-	
 	@PostMapping(value = "/uac/user/deleteUserById/{userId}")
 	Wrapper<Integer> deleteUserById(@ApiParam(name = "userId", value = "用户ID") @PathVariable("id") Long userId);
 
@@ -86,7 +79,6 @@ public interface UacUserFeignApi{
 	 * 获取用户绑定角色页面数据.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the bind role
 	 */
 	@PostMapping(value = "/uac/user/getBindRole/{userId}")
@@ -96,7 +88,6 @@ public interface UacUserFeignApi{
 	 * 用户绑定角色.
 	 *
 	 * @param bindUserRolesDto the bind user roles dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/bindRole")
@@ -105,19 +96,18 @@ public interface UacUserFeignApi{
 	/**
 	 * 查询用户常用功能数据.
 	 *
+	 * @param userId the user id
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/uac/user/queryUserMenuDtoData")
-	Wrapper<List<UserMenuDto>> queryUserMenuDtoData();
+	@PostMapping(value = "/uac/user/queryUserMenuDtoData/{userId}")
+	Wrapper<List<UserMenuDto>> queryUserMenuDtoData(@PathVariable("userId") Long userId);
 
 	/**
 	 * 绑定用户常用菜单.
 	 *
 	 * @param bindUserMenusDto the bind user menus dto
-	 *
 	 * @return the wrapper
 	 */
-	
 	@PostMapping(value = "/uac/user/bindUserMenus")
 	Wrapper<Integer> bindUserMenus(@ApiParam(name = "bindUserMenusDto", value = "绑定用户常用菜单Dto") @RequestBody BindUserMenusDto bindUserMenusDto);
 
@@ -125,7 +115,6 @@ public interface UacUserFeignApi{
 	 * 根据用户Id查询用户信息.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the uac user by id
 	 */
 	@PostMapping(value = "/uac/user/getUacUserById/{userId}")
@@ -134,18 +123,17 @@ public interface UacUserFeignApi{
 	/**
 	 * 根据用户Id重置密码.
 	 *
-	 * @param userId the user id
-	 *
+	 * @param idDTO the id dto
 	 * @return the wrapper
 	 */
-	
-	@PostMapping(value = "/uac/user/resetLoginPwd/{userId}")
+	@PostMapping(value = "/uac/user/resetLoginPwd")
 	@ApiOperation(httpMethod = "POST", value = "根据用户Id重置密码")
-	Wrapper<UserVo> resetLoginPwd(@ApiParam(name = "userId", value = "用户ID") @PathVariable("userId") Long userId);
+	Wrapper<UserVo> resetLoginPwd(@RequestBody IdDTO idDTO);
 
 	/**
 	 * 根据userId查询用户详细信息（连表查询）.
 	 *
+	 * @param loginName the login name
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/queryUserInfo/{loginName}")
@@ -157,7 +145,6 @@ public interface UacUserFeignApi{
 	 * 校验登录名唯一性.
 	 *
 	 * @param checkLoginNameDto the check login name dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/checkLoginName")
@@ -167,7 +154,6 @@ public interface UacUserFeignApi{
 	 * 校验登录名唯一性.
 	 *
 	 * @param checkEmailDto the check email dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/checkEmail")
@@ -178,7 +164,6 @@ public interface UacUserFeignApi{
 	 * 校验真实姓名唯一性.
 	 *
 	 * @param checkUserNameDto the check user name dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/checkUserName")
@@ -189,7 +174,6 @@ public interface UacUserFeignApi{
 	 * 校验用户电话号码唯一性.
 	 *
 	 * @param checkUserPhoneDto the check user phone dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/checkUserPhone")
@@ -200,7 +184,6 @@ public interface UacUserFeignApi{
 	 * 校验新密码是否与原始密码相同.
 	 *
 	 * @param checkNewPasswordDto 修改密码实体
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/checkNewPassword")
@@ -209,28 +192,27 @@ public interface UacUserFeignApi{
 	/**
 	 * 修改用户邮箱
 	 *
-	 * @param email     the email
-	 * @param emailCode the email code
-	 *
+	 * @param email        the email
+	 * @param emailCode    the email code
+	 * @param loginAuthDto the login auth dto
 	 * @return the wrapper
 	 */
-	
-	@PostMapping(value = "/uac/user/modifyUserEmail/{email}/{emailCode}")
-	Wrapper<Integer> modifyUserEmail(@PathVariable("email") String email, @PathVariable("emailCode") String emailCode);
+	@PostMapping(value = "/uac/user/modifyUserEmail")
+	Wrapper<Integer> modifyUserEmail(@RequestParam("email") String email, @RequestParam("emailCode") String emailCode, @RequestParam("emailCode") LoginAuthDto loginAuthDto);
 
 	/**
 	 * 获取已有权限树
 	 *
+	 * @param userId the user id
 	 * @return the auth tree by role id
 	 */
-	@PostMapping(value = "/uac/user/getOwnAuthTree")
-	Wrapper<List<MenuVo>> getOwnAuthTree();
+	@PostMapping(value = "/uac/user/getOwnAuthTree/{userId}")
+	Wrapper<List<MenuVo>> getOwnAuthTree(@PathVariable("userId") Long userId);
 
 	/**
 	 * 用户修改密码
 	 *
 	 * @param userModifyPwdDto the user modify pwd dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/modifyUserPwd")
@@ -241,7 +223,6 @@ public interface UacUserFeignApi{
 	 * 注册
 	 *
 	 * @param registerDto the register dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/registerUser")

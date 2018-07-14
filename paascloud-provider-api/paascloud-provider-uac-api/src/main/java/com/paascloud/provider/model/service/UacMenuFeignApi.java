@@ -39,16 +39,16 @@ public interface UacMenuFeignApi{
 	/**
 	 * 获取菜单列表数据
 	 *
+	 * @param userId the user id
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/uac/menu/getTree")
-	Wrapper<List<MenuVo>> queryMenuTreeList();
+	@PostMapping(value = "/uac/menu/getTree/{userId}")
+	Wrapper<List<MenuVo>> queryMenuTreeList(@PathVariable("userId") Long userId);
 
 	/**
 	 * 编辑菜单.
 	 *
 	 * @param id the id
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/menu/queryById/{id}")
@@ -59,7 +59,6 @@ public interface UacMenuFeignApi{
 	 * 根据id修改菜单的禁用状态
 	 *
 	 * @param uacMenuStatusDto the uac menu status dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/menu/modifyStatus")
@@ -69,7 +68,6 @@ public interface UacMenuFeignApi{
 	 * 新增菜单.
 	 *
 	 * @param uacMenuAddDto the uac menu add dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/menu/save")
@@ -79,7 +77,6 @@ public interface UacMenuFeignApi{
 	 * 根据id删除菜单
 	 *
 	 * @param id the id
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/menu/deleteById/{id}")
@@ -90,7 +87,6 @@ public interface UacMenuFeignApi{
 	 * 检测菜单编码是否已存在
 	 *
 	 * @param uacMenuCheckCodeDto the uac menu check code dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/menu/checkMenuCode")
@@ -101,7 +97,6 @@ public interface UacMenuFeignApi{
 	 * 检测菜单名称唯一性
 	 *
 	 * @param uacMenuCheckNameDto the uac menu check name dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/menu/checkMenuName")
@@ -113,7 +108,6 @@ public interface UacMenuFeignApi{
 	 * 检测菜单URL唯一性
 	 *
 	 * @param uacMenuCheckUrlDto the uac menu check url dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/menu/checkMenuUrl")

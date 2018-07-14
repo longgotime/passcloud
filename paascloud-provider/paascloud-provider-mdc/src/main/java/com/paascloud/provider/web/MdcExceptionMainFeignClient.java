@@ -36,13 +36,12 @@ import javax.annotation.Resource;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@Api(value = "Web - MdcExceptionMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcExceptionMainFeignClient extends BaseFeignClient implements MdcExceptionFeignApi {
     @Resource
     private MdcExceptionLogService mdcExceptionLogService;
 
     @Override
-    public Wrapper queryLogListWithPage(@ApiParam(name = "mdcExceptionQueryDto", value = "异常查询条件") @RequestBody MdcExceptionQueryDto mdcExceptionQueryDto) {
+    public Wrapper queryLogListWithPage(@RequestBody MdcExceptionQueryDto mdcExceptionQueryDto) {
         logger.info("查询日志处理列表 mdcExceptionQueryDto={}", mdcExceptionQueryDto);
         PageInfo pageInfo = mdcExceptionLogService.queryExceptionListWithPage(mdcExceptionQueryDto);
         return WrapMapper.ok(pageInfo);

@@ -37,7 +37,6 @@ import java.util.List;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@Api(value = "API - MdcMqMessageFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcMqMessageFeignClient extends BaseFeignClient implements MdcMqMessageFeignApi {
 	@Resource
 	private MqMessageService mqMessageService;

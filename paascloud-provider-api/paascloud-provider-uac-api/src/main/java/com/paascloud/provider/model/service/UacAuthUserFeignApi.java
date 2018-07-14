@@ -43,7 +43,6 @@ public interface UacAuthUserFeignApi {
 	 * 校验手机号码.
 	 *
 	 * @param mobileNo the mobile no
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/checkPhoneActive/{mobileNo}")
@@ -53,7 +52,6 @@ public interface UacAuthUserFeignApi {
 	 * 校验邮箱.
 	 *
 	 * @param email the email
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/checkEmailActive/{email:.+}")
@@ -63,7 +61,6 @@ public interface UacAuthUserFeignApi {
 	 * 校验数据.
 	 *
 	 * @param checkValidDto the check valid dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/checkValid")
@@ -74,7 +71,6 @@ public interface UacAuthUserFeignApi {
 	 * 重置密码-邮箱-提交.
 	 *
 	 * @param email the email
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/submitResetPwdEmail")
@@ -86,7 +82,6 @@ public interface UacAuthUserFeignApi {
 	 *
 	 * @param mobile   the mobile
 	 * @param response the response
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/submitResetPwdPhone")
@@ -97,7 +92,6 @@ public interface UacAuthUserFeignApi {
 	 * 重置密码-最终提交.
 	 *
 	 * @param resetLoginPwdDto the reset login pwd dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/resetLoginPwd")
@@ -108,7 +102,6 @@ public interface UacAuthUserFeignApi {
 	 * 注册用户.
 	 *
 	 * @param user the user
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/register")
@@ -118,7 +111,6 @@ public interface UacAuthUserFeignApi {
 	 * 激活用户.
 	 *
 	 * @param activeUserToken the active user token
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/activeUser/{activeUserToken}")
@@ -129,7 +121,6 @@ public interface UacAuthUserFeignApi {
 	 * 查询日志.
 	 *
 	 * @param operationLogDto the operation log dto
-	 *
 	 * @return the integer
 	 */
 	@PostMapping(value = "/uac/auth/saveLog")
@@ -140,7 +131,6 @@ public interface UacAuthUserFeignApi {
 	 * Gets auth user dto.
 	 *
 	 * @param loginName the login name
-	 *
 	 * @return the auth user dto
 	 */
 	@PostMapping(value = "/uac/auth/getAuthUserDTO/{loginName}")
@@ -150,10 +140,8 @@ public interface UacAuthUserFeignApi {
 	 * Handler login data.
 	 *
 	 * @param handlerLoginDTO the handler login dto
+	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/handlerLoginDTO")
     Wrapper<?> handlerLoginData(@RequestBody HandlerLoginDTO handlerLoginDTO);
-
-	@PostMapping(value = "/uac/auth/callback/qq")
-    Wrapper callbackQQ(HttpServletRequest request);
 }

@@ -163,7 +163,7 @@ public class UacMenuServiceImpl extends BaseService<UacMenu> implements UacMenuS
 	}
 
 	@Override
-	public int deleteUacMenuById(Long id, LoginAuthDto loginAuthDto) {
+	public int deleteUacMenuById(Long id) {
 		Preconditions.checkArgument(id != null, "菜单id不能为空");
 		int result;
 		// 获取当前菜单信息

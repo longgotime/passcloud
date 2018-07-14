@@ -13,6 +13,7 @@ package com.paascloud.provider.model.service.hystrix;
 
 import com.paascloud.provider.model.dto.email.SendEmailMessage;
 import com.paascloud.provider.model.service.EmailFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +29,11 @@ public class EmailFeignApiHystrix implements EmailFeignApi {
 
 	@Override
 	public Wrapper<String> sendRestEmailCode(SendEmailMessage sendEmailMessage) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper checkRestEmailCode(SendEmailMessage sendEmailMessage) {
-		return null;
+		return WrapMapper.error();
 	}
 }

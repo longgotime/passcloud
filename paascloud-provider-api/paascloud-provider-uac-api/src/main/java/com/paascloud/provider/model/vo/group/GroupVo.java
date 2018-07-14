@@ -1,6 +1,8 @@
 package com.paascloud.provider.model.vo.group;
 
+import com.paascloud.base.dto.BaseVo;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,8 +12,9 @@ import java.util.List;
  *
  * @author paascloud.net@gmail.com
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class GroupVo implements Serializable {
+public class GroupVo extends BaseVo implements Serializable {
 
 	private static final long serialVersionUID = 781846964762961318L;
 	/**

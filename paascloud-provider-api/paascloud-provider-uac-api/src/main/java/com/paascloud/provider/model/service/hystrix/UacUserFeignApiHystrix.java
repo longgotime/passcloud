@@ -12,6 +12,8 @@
 package com.paascloud.provider.model.service.hystrix;
 
 import com.github.pagehelper.PageInfo;
+import com.paascloud.base.dto.IdDTO;
+import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
@@ -19,8 +21,11 @@ import com.paascloud.provider.model.service.UacUserFeignApi;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
 import com.paascloud.provider.model.vo.user.UserVo;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -35,102 +40,102 @@ public class UacUserFeignApiHystrix implements UacUserFeignApi {
 
 
 	@Override
-	public Wrapper<PageInfo> queryUserListWithPage(UserInfoDto uacUser) {
-		return null;
+	public Wrapper<PageInfo> queryUserListWithPage(QueryUserDTO uacUser) {
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Integer> addUacUser(UserInfoDto user) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Integer> modifyUserStatusById(ModifyUserStatusDto modifyUserStatusDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Integer> deleteUserById(Long userId) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<UserBindRoleVo> getBindRole(Long userId) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Integer> bindUserRoles(BindUserRolesDto bindUserRolesDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
-	public Wrapper<List<UserMenuDto>> queryUserMenuDtoData() {
-		return null;
+	public Wrapper<List<UserMenuDto>> queryUserMenuDtoData(Long userId) {
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Integer> bindUserMenus(BindUserMenusDto bindUserMenusDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<UserVo> getUacUserById(Long userId) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
-	public Wrapper<UserVo> resetLoginPwd(Long userId) {
-		return null;
+	public Wrapper<UserVo> resetLoginPwd(IdDTO idDTO) {
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<UserVo> queryUserInfo(String loginName) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkLoginName(CheckLoginNameDto checkLoginNameDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkEmail(CheckEmailDto checkEmailDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkUserName(CheckUserNameDto checkUserNameDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkUserPhone(CheckUserPhoneDto checkUserPhoneDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkNewPassword(CheckNewPasswordDto checkNewPasswordDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
-	public Wrapper<Integer> modifyUserEmail(String email, String emailCode) {
-		return null;
+	public Wrapper<Integer> modifyUserEmail(String email, String emailCode, LoginAuthDto loginAuthDto) {
+		return WrapMapper.error();
 	}
 
 	@Override
-	public Wrapper<List<MenuVo>> getOwnAuthTree() {
-		return null;
+	public Wrapper<List<MenuVo>> getOwnAuthTree(Long userId) {
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Integer> modifyUserPwd(UserModifyPwdDto userModifyPwdDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper registerUser(UserRegisterDto registerDto) {
-		return null;
+		return WrapMapper.error();
 	}
 }

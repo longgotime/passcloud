@@ -32,7 +32,7 @@ import javax.annotation.Resource;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/mdc/dict", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/dict", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - UacDictCommonController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacProductCategoryCommonController extends BaseController {
 

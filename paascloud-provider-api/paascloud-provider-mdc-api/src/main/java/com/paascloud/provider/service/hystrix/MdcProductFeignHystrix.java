@@ -17,6 +17,7 @@ import com.paascloud.provider.model.dto.ProductDto;
 import com.paascloud.provider.model.vo.ProductDetailVo;
 import com.paascloud.provider.model.vo.ProductVo;
 import com.paascloud.provider.service.MdcProductFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -29,41 +30,41 @@ import org.springframework.stereotype.Component;
 public class MdcProductFeignHystrix implements MdcProductFeignApi {
 	@Override
 	public Wrapper<Integer> updateProductStockById(ProductDto productDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<String> getMainImage(Long productId) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<PageInfo<ProductVo>> queryProductListWithPage(ProductVo mdcProduct) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<ProductVo> getById(Long id) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper saveCategory(MdcEditProductDto mdcCategoryAddDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<ProductVo> deleteProductById(Long id) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<ProductDetailVo> getProductDetail(Long productId) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<ProductDto> selectById(Long productId) {
-		return null;
+		return WrapMapper.error();
 	}
 }

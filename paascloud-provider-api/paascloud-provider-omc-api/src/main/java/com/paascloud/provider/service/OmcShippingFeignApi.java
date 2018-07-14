@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/shipping", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - OmcShippingController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public interface OmcShippingFeignApi {
 
@@ -38,7 +37,7 @@ public interface OmcShippingFeignApi {
 	 */
 	@PostMapping("/addShipping")
 	@ApiOperation(httpMethod = "POST", value = "增加收货人地址")
-	Wrapper addShipping(OmcShippingDTO shipping);
+	Wrapper addShipping(@RequestBody OmcShippingDTO shipping);
 
 	/**
 	 * 删除收货人地址.
@@ -49,7 +48,7 @@ public interface OmcShippingFeignApi {
 	 */
 	@PostMapping("/deleteShipping/{shippingId}")
 	@ApiOperation(httpMethod = "POST", value = "删除收货人地址")
-	Wrapper deleteShipping(@PathVariable Long shippingId, @PathVariable Long userId);
+	Wrapper deleteShipping(@PathVariable("shippingId") Long shippingId, @PathVariable("userId") Long userId);
 
 	/**
 	 * 编辑收货人地址.
@@ -59,7 +58,7 @@ public interface OmcShippingFeignApi {
 	 */
 	@PostMapping("/updateShipping")
 	@ApiOperation(httpMethod = "POST", value = "编辑收货人地址")
-	Wrapper updateShipping(OmcShippingDTO shipping);
+	Wrapper updateShipping(@RequestBody OmcShippingDTO shipping);
 
 	/**
 	 * 设置默认收货地址.

@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.provider.exceptions.MdcBizException;
 import com.paascloud.provider.model.dto.AddressDTO;
-import com.paascloud.provider.service.MdcAddressQueryFeignApi;
+import com.paascloud.provider.service.MdcAddressFeignApi;
 import com.paascloud.provider.service.MdcAddressService;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,13 @@ import javax.annotation.Resource;
 @Transactional(rollbackFor = Exception.class)
 public class MdcAddressServiceImpl implements MdcAddressService {
 	@Resource
-	private MdcAddressQueryFeignApi mdcAddressQueryFeignApi;
+	private MdcAddressFeignApi mdcAddressFeignApi;
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
 	public AddressDTO getAddressById(Long addressId) {
 		Preconditions.checkArgument(addressId != null, "地址ID不能为空");
-		Wrapper<AddressDTO> wrapper = mdcAddressQueryFeignApi.getById(addressId);
+		Wrapper<AddressDTO> wrapper = mdcAddressFeignApi.getById(addressId);
 
 		if (wrapper == null) {
 			throw new MdcBizException(ErrorCodeEnum.GL99990002);

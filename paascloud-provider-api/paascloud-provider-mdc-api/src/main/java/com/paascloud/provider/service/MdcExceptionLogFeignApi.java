@@ -34,6 +34,6 @@ public interface MdcExceptionLogFeignApi {
 	 *
 	 * @return the int
 	 */
-	@PostMapping(value = "/api/exception/saveAndSendExceptionLog")
+	@PostMapping(value = "/mdc/exception/saveAndSendExceptionLog")
 	Wrapper saveAndSendExceptionLog(@RequestBody GlobalExceptionLogDto exceptionLogDto);
 }

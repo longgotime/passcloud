@@ -13,6 +13,7 @@ package com.paascloud.provider.service.hystrix;
 
 import com.paascloud.provider.model.dto.OrderDto;
 import com.paascloud.provider.service.PtcPayFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -27,11 +28,11 @@ import java.util.Map;
 public class PtcPayFeignHystrix implements PtcPayFeignApi {
 	@Override
 	public Wrapper createQrCodeImage(OrderDto orderDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper aliPayCallback(Map<String, String> params) {
-		return null;
+		return WrapMapper.error();
 	}
 }

@@ -11,11 +11,11 @@
 
 package com.paascloud.provider.model.dto.user;
 
-import com.paascloud.base.dto.BaseVo;
 import com.paascloud.base.dto.LoginAuthDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,7 +27,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "用户注册Dto")
-public class UserInfoDto extends BaseVo implements Serializable {
+public class UserInfoDto implements Serializable {
 
 	private static final long serialVersionUID = -889913964833331690L;
 	private Long id;

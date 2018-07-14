@@ -41,7 +41,6 @@ import java.util.List;
  * @author paascloud.net@gmail.com
  */
 @RestController
-@Api(value = "Feign - MdcDictMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcDictFeignClient extends BaseFeignClient implements MdcDictFeignApi {
 
     @Resource
@@ -54,7 +53,7 @@ public class MdcDictFeignClient extends BaseFeignClient implements MdcDictFeignA
     }
 
     @Override
-    public Wrapper<MdcDictVo> queryDictVoById(@ApiParam(name = "id", value = "字典id") @PathVariable("id") Long id) {
+    public Wrapper<MdcDictVo> queryDictVoById(@PathVariable("id") Long id) {
         logger.info("根据Id查询字典信息, dictId={}", id);
         MdcDictVo mdcDictVo = mdcDictService.getMdcDictVoById(id);
         return WrapMapper.ok(mdcDictVo);
@@ -62,7 +61,7 @@ public class MdcDictFeignClient extends BaseFeignClient implements MdcDictFeignA
 
 
     @Override
-    public Wrapper updateMdcDictStatusById(@ApiParam(name = "mdcDictStatusDto", value = "修改字典状态Dto") @RequestBody UpdateStatusDto updateStatusDto) {
+    public Wrapper updateMdcDictStatusById(@RequestBody UpdateStatusDto updateStatusDto) {
         logger.info("根据id修改字典的禁用状态 updateStatusDto={}", updateStatusDto);
         LoginAuthDto loginAuthDto = updateStatusDto.getLoginAuthDto();
         mdcDictService.updateMdcDictStatusById(updateStatusDto, loginAuthDto);
@@ -70,7 +69,7 @@ public class MdcDictFeignClient extends BaseFeignClient implements MdcDictFeignA
     }
 
     @Override
-    public Wrapper saveDict(@ApiParam(name = "saveDict", value = "编辑字典") @RequestBody MdcEditDictDto mdcDictAddDto) {
+    public Wrapper saveDict(@RequestBody MdcEditDictDto mdcDictAddDto) {
         MdcDict mdcDict = new MdcDict();
         LoginAuthDto loginAuthDto = mdcDictAddDto.getLoginAuthDto();
         BeanUtils.copyProperties(mdcDictAddDto, mdcDict);
@@ -93,7 +92,7 @@ public class MdcDictFeignClient extends BaseFeignClient implements MdcDictFeignA
 
 
     @Override
-    public Wrapper<Boolean> checkDictCode(@ApiParam(name = "uacMenuCheckCodeDto", value = "id与url") @RequestBody MdcDictCheckCodeDto mdcDictCheckCodeDto) {
+    public Wrapper<Boolean> checkDictCode(@RequestBody MdcDictCheckCodeDto mdcDictCheckCodeDto) {
         logger.info("检测数据字典编码是否已存在 mdcDictCheckCodeDto={}", mdcDictCheckCodeDto);
 
         Long id = mdcDictCheckCodeDto.getDictId();
@@ -112,7 +111,7 @@ public class MdcDictFeignClient extends BaseFeignClient implements MdcDictFeignA
     }
 
     @Override
-    public Wrapper<Boolean> checkDictName(@ApiParam(name = "uacMenuCheckCodeDto", value = "id与url") @RequestBody MdcDictCheckNameDto mdcDictCheckNameDto) {
+    public Wrapper<Boolean> checkDictName(@RequestBody MdcDictCheckNameDto mdcDictCheckNameDto) {
         logger.info("检测数据字典名称是否已存在 mdcDictCheckNameDto={}", mdcDictCheckNameDto);
 
         Long id = mdcDictCheckNameDto.getDictId();

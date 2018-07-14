@@ -17,9 +17,11 @@ import com.paascloud.provider.model.dto.MdcDictCheckNameDto;
 import com.paascloud.provider.model.dto.MdcEditDictDto;
 import com.paascloud.provider.model.vo.MdcDictVo;
 import com.paascloud.provider.service.MdcDictFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -29,42 +31,41 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@RestController
-@Api(value = "Feign - MdcDictMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Component
 public class MdcDictFeignApiHystrix implements MdcDictFeignApi {
 
     @Override
     public Wrapper<List<MdcDictVo>> queryDictTreeList() {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<MdcDictVo> queryDictVoById(Long id) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper updateMdcDictStatusById(UpdateStatusDto updateStatusDto) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper saveDict(MdcEditDictDto mdcDictAddDto) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<Integer> deleteMdcDictById(Long id) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<Boolean> checkDictCode(MdcDictCheckCodeDto mdcDictCheckCodeDto) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<Boolean> checkDictName(MdcDictCheckNameDto mdcDictCheckNameDto) {
-        return null;
+        return WrapMapper.error();
     }
 }

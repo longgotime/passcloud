@@ -17,6 +17,7 @@ import com.paascloud.provider.model.dto.action.UacActionCheckUrlDto;
 import com.paascloud.provider.model.dto.action.UacActionDto;
 import com.paascloud.provider.model.dto.base.ModifyStatusDto;
 import com.paascloud.provider.model.service.UacActionFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -33,36 +34,36 @@ public class UacActionFeignApiHystrix implements UacActionFeignApi {
 
 	@Override
 	public Wrapper queryUacActionListWithPage(ActionMainQueryDto action) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper deleteUacActionById(Long id) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper batchDeleteByIdList(List<Long> deleteIdList) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper save(UacActionDto action) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper modifyActionStatus(ModifyStatusDto modifyStatusDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkActionCode(UacActionCheckCodeDto uacActionCheckCodeDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkActionUrl(UacActionCheckUrlDto uacActionCheckUrlDto) {
-		return null;
+		return WrapMapper.error();
 	}
 }

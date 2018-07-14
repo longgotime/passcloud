@@ -11,9 +11,11 @@
 
 package com.paascloud.provider.model.vo.menu;
 
+import com.paascloud.base.dto.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,9 +25,10 @@ import java.util.List;
  *
  * @author paascloud.net@gmail.com
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @ApiModel("菜单")
-public class MenuVo implements Serializable {
+public class MenuVo extends BaseVo implements Serializable {
 	/**
 	 * serialVersionUID:用一句话描述这个变量表示什么.
 	 *

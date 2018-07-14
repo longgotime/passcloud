@@ -96,6 +96,7 @@ public class UacActionController extends BaseController{
 	@PostMapping(value = "/save")
 	@ApiOperation(httpMethod = "POST", value = "新增角色")
 	public Wrapper save(@RequestBody UacActionDto action) {
+		action.setLoginAuthDto(getLoginAuthDto());
 		return uacActionFeignApi.save(action);
 	}
 
@@ -110,6 +111,8 @@ public class UacActionController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "根据权限Id修改角色状态")
 	@LogAnnotation
 	public Wrapper modifyActionStatus(@RequestBody ModifyStatusDto modifyStatusDto) {
+		modifyStatusDto.setLoginAuthDto(getLoginAuthDto());
+
 		return uacActionFeignApi.modifyActionStatus(modifyStatusDto);
 	}
 

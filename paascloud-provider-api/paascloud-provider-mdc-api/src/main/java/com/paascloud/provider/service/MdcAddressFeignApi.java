@@ -38,7 +38,7 @@ public interface MdcAddressFeignApi {
 	 *
 	 * @return the by id
 	 */
-	@PostMapping(value = "/api/address/getById/{addressId}")
+	@PostMapping(value = "/mdc/address/getById/{addressId}")
 	Wrapper<AddressDTO> getById(@PathVariable("addressId") Long addressId);
 
 	/**
@@ -46,7 +46,7 @@ public interface MdcAddressFeignApi {
 	 *
 	 * @return the 4 city
 	 */
-	@PostMapping(value = "/api/address/get4City")
+	@PostMapping(value = "/mdc/address/get4City")
 	@ApiOperation(httpMethod = "POST", value = "查看四级地址")
 	Wrapper<List<TreeNode>> get4City();
 }

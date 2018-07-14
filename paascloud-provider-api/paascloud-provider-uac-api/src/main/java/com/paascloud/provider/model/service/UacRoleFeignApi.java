@@ -43,7 +43,6 @@ public interface UacRoleFeignApi{
 	 * 分页查询角色信息.
 	 *
 	 * @param role the role
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/queryRoleListWithPage")
@@ -53,16 +52,15 @@ public interface UacRoleFeignApi{
 	 * 删除角色信息.
 	 *
 	 * @param id the id
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/deleteRoleById/{id}")
 	Wrapper deleteUacRoleById(@ApiParam(name = "id", value = "角色id") @PathVariable("id") Long id);
+
 	/**
 	 * 批量删除角色.
 	 *
 	 * @param deleteIdList the delete id list
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/batchDeleteByIdList")
@@ -72,7 +70,6 @@ public interface UacRoleFeignApi{
 	 * 修改角色状态.
 	 *
 	 * @param modifyStatusDto the modify status dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/modifyRoleStatusById")
@@ -83,7 +80,6 @@ public interface UacRoleFeignApi{
 	 * 保存用户.
 	 *
 	 * @param role the role
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/save")
@@ -93,7 +89,6 @@ public interface UacRoleFeignApi{
 	 * 角色分配权限.
 	 *
 	 * @param roleBindActionDto the role bind action dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/bindAction")
@@ -103,7 +98,6 @@ public interface UacRoleFeignApi{
 	 * 角色分配权限.
 	 *
 	 * @param roleBindMenuDto the role bind menu dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/bindMenu")
@@ -114,7 +108,6 @@ public interface UacRoleFeignApi{
 	 * 角色绑定用户.
 	 *
 	 * @param roleBindUserReqDto the role bind user req dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/bindUser")
@@ -123,19 +116,17 @@ public interface UacRoleFeignApi{
 	/**
 	 * 获取角色绑定用户页面数据.
 	 *
-	 * @param roleId the role id
-	 *
+	 * @param getBindUserDto the get bind user dto
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/uac/role/getBindUser/{roleId}")
-	Wrapper<RoleBindUserDto> getBindUser(@ApiParam(name = "roleId", value = "角色id") @PathVariable("id") Long roleId);
+	@PostMapping(value = "/uac/role/getBindUser")
+	Wrapper<RoleBindUserDto> getBindUser(@RequestBody GetBindUserDto getBindUserDto);
 
 
 	/**
 	 * 查看角色信息.
 	 *
 	 * @param id the id
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/queryRoleInfoById/{id}")
@@ -145,7 +136,6 @@ public interface UacRoleFeignApi{
 	 * 验证角色编码是否存在.
 	 *
 	 * @param checkRoleCodeDto the check role code dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/checkRoleCode")
@@ -156,7 +146,6 @@ public interface UacRoleFeignApi{
 	 * 获取权限树
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the auth tree by role id
 	 */
 	@PostMapping(value = "/uac/role/getActionTreeByRoleId/{roleId}")
@@ -166,7 +155,6 @@ public interface UacRoleFeignApi{
 	 * 获取菜单树.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the menu tree by role id
 	 */
 	@PostMapping(value = "/uac/role/getMenuTreeByRoleId/{roleId}")

@@ -13,6 +13,7 @@ package com.paascloud.provider.web;
 
 import com.github.pagehelper.PageInfo;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.token.TokenMainQueryDto;
 import com.paascloud.provider.model.service.UacTokenFeignApi;
 import com.paascloud.provider.service.UacUserTokenService;
@@ -36,29 +37,17 @@ import javax.annotation.Resource;
 @RefreshScope
 @RestController
 @Api(value = "API - UacTokenFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacTokenFeignClient extends BaseController implements UacTokenFeignApi {
+public class UacTokenFeignClient extends BaseFeignClient implements UacTokenFeignApi {
 
 
 	@Resource
 	private UacUserTokenService uacUserTokenService;
 
-	/**
-	 * 超时token更新为离线.
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<Integer> updateTokenOffLine() {
 		return null;
 	}
 
-	/**
-	 * 分页查询角色信息.
-	 *
-	 * @param token the token
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper queryUacActionListWithPage(@ApiParam(name = "token") @RequestBody TokenMainQueryDto token) {
 		logger.info("查询在线用户列表. token={}", token);

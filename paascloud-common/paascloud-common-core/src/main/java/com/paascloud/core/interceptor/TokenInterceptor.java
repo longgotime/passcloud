@@ -109,17 +109,18 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         String authJson = request.getHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO);
 
-        LoginAuthDto loginUser;
-        try {
-            loginUser = JSONObject.parseObject(URLDecoder.decode(authJson, "UTF-8"), LoginAuthDto.class);
-        } catch (UnsupportedEncodingException e) {
-            log.error("getLoginAuthDto - WEB-转换登录信息失败 ex={}", e.getMessage(), e);
-            throw new BusinessException(ErrorCodeEnum.UAC10011041);
-        }
+		if (StringUtils.isNotBlank(authJson)) {
+			LoginAuthDto loginUser;
+			try {
+				loginUser = JSONObject.parseObject(URLDecoder.decode(authJson, "UTF-8"), LoginAuthDto.class);
+			} catch (UnsupportedEncodingException e) {
+				log.error("getLoginAuthDto - WEB-转换登录信息失败 ex={}", e.getMessage(), e);
+				throw new BusinessException(ErrorCodeEnum.UAC10011041);
+			}
 
-		log.info("<== preHandle - 权限拦截器.  loginUser={}", loginUser);
-		ThreadLocalMap.put(GlobalConstant.Sys.TOKEN_AUTH_DTO, loginUser);
-
+			log.info("<== preHandle - 权限拦截器.  loginUser={}", loginUser);
+			ThreadLocalMap.put(GlobalConstant.Sys.TOKEN_AUTH_DTO, loginUser);
+		}
 		return true;
 	}
 

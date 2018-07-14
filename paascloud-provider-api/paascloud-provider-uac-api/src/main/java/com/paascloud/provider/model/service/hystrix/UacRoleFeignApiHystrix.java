@@ -21,6 +21,7 @@ import com.paascloud.provider.model.service.UacAuthUserFeignApi;
 import com.paascloud.provider.model.service.UacRoleFeignApi;
 import com.paascloud.provider.model.vo.menu.BindAuthVo;
 import com.paascloud.provider.model.vo.role.RoleVo;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -37,66 +38,66 @@ public class UacRoleFeignApiHystrix implements UacRoleFeignApi {
 
 	@Override
 	public Wrapper<PageInfo<RoleVo>> queryUacRoleListWithPage(RoleDto role) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper deleteUacRoleById(Long id) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper batchDeleteByIdList(List<Long> deleteIdList) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper modifyUacRoleStatusById(ModifyStatusDto modifyStatusDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper save(RoleDto role) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper bindAction(RoleBindActionDto roleBindActionDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper bindMenu(RoleBindMenuDto roleBindMenuDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper bindUser(RoleBindUserReqDto roleBindUserReqDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
-	public Wrapper<RoleBindUserDto> getBindUser(Long roleId) {
-		return null;
+	public Wrapper<RoleBindUserDto> getBindUser(GetBindUserDto getBindUserDto) {
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<RoleVo> queryRoleInfo(Long id) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkUacRoleCode(CheckRoleCodeDto checkRoleCodeDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<BindAuthVo> getActionTreeByRoleId(Long roleId) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<BindAuthVo> getMenuTreeByRoleId(Long roleId) {
-		return null;
+		return WrapMapper.error();
 	}
 }

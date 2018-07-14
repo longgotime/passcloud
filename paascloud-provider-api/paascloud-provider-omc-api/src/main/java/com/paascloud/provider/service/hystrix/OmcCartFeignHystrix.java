@@ -13,6 +13,7 @@ package com.paascloud.provider.service.hystrix;
 
 import com.paascloud.provider.model.vo.CartProductVo;
 import com.paascloud.provider.service.OmcCartFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +28,7 @@ import java.util.List;
 public class OmcCartFeignHystrix implements OmcCartFeignApi {
 	@Override
 	public Wrapper updateCartList(final List<CartProductVo> cartProductVoList) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override

@@ -32,7 +32,7 @@ import javax.annotation.Resource;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/mdc/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - MdcProductMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcProductMainController extends BaseController {
 

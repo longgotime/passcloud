@@ -13,6 +13,7 @@ package com.paascloud.provider.model.service.hystrix;
 
 import com.paascloud.provider.model.dto.token.TokenMainQueryDto;
 import com.paascloud.provider.model.service.UacTokenFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +29,11 @@ public class UacTokenFeignApiHystrix implements UacTokenFeignApi {
 
 	@Override
 	public Wrapper<Integer> updateTokenOffLine() {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper queryUacActionListWithPage(TokenMainQueryDto token) {
-		return null;
+		return WrapMapper.error();
 	}
 }

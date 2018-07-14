@@ -14,6 +14,8 @@ package com.paascloud.operate.controller.mdc;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.dto.UpdateStatusDto;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.provider.model.dto.MdcDictCheckCodeDto;
+import com.paascloud.provider.model.dto.MdcDictCheckNameDto;
 import com.paascloud.provider.model.dto.MdcEditDictDto;
 import com.paascloud.provider.model.vo.MdcDictVo;
 import com.paascloud.provider.service.MdcDictFeignApi;
@@ -33,7 +35,7 @@ import java.util.List;
  * @author paascloud.net@gmail.com
  */
 @RestController
-@RequestMapping(value = "/mdc/dict", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/dict", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - MdcDictMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcDictMainController extends BaseController {
 
@@ -98,5 +100,26 @@ public class MdcDictMainController extends BaseController {
     public Wrapper<Integer> deleteMdcDictById(@ApiParam(name = "id", value = "字典id") @PathVariable Long id) {
         logger.info(" 根据id删除字典 id={}", id);
         return mdcDictFeignApi.deleteMdcDictById(id);
+    }
+
+    @PostMapping(value = "/checkDictCode")
+    @ApiOperation(httpMethod = "POST", value = "检测数据字典编码是否已存在")
+    public Wrapper<Boolean> checkDictCode(@ApiParam(name = "uacMenuCheckCodeDto", value = "id与url") @RequestBody MdcDictCheckCodeDto mdcDictCheckCodeDto) {
+        logger.info("检测数据字典编码是否已存在 mdcDictCheckCodeDto={}", mdcDictCheckCodeDto);
+        return mdcDictFeignApi.checkDictCode(mdcDictCheckCodeDto);
+    }
+
+    /**
+     * 检测数据字典名称是否已存在.
+     *
+     * @param mdcDictCheckNameDto the mdc dict check name dto
+     * @return the wrapper
+     */
+    @PostMapping(value = "/checkDictName")
+    @ApiOperation(httpMethod = "POST", value = "检测数据字典名称是否已存在")
+    public Wrapper<Boolean> checkDictName(@ApiParam(name = "uacMenuCheckCodeDto", value = "id与url") @RequestBody MdcDictCheckNameDto mdcDictCheckNameDto) {
+        logger.info("检测数据字典名称是否已存在 mdcDictCheckNameDto={}", mdcDictCheckNameDto);
+
+        return mdcDictFeignApi.checkDictName(mdcDictCheckNameDto);
     }
 }

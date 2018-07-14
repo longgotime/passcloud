@@ -21,8 +21,10 @@ import com.paascloud.provider.model.service.UacGroupFeignApi;
 import com.paascloud.provider.model.vo.group.GroupVo;
 import com.paascloud.provider.model.vo.group.GroupZtreeVo;
 import com.paascloud.provider.model.vo.menu.MenuVo;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Map;
@@ -37,61 +39,61 @@ public class UacGroupFeignApiHystrix implements UacGroupFeignApi {
 
 	@Override
 	public Wrapper deleteGroupById(Long id) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper modifyGroupStatus(IdStatusDto idStatusDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
-	public Wrapper<List<MenuVo>> getTree() {
-		return null;
+	public Wrapper<List<MenuVo>> getTreeByUserId(Long userId) {
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper editGroup(GroupDto group) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<GroupVo> getEditGroupPageInfo(Long id) {
-		return null;
-	}
-
-	@Override
-	public Wrapper<List<GroupZtreeVo>> getGroupTreeById() {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(Long groupId) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkGroupName(CheckGroupNameDto checkGroupNameDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkGroupCode(CheckGroupCodeDto checkGroupCodeDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<List<Map<String, String>>> queryGroupType() {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
-	public Wrapper bindUser4Role(GroupBindUserReqDto groupBindUserReqDto) {
-		return null;
+	public Wrapper bindUser4Group(GroupBindUserReqDto groupBindUserReqDto) {
+		return WrapMapper.error();
 	}
 
 	@Override
-	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(Long groupId) {
+	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(Long groupId, Long userId) {
+		return WrapMapper.error();
+	}
+
+	@Override
+	public Wrapper<List<MenuVo>> getGroupTreeByUserId(Long userId) {
 		return null;
 	}
 }

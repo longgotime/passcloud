@@ -19,6 +19,7 @@ import com.paascloud.provider.model.dto.ProductCategoryDto;
 import com.paascloud.provider.model.dto.ProductReqDto;
 import com.paascloud.provider.model.vo.MdcCategoryVo;
 import com.paascloud.provider.service.MdcProductCategoryFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -33,41 +34,41 @@ import java.util.List;
 public class MdcProductCategoryFeignHystrix implements MdcProductCategoryFeignApi {
     @Override
     public Wrapper<Boolean> checkCategoryName(MdcCategoryCheckNameDto categoryCheckNameDto) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<List<MdcCategoryVo>> queryCategoryTreeList() {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<MdcCategoryVo> queryCategoryVoById(Long id) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper updateMdcCategoryStatusById(UpdateStatusDto updateStatusDto) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper saveCategory(MdcEditCategoryDto mdcCategoryAddDto) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<Integer> deleteMdcCategoryById(Long id) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<List<ProductCategoryDto>> getProductCategoryData(Long pid) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<PageInfo> getProductList(ProductReqDto productReqDto) {
-        return null;
+        return WrapMapper.error();
     }
 }

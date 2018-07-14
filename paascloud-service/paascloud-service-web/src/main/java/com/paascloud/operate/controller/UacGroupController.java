@@ -71,6 +71,7 @@ public class UacGroupController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "根据id修改组织状态")
 	public Wrapper modifyGroupStatus(@RequestBody IdStatusDto idStatusDto) {
 		logger.info("根据id修改组织状态 idStatusDto={}", idStatusDto);
+		idStatusDto.setLoginAuthDto(getLoginAuthDto());
 		return uacGroupFeignApi.modifyGroupStatus(idStatusDto);
 	}
 
@@ -82,8 +83,7 @@ public class UacGroupController extends BaseController{
 	@PostMapping(value = "/getTree")
 	@ApiOperation(httpMethod = "POST", value = "获取菜单树")
 	public Wrapper<List<MenuVo>> getTree() {
-		uacGroupFeignApi.getTree();
-		return WrapMapper.ok();
+        return uacGroupFeignApi.getGroupTreeByUserId(getLoginAuthDto().getUserId());
 	}
 
 	/**
@@ -97,6 +97,8 @@ public class UacGroupController extends BaseController{
 	@LogAnnotation
 	@ApiOperation(httpMethod = "POST", value = "修改组织信息")
 	public Wrapper editGroup(@RequestBody GroupDto group) {
+		group.setLoginAuthDto(getLoginAuthDto());
+
 		return uacGroupFeignApi.editGroup(group);
 	}
 
@@ -123,7 +125,7 @@ public class UacGroupController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "根据当前登录人查询组织列表")
 	public Wrapper<List<GroupZtreeVo>> getGroupTree() {
 		logger.info("根据当前登录人查询组织列表");
-		return uacGroupFeignApi.getGroupTreeById();
+		return uacGroupFeignApi.getGroupTreeById(getLoginAuthDto().getGroupId());
 	}
 
 	/**
@@ -192,7 +194,9 @@ public class UacGroupController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "组织绑定用户")
 	public Wrapper bindUser4Role(@RequestBody GroupBindUserReqDto groupBindUserReqDto) {
 		logger.info("组织绑定用户...  groupBindUserReqDto={}", groupBindUserReqDto);
-		return uacGroupFeignApi.bindUser4Role(groupBindUserReqDto);
+		groupBindUserReqDto.setLoginAuthDto(getLoginAuthDto());
+
+		return uacGroupFeignApi.bindUser4Group(groupBindUserReqDto);
 	}
 
 
@@ -208,6 +212,6 @@ public class UacGroupController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "获取组织绑定用户页面数据")
 	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@PathVariable Long groupId) {
 		logger.info("查询组织绑定用户页面数据 groupId={}", groupId);
-		return uacGroupFeignApi.getGroupBindUserPageInfo(groupId);
+		return uacGroupFeignApi.getGroupBindUserPageInfo(groupId, getLoginAuthDto().getUserId());
 	}
 }

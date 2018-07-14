@@ -43,7 +43,6 @@ public interface UacGroupFeignApi{
 	 * 根据id删除组织
 	 *
 	 * @param id the id
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/group/deleteById/{id}")
@@ -53,7 +52,6 @@ public interface UacGroupFeignApi{
 	 * 根据id修改组织状态
 	 *
 	 * @param idStatusDto the id status dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/group/modifyStatus")
@@ -63,16 +61,16 @@ public interface UacGroupFeignApi{
 	/**
 	 * 获取主页面数据
 	 *
+	 * @param userId the user id
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/uac/group/getTree")
-	Wrapper<List<MenuVo>> getTree();
+	@PostMapping(value = "/uac/group/getTree/{userId}")
+	Wrapper<List<MenuVo>> getTreeByUserId(@PathVariable("userId") Long userId);
 
 	/**
 	 * 编辑组织
 	 *
 	 * @param group the group
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/group/save")
@@ -83,7 +81,6 @@ public interface UacGroupFeignApi{
 	 * 获取编辑页面数据
 	 *
 	 * @param id the id
-	 *
 	 * @return the edit group page info
 	 */
 	@PostMapping(value = "/uac/group/queryById/{id}")
@@ -91,17 +88,9 @@ public interface UacGroupFeignApi{
 	Wrapper<GroupVo> getEditGroupPageInfo(@ApiParam(name = "id", value = "组织id") @PathVariable("id") Long id);
 
 	/**
-	 * 根据当前登录人查询组织列表
-	 *
-	 * @return the group tree by id
-	 */
-	@PostMapping(value = "/uac/group/getGroupTree")
-	Wrapper<List<GroupZtreeVo>> getGroupTreeById();
-	/**
 	 * 通过组织ID查询组织树
 	 *
 	 * @param groupId the group id
-	 *
 	 * @return the group tree by id
 	 */
 	@PostMapping(value = "/uac/group/getGroupTree/{groupId}")
@@ -111,7 +100,6 @@ public interface UacGroupFeignApi{
 	 * Check group name with edit wrapper.
 	 *
 	 * @param checkGroupNameDto the check group name dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/group/checkGroupName")
@@ -121,7 +109,6 @@ public interface UacGroupFeignApi{
 	 * 修改时验证组织编码
 	 *
 	 * @param checkGroupCodeDto the check group code dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/group/checkGroupCode")
@@ -139,20 +126,27 @@ public interface UacGroupFeignApi{
 	 * 组织绑定用户
 	 *
 	 * @param groupBindUserReqDto the group bind user req dto
-	 *
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/group/bindUser")
-	Wrapper bindUser4Role(@ApiParam(name = "uacGroupBindUserReqDto", value = "组织绑定用户") @RequestBody GroupBindUserReqDto groupBindUserReqDto);
+	Wrapper bindUser4Group(@ApiParam(name = "uacGroupBindUserReqDto", value = "组织绑定用户") @RequestBody GroupBindUserReqDto groupBindUserReqDto);
 
 	/**
 	 * 组织绑定用户页面数据
 	 *
 	 * @param groupId the group id
-	 *
+	 * @param userId  the user id
 	 * @return the group bind user page info
 	 */
-	@PostMapping(value = "/uac/group/getBindUser/{groupId}")
-	Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@ApiParam(name = "groupId", value = "组织id") @PathVariable("groupId") Long groupId);
+	@PostMapping(value = "/uac/group/getBindUser/{groupId}/{userId}")
+	Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@ApiParam(name = "groupId", value = "组织id") @PathVariable("groupId") Long groupId, @PathVariable("userId") Long userId);
 
+	/**
+	 * Gets group tree by user id.
+	 *
+	 * @param userId the user id
+	 * @return the group tree by user id
+	 */
+	@PostMapping(value = "/uac/group/getGroupTreeByUserId/{userId}")
+	Wrapper<List<MenuVo>> getGroupTreeByUserId(@PathVariable("userId") Long userId);
 }

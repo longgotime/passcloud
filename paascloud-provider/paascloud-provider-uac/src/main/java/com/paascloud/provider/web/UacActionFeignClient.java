@@ -15,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Preconditions;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.provider.model.domain.UacAction;
 import com.paascloud.provider.model.dto.action.ActionMainQueryDto;
@@ -47,19 +48,12 @@ import java.util.List;
 @RefreshScope
 @RestController
 @Api(value = "API - UacActionFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacActionFeignClient extends BaseController implements UacActionFeignApi {
+public class UacActionFeignClient extends BaseFeignClient implements UacActionFeignApi {
 
 	@Resource
 	private UacActionService uacActionService;
 
 
-	/**
-	 * 分页查询权限信息.
-	 *
-	 * @param action the action
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper queryUacActionListWithPage(@RequestBody ActionMainQueryDto action) {
 		logger.info("查询角色列表actionQuery={}", action);
@@ -67,39 +61,19 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 		return WrapMapper.ok(pageInfo);
 	}
 
-	/**
-	 * 删除权限信息.
-	 *
-	 * @param id the id
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper deleteUacActionById(@PathVariable("id") Long id) {
 		int result = uacActionService.deleteActionById(id);
 		return WrapMapper.handleResult(result);
 	}
 
-	/**
-	 * 批量删除权限.
-	 *
-	 * @param deleteIdList the delete id list
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper batchDeleteByIdList(@RequestBody List<Long> deleteIdList) {
 		logger.info("批量删除角色 idList={}", deleteIdList);
 		uacActionService.batchDeleteByIdList(deleteIdList);
 		return WrapMapper.ok();
 	}
-	/**
-	 * 保存权限信息.
-	 *
-	 * @param action the action
-	 *
-	 * @return the wrapper
-	 */
+
 	@Override
 	public Wrapper save(@RequestBody UacActionDto action) {
 		LoginAuthDto loginAuthDto = action.getLoginAuthDto();
@@ -109,13 +83,6 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 		return WrapMapper.ok();
 	}
 
-	/**
-	 * 根据权限Id修改权限状态.
-	 *
-	 * @param modifyStatusDto the modify status dto
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper modifyActionStatus(@RequestBody ModifyStatusDto modifyStatusDto) {
 		logger.info("根据角色Id修改权限状态 modifyStatusDto={}", modifyStatusDto);
@@ -131,13 +98,6 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 		return WrapMapper.handleResult(result);
 	}
 
-	/**
-	 * 检测权限编码是否已存在
-	 *
-	 * @param uacActionCheckCodeDto the uac action check code dto
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<Boolean> checkActionCode(@RequestBody UacActionCheckCodeDto uacActionCheckCodeDto) {
 		logger.info("校验权限编码唯一性 uacActionCheckCodeDto={}", uacActionCheckCodeDto);
@@ -157,13 +117,6 @@ public class UacActionFeignClient extends BaseController implements UacActionFei
 		return WrapMapper.ok(result < 1);
 	}
 
-	/**
-	 * 检测权限URL唯一性
-	 *
-	 * @param uacActionCheckUrlDto the uac action check url dto
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<Boolean> checkActionUrl(@RequestBody UacActionCheckUrlDto uacActionCheckUrlDto) {
 		logger.info("检测权限URL唯一性 uacActionCheckUrlDto={}", uacActionCheckUrlDto);

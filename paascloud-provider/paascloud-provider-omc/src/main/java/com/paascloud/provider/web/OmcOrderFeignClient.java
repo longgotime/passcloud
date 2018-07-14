@@ -103,7 +103,7 @@ public class OmcOrderFeignClient extends BaseController implements OmcOrderFeign
     }
 
     @Override
-    public Wrapper queryUserOrderDetail(@PathVariable String orderNo) {
+    public Wrapper queryUserOrderDetail(@PathVariable("orderNo") String orderNo) {
         logger.info("queryUserOrderDetail - 查询订单明细. orderNo={}", orderNo);
 
         OrderVo orderVo = omcOrderService.getOrderDetail(orderNo);

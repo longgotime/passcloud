@@ -12,11 +12,14 @@
 package com.paascloud.operate.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.paascloud.base.dto.IdDTO;
 import com.paascloud.base.dto.LoginAuthDto;
+import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.core.annotation.LogAnnotation;
 import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
+import com.paascloud.provider.model.exceptions.UacBizException;
 import com.paascloud.provider.model.service.UacUserFeignApi;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -52,7 +56,7 @@ public class UacUserController extends BaseController{
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/queryListWithPage")
-	public Wrapper<PageInfo> queryUserListWithPage(@RequestBody UserInfoDto uacUser) {
+	public Wrapper<PageInfo> queryUserListWithPage(@RequestBody QueryUserDTO uacUser) {
 		return uacUserFeignApi.queryUserListWithPage(uacUser);
 	}
 
@@ -68,6 +72,8 @@ public class UacUserController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "新增用户")
 	public Wrapper<Integer> addUacUser(@RequestBody UserInfoDto user) {
 		logger.info(" 新增用户 user={}", user);
+		user.setLoginAuthDto(getLoginAuthDto());
+
 		return uacUserFeignApi.addUacUser(user);
 	}
 
@@ -84,8 +90,9 @@ public class UacUserController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "根据Id修改用户状态")
 	public Wrapper<Integer> modifyUserStatusById(@RequestBody ModifyUserStatusDto modifyUserStatusDto) {
 		logger.info(" 根据Id修改用户状态 modifyUserStatusDto={}", modifyUserStatusDto);
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
-        return uacUserFeignApi.modifyUserStatusById(modifyUserStatusDto);
+		modifyUserStatusDto.setLoginAuthDto(getLoginAuthDto());
+
+		return uacUserFeignApi.modifyUserStatusById(modifyUserStatusDto);
 	}
 
 	/**
@@ -114,6 +121,12 @@ public class UacUserController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "获取用户绑定角色页面数据")
 	public Wrapper<UserBindRoleVo> getBindRole(@PathVariable Long userId) {
 		logger.info("获取用户绑定角色页面数据. userId={}", userId);
+
+		Long currentUserId = getLoginAuthDto().getUserId();
+		if (Objects.equals(userId, currentUserId)) {
+			throw new UacBizException(ErrorCodeEnum.UAC10011023);
+		}
+
         return uacUserFeignApi.getBindRole(userId);
 	}
 
@@ -129,6 +142,8 @@ public class UacUserController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "用户绑定角色")
 	public Wrapper<Integer> bindUserRoles(@RequestBody BindUserRolesDto bindUserRolesDto) {
 		logger.info("用户绑定角色 bindUserRolesDto={}", bindUserRolesDto);
+		bindUserRolesDto.setLoginAuthDto(getLoginAuthDto());
+
 		return uacUserFeignApi.bindUserRoles(bindUserRolesDto);
 	}
 
@@ -141,7 +156,7 @@ public class UacUserController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "查询用户常用功能数据")
 	public Wrapper<List<UserMenuDto>> queryUserMenuDtoData() {
 		logger.info("查询用户常用功能数据");
-        return uacUserFeignApi.queryUserMenuDtoData();
+        return uacUserFeignApi.queryUserMenuDtoData(getLoginAuthDto().getUserId());
 	}
 
 	/**
@@ -156,7 +171,9 @@ public class UacUserController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "绑定用户常用菜单")
 	public Wrapper<Integer> bindUserMenus(@RequestBody BindUserMenusDto bindUserMenusDto) {
 		logger.info("绑定用户常用菜单");
-        return uacUserFeignApi.bindUserMenus(bindUserMenusDto);
+		bindUserMenusDto.setLoginAuthDto(getLoginAuthDto());
+
+		return uacUserFeignApi.bindUserMenus(bindUserMenusDto);
 	}
 
 	/**
@@ -185,7 +202,8 @@ public class UacUserController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "根据用户Id重置密码")
 	public Wrapper<UserVo> resetLoginPwd(@PathVariable Long userId) {
 		logger.info("resetLoginPwd - 根据用户Id重置密码. userId={}", userId);
-		return uacUserFeignApi.resetLoginPwd(userId);
+		IdDTO idDTO = new IdDTO(userId, getLoginAuthDto());
+		return uacUserFeignApi.resetLoginPwd(idDTO);
 	}
 
 	/**
@@ -283,7 +301,7 @@ public class UacUserController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "修改用户信息")
 	public Wrapper<Integer> modifyUserEmail(@PathVariable String email, @PathVariable String emailCode) {
 		logger.info(" 修改用户信息 email={}, emailCode={}", email, emailCode);
-		return uacUserFeignApi.modifyUserEmail(email, emailCode);
+		return uacUserFeignApi.modifyUserEmail(email, emailCode, getLoginAuthDto());
 	}
 
 
@@ -295,7 +313,7 @@ public class UacUserController extends BaseController{
 	@PostMapping(value = "/getOwnAuthTree")
 	@ApiOperation(httpMethod = "POST", value = "获取权限树")
 	public Wrapper<List<MenuVo>> getOwnAuthTree() {
-        return uacUserFeignApi.getOwnAuthTree();
+        return uacUserFeignApi.getOwnAuthTree(getLoginAuthDto().getUserId());
 	}
 
 
@@ -311,6 +329,8 @@ public class UacUserController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "用户修改密码")
 	public Wrapper<Integer> modifyUserPwd(@RequestBody UserModifyPwdDto userModifyPwdDto) {
 		logger.info("==》vue用户修改密码, userModifyPwdDto={}", userModifyPwdDto);
+		userModifyPwdDto.setLoginAuthDto(getLoginAuthDto());
+
 		return uacUserFeignApi.modifyUserPwd(userModifyPwdDto);
 	}
 

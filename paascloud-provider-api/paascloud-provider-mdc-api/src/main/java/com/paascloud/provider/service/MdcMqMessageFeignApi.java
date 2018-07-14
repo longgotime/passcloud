@@ -41,7 +41,7 @@ public interface MdcMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/mdc/message/queryMessageKeyList")
+	@PostMapping(value = "/mdc/mdc/message/queryMessageKeyList")
 	Wrapper<List<String>> queryMessageKeyList(@RequestParam("messageKeyList") List<String> messageKeyList);
 
 	/**
@@ -51,6 +51,6 @@ public interface MdcMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/mdc/message/queryMessageListWithPage")
+	@PostMapping(value = "/mdc/mdc/message/queryMessageListWithPage")
 	Wrapper<PageInfo<MqMessageVo>> queryMessageListWithPage(@RequestBody MessageQueryDto messageQueryDto);
 }

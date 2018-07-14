@@ -15,7 +15,6 @@ import com.paascloud.base.dto.BaseVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -100,6 +99,5 @@ public class TpcMessageVo extends BaseVo {
 	 */
 	private Integer yn;
 
-	@Transient
 	private List<TpcMqConfirmVo> mqConfirmVoList;
 }

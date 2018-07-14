@@ -16,6 +16,7 @@ import com.paascloud.provider.model.dto.OmcShippingDTO;
 import com.paascloud.provider.model.dto.OmcShippingQuery;
 import com.paascloud.provider.service.OmcShippingFeignApi;
 import com.paascloud.provider.service.PtcPayFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -28,36 +29,36 @@ import org.springframework.stereotype.Component;
 public class OmcShippingFeignHystrix implements OmcShippingFeignApi {
     @Override
     public Wrapper addShipping(OmcShippingDTO shipping) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper deleteShipping(Long shippingId, Long userId) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper updateShipping(OmcShippingDTO shipping) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper setDefaultAddress(OmcShippingDTO omcShippingDTO) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<OmcShippingDTO> selectShippingById(Long shippingId, Long userId) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<PageInfo> queryUserShippingListWithPage(OmcShippingQuery shipping) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<PageInfo> queryShippingListWithPage(OmcShippingQuery shipping) {
-        return null;
+        return WrapMapper.error();
     }
 }

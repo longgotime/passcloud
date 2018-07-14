@@ -42,7 +42,7 @@ public class OmcShippingFeignClient extends BaseFeignClient implements OmcShippi
 	private OmcShippingService omcShippingService;
 
 	@Override
-	public Wrapper addShipping(OmcShippingDTO shipping) {
+	public Wrapper addShipping(@RequestBody OmcShippingDTO shipping) {
 
 		logger.info("addShipping - 增加收货人地址. shipping={}", shipping);
 
@@ -62,7 +62,7 @@ public class OmcShippingFeignClient extends BaseFeignClient implements OmcShippi
 	}
 
 	@Override
-	public Wrapper updateShipping(OmcShippingDTO shipping) {
+	public Wrapper updateShipping(@RequestBody OmcShippingDTO shipping) {
 		logger.info("updateShipping - 编辑收货人地址. shipping={}", shipping);
 		OmcShipping omcShipping = new ModelMapper().map(shipping, OmcShipping.class);
 		int result = omcShippingService.saveShipping(shipping.getLoginAuthDto(), omcShipping);

@@ -34,7 +34,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 根据登录名查询用户信息
 	 *
 	 * @param loginName the login name
-	 *
 	 * @return the uac user
 	 */
 	UacUser findByLoginName(String loginName);
@@ -43,7 +42,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 根据手机号查询用户信息.
 	 *
 	 * @param mobileNo the mobile no
-	 *
 	 * @return the uac user
 	 */
 	UacUser findByMobileNo(String mobileNo);
@@ -68,7 +66,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 获得用户拥有的权限列表, 在首次验证用户对某个资源是否有权限时, 会调用此方法, 初始化用户权限
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the user perms
 	 */
 	List<String> getUserPerms(Long userId);
@@ -77,7 +74,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 更新用户信息
 	 *
 	 * @param uacUser the uac user
-	 *
 	 * @return the int
 	 */
 	int updateUser(UacUser uacUser);
@@ -86,7 +82,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * Query user list with page list.
 	 *
 	 * @param uacUser the uac user
-	 *
 	 * @return the list
 	 */
 	PageInfo queryUserListWithPage(UacUser uacUser);
@@ -95,7 +90,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 根据用户ID删除用户.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the int
 	 */
 	int deleteUserById(Long userId);
@@ -104,7 +98,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 根据用户ID查询用户信息.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the uac user
 	 */
 	UacUser findUserInfoByUserId(Long userId);
@@ -121,7 +114,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 根据用户ID查询用户日志集合.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the list
 	 */
 	List<UacLog> queryUserLogListWithUserId(Long userId);
@@ -131,7 +123,6 @@ public interface UacUserService extends IService<UacUser> {
 	 *
 	 * @param uacUser      the uac user
 	 * @param loginAuthDto the login auth dto
-	 *
 	 * @return the int
 	 */
 	int modifyUserStatusById(UacUser uacUser, LoginAuthDto loginAuthDto);
@@ -147,18 +138,16 @@ public interface UacUserService extends IService<UacUser> {
 	/**
 	 * 查询用户菜单.
 	 *
-	 * @param loginAuthDto the login auth dto
-	 *
+	 * @param userId the user id
 	 * @return the list
 	 */
-	List<UserMenuDto> queryUserMenuDtoData(LoginAuthDto loginAuthDto);
+	List<UserMenuDto> queryUserMenuDtoData(Long userId);
 
 	/**
 	 * 用户绑定菜单.
 	 *
 	 * @param menuIdList   the menu id list
 	 * @param loginAuthDto the login auth dto
-	 *
 	 * @return the int
 	 */
 	int bindUserMenus(List<Long> menuIdList, LoginAuthDto loginAuthDto);
@@ -167,7 +156,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 根据用户ID查询用户信息.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the uac user
 	 */
 	UacUser queryByUserId(Long userId);
@@ -177,7 +165,6 @@ public interface UacUserService extends IService<UacUser> {
 	 *
 	 * @param userModifyPwdDto the user modify pwd dto
 	 * @param authResDto       the auth res dto
-	 *
 	 * @return the int
 	 */
 	int userModifyPwd(UserModifyPwdDto userModifyPwdDto, LoginAuthDto authResDto);
@@ -186,7 +173,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 用户忘记密码
 	 *
 	 * @param userResetPwdDto the user reset pwd dto
-	 *
 	 * @return the int
 	 */
 	int userResetPwd(UserResetPwdDto userResetPwdDto);
@@ -202,7 +188,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 校验登录名是否存在.
 	 *
 	 * @param loginName the login name
-	 *
 	 * @return the boolean
 	 */
 	boolean checkLoginName(String loginName);
@@ -211,7 +196,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 校验邮箱是否存在.
 	 *
 	 * @param loginName the login name
-	 *
 	 * @return the boolean
 	 */
 	boolean checkEmail(String loginName);
@@ -220,7 +204,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 校验手机号是否存在.
 	 *
 	 * @param validValue the valid value
-	 *
 	 * @return the boolean
 	 */
 	boolean checkMobileNo(String validValue);
@@ -230,7 +213,6 @@ public interface UacUserService extends IService<UacUser> {
 	 *
 	 * @param loginName the login name
 	 * @param email     the email
-	 *
 	 * @return the int
 	 */
 	int countUserByLoginNameAndEmail(String loginName, String email);
@@ -239,7 +221,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 重置密码.
 	 *
 	 * @param forgetResetPasswordDto 忘记密码实体
-	 *
 	 * @return the int
 	 */
 	int userEmailResetPwd(ForgetResetPasswordDto forgetResetPasswordDto);
@@ -272,7 +253,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 获取绑定的角色信息.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the user bind role dto
 	 */
 	UserBindRoleVo getUserBindRoleDto(Long userId);
@@ -288,7 +268,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * 获取用户拥有的所有权限编码.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the collection
 	 */
 	Collection<GrantedAuthority> loadUserAuthorities(Long userId);
@@ -297,7 +276,6 @@ public interface UacUserService extends IService<UacUser> {
 	 * Find user info by login name uac user.
 	 *
 	 * @param loginName the login name
-	 *
 	 * @return the uac user
 	 */
 	UacUser findUserInfoByLoginName(String loginName);

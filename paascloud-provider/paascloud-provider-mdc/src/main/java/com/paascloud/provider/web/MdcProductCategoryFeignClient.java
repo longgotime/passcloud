@@ -51,7 +51,6 @@ import java.util.List;
  * @author paascloud.net@gmail.com
  */
 @RestController
-@Api(value = "API - MdcProductCategoryFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcProductCategoryFeignClient extends BaseFeignClient implements MdcProductCategoryFeignApi {
 
     @Resource
@@ -86,7 +85,7 @@ public class MdcProductCategoryFeignClient extends BaseFeignClient implements Md
     }
 
     @Override
-    public Wrapper<MdcCategoryVo> queryCategoryVoById(@ApiParam(name = "id", value = "商品分类id") @PathVariable("id") Long id) {
+    public Wrapper<MdcCategoryVo> queryCategoryVoById(@PathVariable("id") Long id) {
         logger.info("根据Id查询商品分类信息, categoryId={}", id);
         MdcCategoryVo mdcCategoryVo = mdcProductCategoryService.getMdcCategoryVoById(id);
         return WrapMapper.ok(mdcCategoryVo);
@@ -94,7 +93,7 @@ public class MdcProductCategoryFeignClient extends BaseFeignClient implements Md
 
 
     @Override
-    public Wrapper updateMdcCategoryStatusById(@ApiParam(name = "mdcCategoryStatusDto", value = "修改商品分类状态Dto") @RequestBody UpdateStatusDto updateStatusDto) {
+    public Wrapper updateMdcCategoryStatusById(@RequestBody UpdateStatusDto updateStatusDto) {
         logger.info("根据id修改商品分类的禁用状态 updateStatusDto={}", updateStatusDto);
         LoginAuthDto loginAuthDto = updateStatusDto.getLoginAuthDto();
         mdcProductCategoryService.updateMdcCategoryStatusById(updateStatusDto, loginAuthDto);
@@ -102,7 +101,7 @@ public class MdcProductCategoryFeignClient extends BaseFeignClient implements Md
     }
 
     @Override
-    public Wrapper saveCategory(@ApiParam(name = "saveCategory", value = "编辑商品分类") @RequestBody MdcEditCategoryDto mdcCategoryAddDto) {
+    public Wrapper saveCategory(@RequestBody MdcEditCategoryDto mdcCategoryAddDto) {
         MdcProductCategory mdcCategory = new MdcProductCategory();
         LoginAuthDto loginAuthDto = mdcCategoryAddDto.getLoginAuthDto();
         BeanUtils.copyProperties(mdcCategoryAddDto, mdcCategory);
@@ -111,7 +110,7 @@ public class MdcProductCategoryFeignClient extends BaseFeignClient implements Md
     }
 
     @Override
-    public Wrapper<Integer> deleteMdcCategoryById(@ApiParam(name = "id", value = "商品分类id") @PathVariable("id") Long id) {
+    public Wrapper<Integer> deleteMdcCategoryById(@PathVariable("id") Long id) {
         logger.info(" 根据id删除商品分类 id={}", id);
         // 判断此商品分类是否有子节点
         boolean hasChild = mdcProductCategoryService.checkCategoryHasChildCategory(id);

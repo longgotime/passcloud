@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.model.dto.log;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -163,5 +164,7 @@ public class OperationLogDto implements Serializable {
 	 * 更新时间
 	 */
 	private Date updateTime;
+
+	private LoginAuthDto loginAuthDto;
 
 }

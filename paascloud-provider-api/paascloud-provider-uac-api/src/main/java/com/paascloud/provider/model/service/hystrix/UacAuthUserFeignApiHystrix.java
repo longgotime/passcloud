@@ -18,6 +18,7 @@ import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.dto.user.ResetLoginPwdDto;
 import com.paascloud.provider.model.dto.user.UserRegisterDto;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -34,61 +35,56 @@ public class UacAuthUserFeignApiHystrix implements UacAuthUserFeignApi {
 
 	@Override
 	public Wrapper<Boolean> checkPhoneActive(String mobileNo) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkEmailActive(String email) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper checkValid(CheckValidDto checkValidDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<String> submitResetPwdEmail(String email) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<String> submitResetPwdPhone(String mobile, HttpServletResponse response) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkResetSmsCode(ResetLoginPwdDto resetLoginPwdDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper registerUser(UserRegisterDto user) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper activeUser(String activeUserToken) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Integer> saveLog(OperationLogDto operationLogDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<AuthUserDTO> getAuthUserDTO(String loginName) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<?> handlerLoginData(HandlerLoginDTO handlerLoginDTO) {
-		return null;
-	}
-
-	@Override
-	public Wrapper callbackQQ(HttpServletRequest request) {
-		return null;
+		return WrapMapper.error();
 	}
 }

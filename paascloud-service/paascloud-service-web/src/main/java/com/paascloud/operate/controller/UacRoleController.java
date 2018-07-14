@@ -13,6 +13,7 @@ package com.paascloud.operate.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.annotation.LogAnnotation;
 import com.paascloud.core.annotation.ValidateAnnotation;
 import com.paascloud.core.support.BaseController;
@@ -100,6 +101,8 @@ public class UacRoleController extends BaseController{
     @ApiOperation(httpMethod = "POST", value = "根据角色Id修改角色状态")
     public Wrapper modifyUacRoleStatusById(@RequestBody ModifyStatusDto modifyStatusDto) {
         logger.info("根据角色Id修改角色状态 modifyStatusDto={}", modifyStatusDto);
+        LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+        modifyStatusDto.setLoginAuthDto(loginAuthDto);
         return uacRoleFeignApi.modifyUacRoleStatusById(modifyStatusDto);
     }
 
@@ -115,6 +118,8 @@ public class UacRoleController extends BaseController{
     @ValidateAnnotation
     @LogAnnotation
     public Wrapper save(@RequestBody RoleDto role) {
+        LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+        role.setLoginAuthDto(loginAuthDto);
         return uacRoleFeignApi.save(role);
     }
 
@@ -131,6 +136,8 @@ public class UacRoleController extends BaseController{
     @LogAnnotation
     public Wrapper bindAction(@RequestBody RoleBindActionDto roleBindActionDto) {
         logger.info("角色分配权限. roleBindActionDto= {}", roleBindActionDto);
+        LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+        roleBindActionDto.setLoginAuthDto(loginAuthDto);
         return uacRoleFeignApi.bindAction(roleBindActionDto);
     }
 
@@ -146,6 +153,8 @@ public class UacRoleController extends BaseController{
     @LogAnnotation
     public Wrapper bindMenu(@RequestBody RoleBindMenuDto roleBindMenuDto) {
         logger.info("角色分配权限. roleBindMenuDto= {}", roleBindMenuDto);
+        LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+        roleBindMenuDto.setLoginAuthDto(loginAuthDto);
         return uacRoleFeignApi.bindMenu(roleBindMenuDto);
     }
 
@@ -161,6 +170,8 @@ public class UacRoleController extends BaseController{
     @ApiOperation(httpMethod = "POST", value = "角色绑定用户")
     public Wrapper bindUser(@RequestBody RoleBindUserReqDto roleBindUserReqDto) {
         logger.info("roleBindUser={}", roleBindUserReqDto);
+        LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+        roleBindUserReqDto.setLoginAuthDto(loginAuthDto);
         return uacRoleFeignApi.bindUser(roleBindUserReqDto);
     }
     /**
@@ -174,7 +185,9 @@ public class UacRoleController extends BaseController{
     @ApiOperation(httpMethod = "POST", value = "获取角色绑定用户页面数据")
     public Wrapper<RoleBindUserDto> getBindUser(@PathVariable Long roleId) {
         logger.info("获取角色绑定用户页面数据. roleId={}", roleId);
-        return uacRoleFeignApi.getBindUser(roleId);
+        LoginAuthDto loginAuthDto = super.getLoginAuthDto();
+        GetBindUserDto getBindUserDto = new GetBindUserDto(roleId, loginAuthDto);
+        return uacRoleFeignApi.getBindUser(getBindUserDto);
     }
     /**
      * 查看角色信息.

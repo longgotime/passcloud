@@ -33,7 +33,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 *
 	 * @param userId        the user id
 	 * @param applicationId the application id
-	 *
 	 * @return the menu vo list by user id
 	 */
 	List<MenuVo> getMenuVoList(Long userId, Long applicationId);
@@ -43,7 +42,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 *
 	 * @param uacMenu      the uac menu
 	 * @param loginAuthDto the login auth dto
-	 *
 	 * @return the int
 	 */
 	int saveUacMenu(UacMenu uacMenu, LoginAuthDto loginAuthDto);
@@ -51,19 +49,16 @@ public interface UacMenuService extends IService<UacMenu> {
 	/**
 	 * Delete uac menu by id int.
 	 *
-	 * @param id           the id
-	 * @param loginAuthDto the login auth dto
-	 *
+	 * @param id the id
 	 * @return the int
 	 */
-	int deleteUacMenuById(Long id, LoginAuthDto loginAuthDto);
+	int deleteUacMenuById(Long id);
 
 	/**
 	 * Enable menu list int.
 	 *
 	 * @param menuList     the menu list
 	 * @param loginAuthDto the login auth dto
-	 *
 	 * @return the int
 	 */
 	int enableMenuList(List<UacMenu> menuList, LoginAuthDto loginAuthDto);
@@ -72,7 +67,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 * Gets all parent menu by menu id.
 	 *
 	 * @param id the id
-	 *
 	 * @return the all parent menu by menu id
 	 */
 	List<UacMenu> getAllParentMenuByMenuId(Long id);
@@ -82,7 +76,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 *
 	 * @param id   the id
 	 * @param type the type
-	 *
 	 * @return the all child menu by menu id
 	 */
 	List<UacMenu> getAllChildMenuByMenuId(Long id, String type);
@@ -92,7 +85,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 *
 	 * @param menuList     the menu list
 	 * @param loginAuthDto the login auth dto
-	 *
 	 * @return the int
 	 */
 	int disableMenuList(List<UacMenu> menuList, LoginAuthDto loginAuthDto);
@@ -101,7 +93,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 * Select menu list list.
 	 *
 	 * @param cusUacMenu the cus uac menu
-	 *
 	 * @return the list
 	 */
 	List<UacMenu> selectMenuList(UacMenu cusUacMenu);
@@ -110,7 +101,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 * Find all menu list by auth res dto list.
 	 *
 	 * @param authResDto the auth res dto
-	 *
 	 * @return the list
 	 */
 	List<MenuVo> findAllMenuListByAuthResDto(LoginAuthDto authResDto);
@@ -119,7 +109,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 * Gets vo by id.
 	 *
 	 * @param id the id
-	 *
 	 * @return the vo by id
 	 */
 	ViewMenuVo getViewVoById(Long id);
@@ -136,7 +125,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 * 判断菜单是否有子菜单.
 	 *
 	 * @param menuId the menu id
-	 *
 	 * @return the boolean
 	 */
 	boolean checkMenuHasChildMenu(Long menuId);
@@ -145,7 +133,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 * 根据角色ID查询菜单列表.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the list
 	 */
 	List<UacMenu> listMenuListByRoleId(Long roleId);
@@ -154,7 +141,6 @@ public interface UacMenuService extends IService<UacMenu> {
 	 * Gets menu list.
 	 *
 	 * @param menuIdList the menu id list
-	 *
 	 * @return the menu list
 	 */
 	List<UacMenu> getMenuList(Set<Long> menuIdList);

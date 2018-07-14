@@ -13,9 +13,11 @@ package com.paascloud.provider.service.hystrix;
 
 import com.paascloud.provider.model.dto.MdcExceptionQueryDto;
 import com.paascloud.provider.service.MdcExceptionFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,12 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author paascloud.net @gmail.com
  */
-@RestController
-@Api(value = "Feign - MdcDictMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Component
 public class MdcExceptionFeignApiHystrix implements MdcExceptionFeignApi {
 
     @Override
     public Wrapper queryLogListWithPage(MdcExceptionQueryDto mdcExceptionQueryDto) {
-        return null;
+        return WrapMapper.error();
     }
 }

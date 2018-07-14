@@ -12,6 +12,7 @@
 package com.paascloud.operate.controller;
 
 import com.paascloud.base.dto.CheckValidDto;
+import com.paascloud.common.config.WebMvcConfig;
 import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.dto.log.OperationLogDto;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
@@ -19,6 +20,7 @@ import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.dto.user.ResetLoginPwdDto;
 import com.paascloud.provider.model.dto.user.UserRegisterDto;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "Web - UacAuthUserController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacAuthUserController extends BaseController implements UacAuthUserFeignApi {
+public class UacAuthUserController extends BaseController {
 
 
 	@Resource
@@ -124,6 +126,8 @@ public class UacAuthUserController extends BaseController implements UacAuthUser
 	@PostMapping(value = "/resetLoginPwd")
 	@ApiOperation(httpMethod = "POST", value = "重置密码-最终提交")
 	public Wrapper<Boolean> checkResetSmsCode(ResetLoginPwdDto resetLoginPwdDto) {
+		resetLoginPwdDto.setLoginAuthDto(getLoginAuthDto());
+
 		return uacAuthUserFeignApi.checkResetSmsCode(resetLoginPwdDto);
 	}
 
@@ -164,38 +168,8 @@ public class UacAuthUserController extends BaseController implements UacAuthUser
 	@ApiOperation(httpMethod = "POST", value = "查询日志")
 	public Wrapper<Integer> saveLog(OperationLogDto operationLogDto) {
 		logger.info("saveLog - 保存操作日志. operationLogDto={}", operationLogDto);
-		return uacAuthUserFeignApi.saveLog(operationLogDto);
-	}
-	/**
-	 * callbackQQ
-	 * qq回调.
-	 *
-	 * @param request the operation log dto
-	 *
-	 * @return the integer
-	 */
-	@PostMapping(value = "/callback/qq")
-	public Wrapper callbackQQ(HttpServletRequest request) {
-		logger.info("callback - callback qq. request={}", request);
-		return uacAuthUserFeignApi.callbackQQ(request);
-	}
-	/**
-	 * Gets auth user dto.
-	 *
-	 * @param loginName the login name
-	 *
-	 * @return the auth user dto
-	 */
-	public Wrapper<AuthUserDTO> getAuthUserDTO(@PathVariable("loginName") String loginName) {
-		return uacAuthUserFeignApi.getAuthUserDTO(loginName);
-	}
+		operationLogDto.setLoginAuthDto(getLoginAuthDto());
 
-	/**
-	 * Handler login data.
-	 *
-	 * @param handlerLoginDTO the handler login dto
-	 */
-	public Wrapper<?> handlerLoginData(@RequestBody HandlerLoginDTO handlerLoginDTO) {
-		return uacAuthUserFeignApi.handlerLoginData(handlerLoginDTO);
+		return uacAuthUserFeignApi.saveLog(operationLogDto);
 	}
 }

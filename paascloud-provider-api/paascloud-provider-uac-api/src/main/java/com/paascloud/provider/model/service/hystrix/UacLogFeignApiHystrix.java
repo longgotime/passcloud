@@ -16,6 +16,7 @@ import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
 import com.paascloud.provider.model.service.UacLogFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,6 @@ public class UacLogFeignApiHystrix implements UacLogFeignApi {
 
 	@Override
 	public Wrapper queryLogListWithPage(UacLogMainDto uacLogQueryDtoPage) {
-		return null;
+		return WrapMapper.error();
 	}
 }

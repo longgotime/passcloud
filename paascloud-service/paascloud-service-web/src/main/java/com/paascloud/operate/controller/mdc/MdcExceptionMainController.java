@@ -32,7 +32,7 @@ import javax.annotation.Resource;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/mdc/exception", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/exception", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "Web - MdcExceptionMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcExceptionMainController extends BaseController {
     @Resource

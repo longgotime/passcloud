@@ -14,6 +14,7 @@ package com.paascloud.provider.service.hystrix;
 import com.paascloud.TreeNode;
 import com.paascloud.provider.model.dto.AddressDTO;
 import com.paascloud.provider.service.MdcAddressFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -29,11 +30,11 @@ public class MdcAddressFeignHystrix implements MdcAddressFeignApi {
 
 	@Override
 	public Wrapper<AddressDTO> getById(final Long addressId) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<List<TreeNode>> get4City() {
-		return null;
+		return WrapMapper.error();
 	}
 }

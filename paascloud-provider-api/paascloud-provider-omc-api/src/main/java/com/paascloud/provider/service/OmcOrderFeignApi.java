@@ -98,7 +98,7 @@ public interface OmcOrderFeignApi {
      */
     @PostMapping("/api/mdc/order/queryUserOrderDetail/{orderNo}")
 	@ApiOperation(httpMethod = "POST", value = "查询订单详情")
-	Wrapper queryUserOrderDetail(@PathVariable String orderNo);
+	Wrapper queryUserOrderDetail(@PathVariable("orderNo") String orderNo);
 
     /**
      * Query user order list with page wrapper.

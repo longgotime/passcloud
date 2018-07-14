@@ -13,6 +13,7 @@ package com.paascloud.provider.service.hystrix;
 
 import com.paascloud.provider.model.dto.GlobalExceptionLogDto;
 import com.paascloud.provider.service.MdcExceptionLogFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,6 @@ public class MdcExceptionLogFeignHystrix implements MdcExceptionLogFeignApi {
 
 	@Override
 	public Wrapper saveAndSendExceptionLog(final GlobalExceptionLogDto exceptionLogDto) {
-		return null;
+		return WrapMapper.error();
 	}
 }

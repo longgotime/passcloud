@@ -18,7 +18,6 @@ import com.paascloud.provider.exceptions.MdcBizException;
 import com.paascloud.provider.model.dto.ProductDto;
 import com.paascloud.provider.model.vo.ProductDetailVo;
 import com.paascloud.provider.service.MdcProductFeignApi;
-import com.paascloud.provider.service.MdcProductQueryFeignApi;
 import com.paascloud.provider.service.MdcProductService;
 import com.paascloud.wrapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -35,15 +34,13 @@ import javax.annotation.Resource;
 @Service
 public class MdcProductServiceImpl implements MdcProductService {
 	@Resource
-	private MdcProductQueryFeignApi mdcProductQueryFeignApi;
-	@Resource
 	private MdcProductFeignApi mdcProductFeignApi;
 
 	@Override
 	public ProductDto selectById(Long productId) {
 		log.info("查询商品信息. productId={}", productId);
 		Preconditions.checkArgument(productId != null, ErrorCodeEnum.MDC10021021.msg());
-		Wrapper<ProductDto> productDtoWrapper = mdcProductQueryFeignApi.selectById(productId);
+		Wrapper<ProductDto> productDtoWrapper = mdcProductFeignApi.selectById(productId);
 
 		if (productDtoWrapper == null) {
 			throw new MdcBizException(ErrorCodeEnum.MDC10021003);
@@ -60,7 +57,7 @@ public class MdcProductServiceImpl implements MdcProductService {
 		log.info("获取商品详情. productId={}", productId);
 		Preconditions.checkArgument(productId != null, ErrorCodeEnum.MDC10021021.msg());
 
-		Wrapper<ProductDetailVo> wrapper = mdcProductQueryFeignApi.getProductDetail(productId);
+		Wrapper<ProductDetailVo> wrapper = mdcProductFeignApi.getProductDetail(productId);
 
 		if (wrapper == null) {
 			throw new MdcBizException(ErrorCodeEnum.GL99990002);

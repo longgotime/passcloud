@@ -12,19 +12,10 @@
 package com.paascloud.mall.controller;
 
 import com.paascloud.core.support.BaseController;
-import com.paascloud.provider.model.dto.user.UserInfoDto;
-import com.paascloud.provider.model.service.MallUserFeignApi;
-import com.paascloud.wrapper.WrapMapper;
-import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * The class Mall user controller.
@@ -35,33 +26,4 @@ import javax.annotation.Resource;
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - MallUserController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MallUserController extends BaseController {
-
-	@Resource
-	private MallUserFeignApi mallUserFeignApi;
-
-	/**
-	 * 更新用户信息.
-	 *
-	 * @param userInfoDto the user info dto
-	 *
-	 * @return the wrapper
-	 */
-	@PostMapping(value = "/updateInformation")
-	@ApiOperation(httpMethod = "POST", value = "更新用户信息")
-	public Wrapper<UserInfoDto> updateInformation(@RequestBody UserInfoDto userInfoDto) {
-		mallUserFeignApi.updateInformation(userInfoDto);
-		return WrapMapper.ok();
-	}
-
-	/**
-	 * 获取用户信息.
-	 *
-	 * @return the information
-	 */
-	@PostMapping(value = "/getInformation")
-	@ApiOperation(httpMethod = "POST", value = "获取用户信息")
-	public Wrapper<UserInfoDto> getInformation() {
-		mallUserFeignApi.getInformation();
-		return WrapMapper.ok();
-	}
 }

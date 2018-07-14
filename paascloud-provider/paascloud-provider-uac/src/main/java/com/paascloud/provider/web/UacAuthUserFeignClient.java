@@ -17,6 +17,7 @@ import com.paascloud.base.dto.CheckValidDto;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.enums.LogTypeEnum;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.constant.UacApiConstant;
 import com.paascloud.provider.model.domain.UacAction;
 import com.paascloud.provider.model.domain.UacLog;
@@ -54,7 +55,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "API - UacAuthUserFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacAuthUserFeignClient extends BaseController implements UacAuthUserFeignApi {
+public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUserFeignApi {
 
 	@Resource
 	private TaskExecutor taskExecutor;
@@ -71,14 +72,6 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 	@Resource
 	private EmailService emailService;
 
-
-	/**
-	 * 校验手机号码.
-	 *
-	 * @param mobileNo the mobile no
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<Boolean> checkPhoneActive(String mobileNo) {
 		UacUser uacUser = new UacUser();
@@ -88,13 +81,6 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		return WrapMapper.ok(count > 0);
 	}
 
-	/**
-	 * 校验邮箱.
-	 *
-	 * @param email the email
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<Boolean> checkEmailActive(String email) {
 		UacUser uacUser = new UacUser();
@@ -104,13 +90,6 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		return WrapMapper.ok(count > 0);
 	}
 
-	/**
-	 * 校验数据.
-	 *
-	 * @param checkValidDto the check valid dto
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper checkValid(CheckValidDto checkValidDto) {
 		String type = checkValidDto.getType();
@@ -143,13 +122,6 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		return WrapMapper.wrap(Wrapper.SUCCESS_CODE, message, result);
 	}
 
-	/**
-	 * 重置密码-邮箱-提交.
-	 *
-	 * @param email the email
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<String> submitResetPwdEmail(String email) {
 		logger.info("重置密码-邮箱-提交, email={}", email);
@@ -157,15 +129,6 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		return WrapMapper.ok();
 	}
 
-
-	/**
-	 * 重置密码-手机-提交.
-	 *
-	 * @param mobile   the mobile
-	 * @param response the response
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<String> submitResetPwdPhone(String mobile, HttpServletResponse response) {
 		logger.info("重置密码-手机-提交, mobile={}", mobile);
@@ -173,52 +136,24 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		return WrapMapper.ok(token);
 	}
 
-	/**
-	 * 重置密码-最终提交.
-	 *
-	 * @param resetLoginPwdDto the reset login pwd dto
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<Boolean> checkResetSmsCode(ResetLoginPwdDto resetLoginPwdDto) {
 		uacUserService.resetLoginPwd(resetLoginPwdDto);
 		return WrapMapper.ok();
 	}
 
-	/**
-	 * 注册用户.
-	 *
-	 * @param user the user
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper registerUser(UserRegisterDto user) {
 		uacUserService.register(user);
 		return WrapMapper.ok();
 	}
 
-	/**
-	 * 激活用户.
-	 *
-	 * @param activeUserToken the active user token
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper activeUser(String activeUserToken) {
 		uacUserService.activeUser(activeUserToken);
 		return WrapMapper.ok("激活成功");
 	}
 
-	/**
-	 * 查询日志.
-	 *
-	 * @param operationLogDto the operation log dto
-	 *
-	 * @return the integer
-	 */
 	@Override
 	public Wrapper<Integer> saveLog(OperationLogDto operationLogDto) {
 		logger.info("saveLog - 保存操作日志. operationLogDto={}", operationLogDto);
@@ -226,13 +161,6 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		return WrapMapper.ok();
 	}
 
-	/**
-	 * Gets auth user dto.
-	 *
-	 * @param loginName the login name
-	 *
-	 * @return the auth user dto
-	 */
 	@Override
 	public Wrapper<AuthUserDTO> getAuthUserDTO(@PathVariable("loginName") String loginName) {
 
@@ -263,11 +191,6 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		return WrapMapper.ok(authUserDTO);
 	}
 
-	/**
-	 * Handler login data.
-	 *
-	 * @param handlerLoginDTO the handler login dto
-	 */
 	@Override
 	public Wrapper<?> handlerLoginData(@RequestBody HandlerLoginDTO handlerLoginDTO) {
 
@@ -305,12 +228,6 @@ public class UacAuthUserFeignClient extends BaseController implements UacAuthUse
 		log.setLogName(LogTypeEnum.LOGIN_LOG.getName());
 
 		taskExecutor.execute(() -> uacLogService.saveLog(log, loginAuthDto));
-		return WrapMapper.ok();
-	}
-
-	@Override
-	public Wrapper callbackQQ(HttpServletRequest request) {
-		logger.info("callback - callback qq. request={}", request);
 		return WrapMapper.ok();
 	}
 }

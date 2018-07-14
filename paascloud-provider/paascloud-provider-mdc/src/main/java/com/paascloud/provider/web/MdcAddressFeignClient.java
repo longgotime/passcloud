@@ -38,9 +38,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@RefreshScope
 @RestController
-@Api(value = "API - MdcAddressQueryFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcAddressFeignClient extends BaseFeignClient implements MdcAddressFeignApi {
 
 	@Resource

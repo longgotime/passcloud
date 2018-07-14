@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018. paascloud.net All Rights Reserved.
  * 项目名称：paascloud快速搭建企业级分布式微服务平台
- * 类名称：TpcMqTagController.java
+ * 类名称：TpcMqTagFeignClient.java
  * 创建人：刘兆明
  * 联系方式：paascloud.net@gmail.com
  * 开源地址: https://github.com/paascloud
@@ -17,14 +17,19 @@ import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.dto.UpdateStatusDto;
 import com.paascloud.core.annotation.LogAnnotation;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.TpcMqTag;
+import com.paascloud.provider.model.dto.TpcMqTagQuery;
 import com.paascloud.provider.model.vo.TpcMqTagVo;
+import com.paascloud.provider.service.TpcMqTagFeignApi;
 import com.paascloud.provider.service.TpcMqTagService;
+import com.paascloud.provider.service.TpcMqTopicFeignApi;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,46 +43,34 @@ import java.util.List;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/tag", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - TpcMqTagController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class TpcMqTagController extends BaseController {
+public class TpcMqTagFeignClient extends BaseFeignClient implements TpcMqTagFeignApi {
 
 	@Resource
 	private TpcMqTagService tpcMqTagService;
 
-	/**
-	 * 查询MQ Tag列表.
-	 *
-	 * @param tpcMqTag the tpc mq tag
-	 *
-	 * @return the wrapper
-	 */
-	@PostMapping(value = "/queryTagListWithPage")
-	@ApiOperation(httpMethod = "POST", value = "查询MQ-Tag列表")
-	public Wrapper<PageInfo<TpcMqTagVo>> queryTagListWithPage(@ApiParam(name = "tag", value = "角色信息") @RequestBody TpcMqTag tpcMqTag) {
 
-		logger.info("查询角色列表tpcMqTagQuery={}", tpcMqTag);
+	@Override
+	@ApiOperation(httpMethod = "POST", value = "查询MQ-Tag列表")
+	public Wrapper<PageInfo<TpcMqTagVo>> queryTagListWithPage(@ApiParam(name = "tag", value = "角色信息") @RequestBody TpcMqTagQuery tpcMqTagQuery) {
+
+		logger.info("查询角色列表tpcMqTagQuery={}", tpcMqTagQuery);
+
+		TpcMqTag tpcMqTag = new ModelMapper().map(tpcMqTagQuery, TpcMqTag.class);
+
 		PageHelper.startPage(tpcMqTag.getPageNum(), tpcMqTag.getPageSize());
 		tpcMqTag.setOrderBy("update_time desc");
 		List<TpcMqTagVo> list = tpcMqTagService.listWithPage(tpcMqTag);
 		return WrapMapper.ok(new PageInfo<>(list));
 	}
 
-	/**
-	 * 修改tag状态.
-	 *
-	 * @param updateStatusDto the update status dto
-	 *
-	 * @return the wrapper
-	 */
-	@PostMapping(value = "/modifyStatusById")
+	@Override
 	@ApiOperation(httpMethod = "POST", value = "修改MQ-Tag状态")
-	@LogAnnotation
 	public Wrapper modifyProducerStatusById(@ApiParam(value = "修改tag状态") @RequestBody UpdateStatusDto updateStatusDto) {
 		logger.info("修改tag状态 updateStatusDto={}", updateStatusDto);
 		Long roleId = updateStatusDto.getId();
 
-		LoginAuthDto loginAuthDto = getLoginAuthDto();
+		LoginAuthDto loginAuthDto = updateStatusDto.getLoginAuthDto();
 
 		TpcMqTag tag = new TpcMqTag();
 		tag.setId(roleId);
@@ -88,17 +81,9 @@ public class TpcMqTagController extends BaseController {
 		return WrapMapper.handleResult(result);
 	}
 
-	/**
-	 * 根据Tag ID删除TAG.
-	 *
-	 * @param id the id
-	 *
-	 * @return the wrapper
-	 */
-	@PostMapping(value = "/deleteById/{id}")
+	@Override
 	@ApiOperation(httpMethod = "POST", value = "根据ID删除TAG")
-	@LogAnnotation
-	public Wrapper deleteTagById(@ApiParam(value = "Tag ID") @PathVariable Long id) {
+	public Wrapper deleteTagById(@ApiParam(value = "Tag ID") @PathVariable("id") Long id) {
 		logger.info("删除tag id={}", id);
 		int result = tpcMqTagService.deleteTagById(id);
 		return WrapMapper.handleResult(result);

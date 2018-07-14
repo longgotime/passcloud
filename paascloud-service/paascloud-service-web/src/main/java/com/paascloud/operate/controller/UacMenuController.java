@@ -47,7 +47,7 @@ public class UacMenuController extends BaseController{
 	@PostMapping(value = "/getTree")
 	@ApiOperation(httpMethod = "POST", value = "获取菜单树")
 	public Wrapper<List<MenuVo>> queryMenuTreeList() {
-		return uacMenuFeignApi.queryMenuTreeList();
+		return uacMenuFeignApi.queryMenuTreeList(getLoginAuthDto().getUserId());
 	}
 
 	/**
@@ -75,6 +75,8 @@ public class UacMenuController extends BaseController{
 	@LogAnnotation
 	public Wrapper updateUacMenuStatusById(@RequestBody UacMenuStatusDto uacMenuStatusDto) {
 		logger.info("根据id修改菜单的禁用状态 uacMenuStatusDto={}", uacMenuStatusDto);
+		uacMenuStatusDto.setLoginAuthDto(getLoginAuthDto());
+
 		return uacMenuFeignApi.updateUacMenuStatusById(uacMenuStatusDto);
 	}
 
@@ -89,6 +91,8 @@ public class UacMenuController extends BaseController{
 	@ApiOperation(httpMethod = "POST", value = "新增菜单")
 	@LogAnnotation
 	public Wrapper saveMenu(@RequestBody UacEditMenuDto uacMenuAddDto) {
+		uacMenuAddDto.setLoginAuthDto(getLoginAuthDto());
+
 		return uacMenuFeignApi.saveMenu(uacMenuAddDto);
 	}
 

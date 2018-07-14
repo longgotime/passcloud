@@ -18,6 +18,7 @@ import com.paascloud.provider.model.service.UacAuthUserFeignApi;
 import com.paascloud.provider.model.service.UacMenuFeignApi;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.menu.ViewMenuVo;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -32,42 +33,42 @@ import java.util.List;
 public class UacMenuFeignApiHystrix implements UacMenuFeignApi {
 
 	@Override
-	public Wrapper<List<MenuVo>> queryMenuTreeList() {
-		return null;
+	public Wrapper<List<MenuVo>> queryMenuTreeList(Long userId) {
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<ViewMenuVo> queryMenuVoById(Long id) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper updateUacMenuStatusById(UacMenuStatusDto uacMenuStatusDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper saveMenu(UacEditMenuDto uacMenuAddDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Integer> deleteUacMenuById(Long id) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkUacMenuActionCode(UacMenuCheckCodeDto uacMenuCheckCodeDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkUacMenuName(UacMenuCheckNameDto uacMenuCheckNameDto) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper<Boolean> checkUacMenuUrl(UacMenuCheckUrlDto uacMenuCheckUrlDto) {
-		return null;
+		return WrapMapper.error();
 	}
 }

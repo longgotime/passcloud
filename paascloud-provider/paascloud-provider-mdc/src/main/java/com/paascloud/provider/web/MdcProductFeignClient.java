@@ -45,15 +45,12 @@ import java.util.List;
  *
  * @author paascloud.net@gmail.com
  */
-@RefreshScope
 @RestController
-@Api(value = "API - UacUserQueryFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcProductFeignClient extends BaseFeignClient implements MdcProductFeignApi {
 	@Resource
 	private MdcProductService mdcProductService;
 
 	@Override
-	@ApiOperation(httpMethod = "POST", value = "更新商品库存")
 	public Wrapper<Integer> updateProductStockById(@RequestBody ProductDto productDto) {
 		logger.info("更新商品库存. productDto={}", productDto);
 		Preconditions.checkArgument(!PubUtils.isNull(productDto, productDto.getId()), ErrorCodeEnum.MDC10021021.msg());
@@ -100,7 +97,6 @@ public class MdcProductFeignClient extends BaseFeignClient implements MdcProduct
 	}
 
     @Override
-    @ApiOperation(httpMethod = "POST", value = "根据商品ID查询商品详细信息")
     public Wrapper<ProductDetailVo> getProductDetail(@PathVariable("productId") Long productId) {
         logger.info("根据商品ID查询商品详细信息. productId={}", productId);
         ProductDetailVo productDto = mdcProductService.getProductDetail(productId);
@@ -108,7 +104,6 @@ public class MdcProductFeignClient extends BaseFeignClient implements MdcProduct
     }
 
     @Override
-    @ApiOperation(httpMethod = "POST", value = "根据商品ID查询商品信息")
     public Wrapper<ProductDto> selectById(@PathVariable("productId") Long productId) {
         logger.info("根据商品ID查询商品信息. productId={}", productId);
         ProductDto productDto = null;

@@ -412,19 +412,17 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 	/**
 	 * Query user menu dto data list.
 	 *
-	 * @param authResDto the auth res dto
 	 *
 	 * @return the list
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<UserMenuDto> queryUserMenuDtoData(LoginAuthDto authResDto) {
+	public List<UserMenuDto> queryUserMenuDtoData(Long userId) {
+		Preconditions.checkArgument(!PubUtils.isNull(userId), "用户ID不能为空");
 		// 返回的结果集
 		List<UserMenuDto> list = Lists.newArrayList();
 		List<MenuVo> menuList; // 该用户下所有的菜单集合
-		Long userId = authResDto.getUserId();
 		List<Long> ownerMenuIdList = Lists.newArrayList();
-		Preconditions.checkArgument(!PubUtils.isNull(authResDto, userId), "无访问权限");
 
 		// 查询该用户下所有的菜单Id集合
 		UacUserMenu query = new UacUserMenu();
@@ -803,12 +801,6 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 		}
 	}
 
-	/**
-	 * Reset login pwd.
-	 *
-	 * @param userId       the user id
-	 * @param loginAuthDto the login auth dto
-	 */
 	@Override
 	public void resetLoginPwd(Long userId, LoginAuthDto loginAuthDto) {
 		if (userId == null) {

@@ -32,13 +32,13 @@ public class TpcMqTopic extends BaseEntity {
 	private static final long serialVersionUID = 5642946024630652202L;
 
 	/**
-	 * 城市编码
+	 * topic编码
 	 */
 	@Column(name = "topic_code")
 	private String topicCode;
 
 	/**
-	 * 区域编码
+	 * topic名称
 	 */
 	@Column(name = "topic_name")
 	private String topicName;

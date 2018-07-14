@@ -9,7 +9,7 @@
  * 项目官网: http://paascloud.net
  */
 
-package com.paascloud.config;
+package com.paascloud.common.config;
 
 import com.paascloud.core.config.PcObjectMapper;
 import com.paascloud.core.config.SwaggerConfiguration;
@@ -21,7 +21,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import sun.security.util.SecurityConstants;
 
 import javax.annotation.Resource;
 import java.util.List;

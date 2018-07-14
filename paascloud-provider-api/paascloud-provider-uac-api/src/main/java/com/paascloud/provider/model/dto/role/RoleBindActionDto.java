@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.model.dto.role;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -38,4 +39,6 @@ public class RoleBindActionDto implements Serializable {
 	 */
 	@ApiModelProperty(value = "角色Id")
 	private Long roleId;
+
+	private LoginAuthDto loginAuthDto;
 }

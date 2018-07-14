@@ -51,8 +51,6 @@ public class OpcFileController extends BaseController {
 
 	@Resource
 	private OpcAttachmentService optAttachmentService;
-	@Resource
-	private OpcOssService opcOssService;
 
 	/**
 	 * 上传文件.
@@ -123,7 +121,7 @@ public class OpcFileController extends BaseController {
 	 */
 	@PostMapping(value = "/queryAttachmentById/{id}")
 	@ApiOperation(httpMethod = "POST", value = "根据ID查询附件信息")
-	public Wrapper<OptAttachmentRespDto> queryAttachment(@PathVariable Long id) {
+	public Wrapper<OptAttachmentRespDto> queryAttachment(@PathVariable("id") Long id) {
 		logger.info("queryAttachment -根据ID查询文件信息. id={}", id);
 
 		OptAttachmentRespDto optAttachmentRespDto = optAttachmentService.queryAttachmentById(id);
@@ -139,7 +137,7 @@ public class OpcFileController extends BaseController {
 	 */
 	@PostMapping(value = "/queryAttachmentListByRefNo/{refNo}")
 	@ApiOperation(httpMethod = "POST", value = "根据关联单号查询附件信息")
-	public Wrapper<List<OptAttachmentRespDto>> queryAttachmentListByRefNo(@PathVariable String refNo) {
+	public Wrapper<List<OptAttachmentRespDto>> queryAttachmentListByRefNo(@PathVariable("refNo") String refNo) {
 		logger.info("queryAttachment -查询附件信息. refNo={}", refNo);
 
 		List<OptAttachmentRespDto> optAttachmentRespDtos = optAttachmentService.queryAttachmentListByRefNo(refNo);
@@ -156,7 +154,7 @@ public class OpcFileController extends BaseController {
 	 */
 	@PostMapping(value = "/deleteAttachment/{attachmentId}")
 	@ApiOperation(httpMethod = "POST", value = "删除附件信息")
-	public Wrapper deleteAttachment(@PathVariable Long attachmentId) {
+	public Wrapper deleteAttachment(@PathVariable("attachmentId") Long attachmentId) {
 		logger.info("deleteAttachment - 删除文件. attachmentId={}", attachmentId);
 		int result;
 		try {

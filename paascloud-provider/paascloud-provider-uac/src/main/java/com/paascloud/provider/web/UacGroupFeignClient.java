@@ -14,6 +14,7 @@ package com.paascloud.provider.web;
 
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.UacGroup;
 import com.paascloud.provider.model.dto.group.*;
 import com.paascloud.provider.model.dto.user.IdStatusDto;
@@ -28,6 +29,7 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,30 +46,18 @@ import java.util.Map;
  */
 @RestController
 @Api(value = "API - UacGroupFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacGroupFeignClient extends BaseController implements UacGroupFeignApi {
+public class UacGroupFeignClient extends BaseFeignClient implements UacGroupFeignApi {
 
 	@Resource
 	private UacGroupService uacGroupService;
 
-	/**
-	 * 根据id删除组织
-	 *
-	 * @param id the id
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper deleteGroupById(@PathVariable("id") Long id) {
-		return null;
+		logger.info(" 根据id删除组织 id={}", id);
+		int result = uacGroupService.deleteUacGroupById(id);
+		return WrapMapper.handleResult(result);
 	}
 
-	/**
-	 * 根据id修改组织状态
-	 *
-	 * @param idStatusDto the id status dto
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper modifyGroupStatus(@RequestBody IdStatusDto idStatusDto) {
 		logger.info("根据id修改组织状态 idStatusDto={}", idStatusDto);
@@ -84,27 +74,12 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 		}
 	}
 
-	/**
-	 * 获取主页面数据
-	 *
-	 * @return the wrapper
-	 */
 	@Override
-	public Wrapper<List<MenuVo>> getTree() {
-		// FIXME
-		Long userId = null; //super.getLoginAuthDto().getUserId();
+	public Wrapper<List<MenuVo>> getTreeByUserId(@PathVariable("userId") Long userId) {
 		List<MenuVo> tree = uacGroupService.getGroupTreeListByUserId(userId);
 		return WrapMapper.ok(tree);
 	}
 
-
-	/**
-	 * 编辑组织
-	 *
-	 * @param group the group
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper editGroup(@RequestBody GroupDto group) {
 		LoginAuthDto loginAuthDto = group.getLoginAuthDto();
@@ -114,12 +89,6 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 		return WrapMapper.ok();
 	}
 
-
-	/**
-	 * 根据当前登录人查询组织列表
-	 *
-	 * @return the group tree by id
-	 */
 	@Override
 	public Wrapper<GroupVo> getEditGroupPageInfo(@PathVariable("id") Long id) {
 		UacGroup uacGroup = uacGroupService.getById(id);
@@ -128,27 +97,6 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 		return WrapMapper.ok(groupVo);
 	}
 
-	/**
-	 * 通过组织ID查询组织树
-	 *
-	 * @return the group tree by id
-	 */
-	@Override
-	public Wrapper<List<GroupZtreeVo>> getGroupTreeById() {
-		logger.info("根据当前登录人查询组织列表");
-		// FIXME
-		LoginAuthDto loginAuthDto = null; //super.getLoginAuthDto();
-		Long groupId = loginAuthDto.getGroupId();
-		UacGroup uacGroup = uacGroupService.queryById(groupId);
-		List<GroupZtreeVo> tree = uacGroupService.getGroupTree(uacGroup.getId());
-		return WrapMapper.wrap(Wrapper.SUCCESS_CODE, "操作成功", tree);
-	}
-
-	/**
-	 * 根据当前登录人查询组织列表
-	 *
-	 * @return the group tree by id
-	 */
 	@Override
 	public Wrapper<List<GroupZtreeVo>> getGroupTreeById(@PathVariable("groupId") Long groupId) {
 		logger.info("通过组织ID查询组织列表 groupId={}", groupId);
@@ -156,13 +104,6 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 		return WrapMapper.wrap(Wrapper.SUCCESS_CODE, "操作成功", tree);
 	}
 
-	/**
-	 * Check group name with edit wrapper.
-	 *
-	 * @param checkGroupNameDto the check group name dto
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<Boolean> checkGroupName(@RequestBody CheckGroupNameDto checkGroupNameDto) {
 		logger.info("校验组织名称唯一性 checkGroupNameDto={}", checkGroupNameDto);
@@ -182,14 +123,6 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 		return WrapMapper.ok(result < 1);
 	}
 
-
-	/**
-	 * 修改时验证组织编码
-	 *
-	 * @param checkGroupCodeDto the check group code dto
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<Boolean> checkGroupCode(@RequestBody CheckGroupCodeDto checkGroupCodeDto) {
 		logger.info("校验组织编码唯一性 checkGroupCodeDto={}", checkGroupCodeDto);
@@ -209,47 +142,30 @@ public class UacGroupFeignClient extends BaseController implements UacGroupFeign
 		return WrapMapper.ok(result < 1);
 	}
 
-	/**
-	 * 查询组织类型
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<List<Map<String, String>>> queryGroupType() {
 		List<Map<String, String>> groupTypeList = UacGroupTypeEnum.getMap2List();
 		return WrapMapper.wrap(Wrapper.SUCCESS_CODE, Wrapper.SUCCESS_MESSAGE, groupTypeList);
 	}
 
-
-	/**
-	 * 组织绑定用户
-	 *
-	 * @param groupBindUserReqDto the group bind user req dto
-	 *
-	 * @return the wrapper
-	 */
 	@Override
-	public Wrapper bindUser4Role(@RequestBody GroupBindUserReqDto groupBindUserReqDto) {
-		logger.info("组织绑定用户...  groupBindUserReqDto={}", groupBindUserReqDto);
+	public Wrapper bindUser4Group(@RequestBody GroupBindUserReqDto groupBindUserReqDto) {
+		logger.info("组织绑定用户 - groupBindUserReqDto={}", groupBindUserReqDto);
 		LoginAuthDto loginAuthDto = groupBindUserReqDto.getLoginAuthDto();
 		uacGroupService.bindUacUser4Group(groupBindUserReqDto, loginAuthDto);
 		return WrapMapper.ok();
 	}
 
-	/**
-	 * 组织绑定用户页面数据
-	 *
-	 * @param groupId the group id
-	 *
-	 * @return the group bind user page info
-	 */
 	@Override
-	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@PathVariable("groupId") Long groupId) {
+	public Wrapper<GroupBindUserDto> getGroupBindUserPageInfo(@PathVariable("groupId") Long groupId, @PathVariable("userId") Long userId) {
 		logger.info("查询组织绑定用户页面数据 groupId={}", groupId);
-		// FIXME
-		LoginAuthDto loginAuthDto = null; //super.getLoginAuthDto();
-		Long currentUserId = loginAuthDto.getUserId();
-		GroupBindUserDto bindUserDto = uacGroupService.getGroupBindUserDto(groupId, currentUserId);
+		GroupBindUserDto bindUserDto = uacGroupService.getGroupBindUserDto(groupId, userId);
 		return WrapMapper.ok(bindUserDto);
+	}
+
+	@Override
+	public Wrapper<List<MenuVo>> getGroupTreeByUserId(@PathVariable("userId") Long userId) {
+		List<MenuVo> tree = uacGroupService.getGroupTreeListByUserId(userId);
+		return WrapMapper.ok(tree);
 	}
 }

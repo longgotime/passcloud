@@ -11,11 +11,15 @@
 
 package com.paascloud.provider.service;
 
+import com.paascloud.base.dto.MessageQueryDto;
 import com.paascloud.provider.model.dto.TpcMqMessageDto;
-import com.paascloud.provider.service.hystrix.TpcMqMessageFeignApiHystrix;
+import com.paascloud.provider.service.hystrix.TpcMqMessageFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-tpc", configuration = OAuth2FeignAutoConfiguration.class, fallback = TpcMqMessageFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-tpc", configuration = OAuth2FeignAutoConfiguration.class, fallback = TpcMqMessageFeignHystrix.class)
 public interface TpcMqMessageFeignApi {
 
 	/**
@@ -100,4 +104,34 @@ public interface TpcMqMessageFeignApi {
 	 */
 	@PostMapping(value = "/api/tpc/saveAndConfirmFinishMessage")
 	Wrapper confirmConsumedMessage(@RequestParam("cid") final String cid, @RequestParam("messageKey") final String messageKey);
+
+	/**
+	 * 异常日志列表.
+	 *
+	 * @param messageQueryDto the message query dto
+	 * @return the wrapper
+	 */
+	@PostMapping(value = "/api/tpc/message/queryRecordListWithPage")
+	@ApiOperation(httpMethod = "POST", value = "分页查询各中心落地消息记录")
+	Wrapper queryRecordListWithPage(@ApiParam(name = "tpcMessageQueryDto") @RequestBody MessageQueryDto messageQueryDto);
+
+	/**
+	 * Resend message by id wrapper.
+	 *
+	 * @param messageId the message id
+	 * @return the wrapper
+	 */
+	@PostMapping(value = "/api/tpc/message/resendMessageById/{messageId}")
+	@ApiOperation(httpMethod = "POST", value = "重发消息")
+	Wrapper resendMessageById(@PathVariable("messageId") Long messageId);
+
+	/**
+	 * Query reliable list with page wrapper.
+	 *
+	 * @param messageQueryDto the message query dto
+	 * @return the wrapper
+	 */
+	@PostMapping(value = "/api/tpc/message/queryReliableListWithPage")
+	@ApiOperation(httpMethod = "POST", value = "分页查询可靠消息")
+	Wrapper queryReliableListWithPage(@ApiParam(name = "tpcMessageQueryDto") @RequestBody MessageQueryDto messageQueryDto);
 }

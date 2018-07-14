@@ -13,6 +13,7 @@ package com.paascloud.provider.service.hystrix;
 
 import com.paascloud.provider.model.dto.OrderDetailDto;
 import com.paascloud.provider.service.OmcOrderDetailQueryFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,6 @@ public class OmcOrderDetailQueryFeignHystrix implements OmcOrderDetailQueryFeign
 
 	@Override
 	public Wrapper<List<OrderDetailDto>> getListByOrderNoUserId(final String orderNo, final Long userId) {
-		return null;
+		return WrapMapper.error();
 	}
 }

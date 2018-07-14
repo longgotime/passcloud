@@ -14,6 +14,7 @@ package com.paascloud.provider.web;
 import com.google.common.base.Preconditions;
 import com.paascloud.base.dto.UserTokenDto;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.provider.model.dto.user.LoginRespDto;
 import com.paascloud.provider.model.enums.UacUserTokenStatusEnum;
@@ -43,9 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 @RefreshScope
 @RestController
 @Api(value = "API - UacUserLoginFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UacUserLoginFeignClient extends BaseController implements UacUserLoginFeignApi {
-
-
+public class UacUserLoginFeignClient extends BaseFeignClient implements UacUserLoginFeignApi {
 	@Resource
 	private UacLoginService uacLoginService;
 
@@ -54,15 +53,6 @@ public class UacUserLoginFeignClient extends BaseController implements UacUserLo
 
 	private static final String BEARER_TOKEN_TYPE = "Basic ";
 
-
-
-	/**
-	 * 登录成功获取菜单信息和用户信息.
-	 *
-	 * @param applicationId the application id
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<LoginRespDto> loginAfter(@PathVariable("applicationId") Long applicationId, @PathVariable("loginName") String loginName) {
 
@@ -71,13 +61,6 @@ public class UacUserLoginFeignClient extends BaseController implements UacUserLo
 		return WrapMapper.ok(result);
 	}
 
-	/**
-	 * 登出.
-	 *
-	 * @param accessToken the access token
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper loginAfter(String accessToken) {
 		if (!StringUtils.isEmpty(accessToken)) {
@@ -90,15 +73,6 @@ public class UacUserLoginFeignClient extends BaseController implements UacUserLo
 		return WrapMapper.ok();
 	}
 
-	/**
-	 * 刷新token.
-	 *
-	 * @param request      the request
-	 * @param refreshToken the refresh token
-	 * @param accessToken  the access token
-	 *
-	 * @return the wrapper
-	 */
 	@Override
 	public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) {
 		String token;

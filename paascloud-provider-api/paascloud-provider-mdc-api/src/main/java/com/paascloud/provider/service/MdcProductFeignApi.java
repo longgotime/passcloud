@@ -51,7 +51,7 @@ public interface MdcProductFeignApi {
      * @param productId the product id
      * @return the main image
      */
-    @PostMapping(value = "/api/product/getMainImage")
+    @PostMapping(value = "/mdc/product/getMainImage")
     Wrapper<String> getMainImage(@RequestParam("productId") Long productId);
 
     /**
@@ -101,7 +101,7 @@ public interface MdcProductFeignApi {
      *
      * @return the product detail
      */
-    @PostMapping(value = "/api/product/getProductDetail/{productId}")
+    @PostMapping(value = "/mdc/product/getProductDetail/{productId}")
     @NoNeedAccessAuthentication
     Wrapper<ProductDetailVo> getProductDetail(@PathVariable("productId") Long productId);
 
@@ -112,7 +112,7 @@ public interface MdcProductFeignApi {
      *
      * @return the wrapper
      */
-    @PostMapping(value = "/api/product/selectById/{productId}")
+    @PostMapping(value = "/mdc/product/selectById/{productId}")
     @NoNeedAccessAuthentication
     Wrapper<ProductDto> selectById(@PathVariable("productId") Long productId);
 }

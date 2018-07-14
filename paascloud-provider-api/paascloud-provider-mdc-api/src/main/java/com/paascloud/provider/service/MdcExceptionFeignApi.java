@@ -12,10 +12,14 @@
 package com.paascloud.provider.service;
 
 import com.paascloud.provider.model.dto.MdcExceptionQueryDto;
+import com.paascloud.provider.service.hystrix.MdcAddressFeignHystrix;
+import com.paascloud.provider.service.hystrix.MdcExceptionFeignApiHystrix;
+import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author paascloud.net @gmail.com
  */
-@RestController
 @Api(value = "Feign - MdcExceptionMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@FeignClient(value = "paascloud-provider-mdc", configuration = OAuth2FeignAutoConfiguration.class, fallback = MdcExceptionFeignApiHystrix.class)
 public interface MdcExceptionFeignApi {
 
     /**
@@ -36,7 +40,7 @@ public interface MdcExceptionFeignApi {
      * @param mdcExceptionQueryDto the mdc exception query dto
      * @return the wrapper
      */
-    @PostMapping(value = "/api/exception/queryListWithPage")
+    @PostMapping(value = "/mdc/exception/queryListWithPage")
     @ApiOperation(httpMethod = "POST", value = "查询日志列表")
     Wrapper queryLogListWithPage(@ApiParam(name = "mdcExceptionQueryDto", value = "异常查询条件") @RequestBody MdcExceptionQueryDto mdcExceptionQueryDto);
 }

@@ -11,7 +11,6 @@
 
 package com.paascloud.provider.web;
 
-import com.paascloud.core.support.BaseController;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.GlobalExceptionLogDto;
 import com.paascloud.provider.service.MdcExceptionLogFeignApi;
@@ -21,7 +20,6 @@ import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,10 +31,7 @@ import javax.annotation.Resource;
  *
  * @author paascloud.net@gmail.com
  */
-@Slf4j
-@RefreshScope
 @RestController
-@Api(value = "API - MdcExceptionLogFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcExceptionLogFeignClient extends BaseFeignClient implements MdcExceptionLogFeignApi {
 	@Resource
 	private MdcExceptionLogService mdcExceptionLogService;
@@ -47,7 +42,7 @@ public class MdcExceptionLogFeignClient extends BaseFeignClient implements MdcEx
 		try {
 			mdcExceptionLogService.saveAndSendExceptionLog(exceptionLogDto);
 		} catch (Exception e) {
-			log.error("saveAndSendExceptionLog={}", e.getMessage(), e);
+			logger.error("saveAndSendExceptionLog={}", e.getMessage(), e);
 		}
 		return WrapMapper.ok();
 	}

@@ -145,15 +145,15 @@ public enum ErrorCodeEnum {
 	/**
 	 * Uac 10011024 error code enum.
 	 */
-	UAC10011024(10011024, "找不到绑定的用户, userId=%"),
+	UAC10011024(10011024, "找不到绑定的用户, userId=%d"),
 	/**
 	 * Uac 10011025 error code enum.
 	 */
-	UAC10011025(10011025, "用户已存在, loginName=%"),
+	UAC10011025(10011025, "用户已存在, loginName=%s"),
 	/**
 	 * Uac 10011026 error code enum.
 	 */
-	UAC10011026(10011026, "更新用户失败, userId=%"),
+	UAC10011026(10011026, "更新用户失败, userId=%d"),
 	/**
 	 * Uac 10011027 error code enum.
 	 */

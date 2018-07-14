@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.service.hystrix;
 
+import com.paascloud.base.dto.MessageQueryDto;
 import com.paascloud.provider.model.dto.TpcMqMessageDto;
 import com.paascloud.provider.service.TpcMqMessageFeignApi;
 import com.paascloud.wrapper.Wrapper;
@@ -25,7 +26,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class TpcMqMessageFeignApiHystrix implements TpcMqMessageFeignApi {
+public class TpcMqMessageFeignHystrix implements TpcMqMessageFeignApi {
 
 	@Override
 	public Wrapper saveMessageWaitingConfirm(final TpcMqMessageDto mqMessageDto) {
@@ -60,6 +61,21 @@ public class TpcMqMessageFeignApiHystrix implements TpcMqMessageFeignApi {
 
 	@Override
 	public Wrapper confirmConsumedMessage(final String cid, final String messageKey) {
+		return null;
+	}
+
+	@Override
+	public Wrapper queryRecordListWithPage(MessageQueryDto messageQueryDto) {
+		return null;
+	}
+
+	@Override
+	public Wrapper resendMessageById(Long messageId) {
+		return null;
+	}
+
+	@Override
+	public Wrapper queryReliableListWithPage(MessageQueryDto messageQueryDto) {
 		return null;
 	}
 }

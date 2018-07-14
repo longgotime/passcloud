@@ -34,7 +34,7 @@ import java.util.List;
  * @author paascloud.net@gmail.com
  */
 @RestController
-@RequestMapping(value = "/mdc/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - MdcProductCategoryMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MdcProductCategoryMainController extends BaseController {
 
