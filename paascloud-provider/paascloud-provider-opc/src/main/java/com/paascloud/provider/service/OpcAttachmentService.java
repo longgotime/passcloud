@@ -30,17 +30,6 @@ import java.util.List;
  * @author paascloud.net @gmail.com
  */
 public interface OpcAttachmentService extends IService<OptAttachment> {
-	/**
-	 * Upload file string.
-	 *
-	 * @param multipartRequest    the multipart request
-	 * @param optUploadFileReqDto the opt upload file req dto
-	 * @param loginAuthDto        the login auth dto
-	 * @param storeDbFlag         the store db flag
-	 *
-	 * @return the string
-	 */
-	List<OptUploadFileRespDto> uploadFile(MultipartHttpServletRequest multipartRequest, OptUploadFileReqDto optUploadFileReqDto, LoginAuthDto loginAuthDto, boolean storeDbFlag);
 
 	/**
 	 * 根据ID查询附件信息.
@@ -129,22 +118,6 @@ public interface OpcAttachmentService extends IService<OptAttachment> {
 	 * @return the by id
 	 */
 	OptAttachment getById(Long attachmentId);
-
-	/**
-	 * Upload file opt upload file resp dto.
-	 *
-	 * @param uploadBytes  the upload bytes
-	 * @param fileName     the file name
-	 * @param fileType     the file type
-	 * @param filePath     the file path
-	 * @param bucketName   the bucket name
-	 * @param loginAuthDto the login auth dto
-	 *
-	 * @return the opt upload file resp dto
-	 *
-	 * @throws IOException the io exception
-	 */
-	OptUploadFileRespDto uploadFile(byte[] uploadBytes, String fileName, String fileType, String filePath, String bucketName, LoginAuthDto loginAuthDto) throws IOException;
 
 	/**
 	 * 更新附件.

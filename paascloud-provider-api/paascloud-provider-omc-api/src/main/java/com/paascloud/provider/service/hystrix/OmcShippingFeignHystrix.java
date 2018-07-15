@@ -15,7 +15,6 @@ import com.github.pagehelper.PageInfo;
 import com.paascloud.provider.model.dto.OmcShippingDTO;
 import com.paascloud.provider.model.dto.OmcShippingQuery;
 import com.paascloud.provider.service.OmcShippingFeignApi;
-import com.paascloud.provider.service.PtcPayFeignApi;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;

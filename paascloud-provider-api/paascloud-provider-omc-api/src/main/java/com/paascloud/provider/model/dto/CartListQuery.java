@@ -7,13 +7,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Title: CartListQuery<br>;
- * Description: <br>;
- * Copyright: Copyright (c) 2017<br>;
- * Company: 北京云杉世界信息技术有限公司<br>;
+ * The type Cart list query.
  *
- * @author yangwensheng@meicai.cn<br>
- * 2018/6/25 18:02
+ * @author <a href="paascloud.net@gmail.com"/>刘兆明</a>
+ * @date 2018 /7/15 下午8:58
  */
 @Data
 public class CartListQuery implements Serializable {

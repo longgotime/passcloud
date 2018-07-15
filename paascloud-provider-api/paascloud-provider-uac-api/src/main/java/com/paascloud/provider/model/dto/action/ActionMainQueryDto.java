@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * The class Action main query dto.
+ * The class Action query dto.
  *
  * @author paascloud.net @gmail.com
  */

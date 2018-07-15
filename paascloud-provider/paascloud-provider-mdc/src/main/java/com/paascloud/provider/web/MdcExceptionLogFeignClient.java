@@ -17,10 +17,7 @@ import com.paascloud.provider.service.MdcExceptionLogFeignApi;
 import com.paascloud.provider.service.MdcExceptionLogService;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -15,7 +15,7 @@ package com.paascloud.provider.model.service;
 import com.github.pagehelper.PageInfo;
 import com.paascloud.provider.model.dto.base.ModifyStatusDto;
 import com.paascloud.provider.model.dto.role.*;
-import com.paascloud.provider.model.service.hystrix.UacRoleFeignApiHystrix;
+import com.paascloud.provider.model.service.hystrix.UacRoleFeignHystrix;
 import com.paascloud.provider.model.vo.menu.BindAuthVo;
 import com.paascloud.provider.model.vo.role.RoleVo;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
@@ -26,7 +26,6 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacRoleFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacRoleFeignHystrix.class)
 public interface UacRoleFeignApi{
 
 	/**

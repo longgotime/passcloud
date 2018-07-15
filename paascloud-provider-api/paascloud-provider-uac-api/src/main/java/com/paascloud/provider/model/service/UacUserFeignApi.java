@@ -16,7 +16,7 @@ import com.paascloud.base.dto.IdDTO;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
-import com.paascloud.provider.model.service.hystrix.UacUserFeignApiHystrix;
+import com.paascloud.provider.model.service.hystrix.UacUserFeignHystrix;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
 import com.paascloud.provider.model.vo.user.UserVo;
@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacUserFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacUserFeignHystrix.class)
 public interface UacUserFeignApi{
 
 	/**
@@ -48,13 +48,13 @@ public interface UacUserFeignApi{
 	Wrapper<PageInfo> queryUserListWithPage(@ApiParam(name = "role", value = "角色信息") @RequestBody QueryUserDTO uacUser);
 
 	/**
-	 * 新增用户
+	 * 新增/修改用户
 	 *
 	 * @param user the user
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/user/save")
-	Wrapper<Integer> addUacUser(@ApiParam(name = "user", value = "新增用户Dto") @RequestBody UserInfoDto user);
+	Wrapper<Integer> saveUacUser(@ApiParam(name = "user", value = "新增用户Dto") @RequestBody UserInfoDto user);
 
 
 	/**

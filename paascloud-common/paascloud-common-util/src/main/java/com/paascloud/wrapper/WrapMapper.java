@@ -130,17 +130,6 @@ public class WrapMapper {
 	/**
 	 * Ok wrapper.
 	 *
-	 * @param <E>     the type parameter
-	 * @param message the message
-	 * @return the wrapper
-	 */
-	public static <E> Wrapper<E> ok(String message) {
-		return wrap(Wrapper.SUCCESS_CODE, StringUtils.isBlank(message) ? Wrapper.SUCCESS_MESSAGE : message);
-	}
-
-	/**
-	 * Ok wrapper.
-	 *
 	 * @param <E>    the type parameter
 	 * @param result the result
 	 * @return the wrapper

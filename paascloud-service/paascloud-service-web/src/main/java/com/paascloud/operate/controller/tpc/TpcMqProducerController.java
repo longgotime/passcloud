@@ -37,7 +37,7 @@ import java.util.List;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/producer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/producer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - TpcMqProducerController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class TpcMqProducerController extends BaseController {
 

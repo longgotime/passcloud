@@ -32,7 +32,7 @@ import javax.annotation.Resource;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/order")
+@RequestMapping(value = "/web/order")
 @Api(value = "WEB - OmcOrderController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class OmcOrderController extends BaseController {
 

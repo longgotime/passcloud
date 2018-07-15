@@ -36,7 +36,7 @@ public interface OmcCartFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/cart/updateCartList")
+	@PostMapping(value = "/omc/cart/updateCartList")
 	Wrapper updateCartList(@RequestBody List<CartProductVo> cartProductVoList);
 
 	/**
@@ -48,7 +48,7 @@ public interface OmcCartFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/cart/addProduct")
+	@PostMapping(value = "/omc/cart/addProduct")
 	Wrapper addProduct(@RequestParam("userId") Long userId, @RequestParam("productId") Long productId, @RequestParam("count") Integer count);
 
 	/**
@@ -60,7 +60,7 @@ public interface OmcCartFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/cart/updateProduct")
+	@PostMapping(value = "/omc/cart/updateProduct")
 	Wrapper updateProduct(@RequestParam("userId") Long userId, @RequestParam("productId") Long productId, @RequestParam("count") Integer count);
 
 	/**
@@ -71,7 +71,7 @@ public interface OmcCartFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/cart/deleteProduct")
+	@PostMapping(value = "/omc/cart/deleteProduct")
 	Wrapper deleteProduct(@RequestParam("userId") Long userId, @RequestParam("productIds") String productIds);
 
 	/**
@@ -83,7 +83,7 @@ public interface OmcCartFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/cart/selectOrUnSelect")
+	@PostMapping(value = "/omc/cart/selectOrUnSelect")
 	Wrapper selectOrUnSelect(@RequestParam(name = "userId") Long userId, @RequestParam(name = "productId", required = false) Long productId, @RequestParam(name = "checked") Integer checked);
 }
 

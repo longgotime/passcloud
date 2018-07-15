@@ -13,7 +13,7 @@ package com.paascloud.provider.web;
 
 import com.github.pagehelper.PageInfo;
 import com.paascloud.base.dto.LoginAuthDto;
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.OmcOrder;
 import com.paascloud.provider.model.dto.OmcCancelOrderDto;
 import com.paascloud.provider.model.dto.OmcCreateOrderDto;
@@ -45,7 +45,7 @@ import javax.annotation.Resource;
 @RefreshScope
 @RestController
 @Api(value = "API - OmcOrderFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class OmcOrderFeignClient extends BaseController implements OmcOrderFeignApi {
+public class OmcOrderFeignClient extends BaseFeignClient implements OmcOrderFeignApi {
     @Resource
     private OmcOrderService omcOrderService;
     @Resource

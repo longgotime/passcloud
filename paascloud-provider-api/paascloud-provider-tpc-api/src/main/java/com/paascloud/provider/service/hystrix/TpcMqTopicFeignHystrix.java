@@ -15,6 +15,7 @@ import com.paascloud.base.dto.UpdateStatusDto;
 import com.paascloud.provider.model.dto.TpcMqTopicQuery;
 import com.paascloud.provider.model.vo.TpcMqTopicVo;
 import com.paascloud.provider.service.TpcMqTopicFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ import java.util.List;
 
 
 /**
- * The class Tpc mq topic controller.
+ * The class Tpc mq topic feign hystrix.
  *
  * @author paascloud.net @gmail.com
  */
@@ -30,11 +31,11 @@ import java.util.List;
 public class TpcMqTopicFeignHystrix implements TpcMqTopicFeignApi {
     @Override
     public Wrapper<List<TpcMqTopicVo>> queryTopicListWithPage(TpcMqTopicQuery tpcMqTopic) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper modifyTopicStatusById(UpdateStatusDto updateStatusDto) {
-        return null;
+        return WrapMapper.error();
     }
 }

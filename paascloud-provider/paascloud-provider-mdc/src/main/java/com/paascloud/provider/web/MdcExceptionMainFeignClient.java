@@ -12,20 +12,13 @@
 package com.paascloud.provider.web;
 
 import com.github.pagehelper.PageInfo;
-import com.paascloud.core.support.BaseController;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.MdcExceptionQueryDto;
 import com.paascloud.provider.service.MdcExceptionFeignApi;
 import com.paascloud.provider.service.MdcExceptionLogService;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;

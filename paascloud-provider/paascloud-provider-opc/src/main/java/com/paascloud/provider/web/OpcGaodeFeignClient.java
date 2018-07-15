@@ -11,7 +11,7 @@
 
 package com.paascloud.provider.web;
 
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.gaode.GaodeLocation;
 import com.paascloud.provider.service.OpcGaodeFeignApi;
 import com.paascloud.provider.utils.GaoDeUtil;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(value = "API - OpcGaodeFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class OpcGaodeFeignClient extends BaseController implements OpcGaodeFeignApi {
+public class OpcGaodeFeignClient extends BaseFeignClient implements OpcGaodeFeignApi {
 
 	@Override
 	@ApiOperation(httpMethod = "POST", value = "根据IP获取位置信息")

@@ -30,7 +30,7 @@ import javax.annotation.Resource;
  * @author paascloud.net@gmail.com
  */
 @RestController
-@RequestMapping(value = "/shipping", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/shipping", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - OmcShippingController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class OmcShippingController extends BaseController {
 
@@ -117,10 +117,11 @@ public class OmcShippingController extends BaseController {
      * @param shipping the shipping
      * @return the wrapper
      */
-    @PostMapping("queryUserShippingListWithPage")
+    @PostMapping("/queryUserShippingListWithPage")
     @ApiOperation(httpMethod = "POST", value = "分页查询当前用户收货人地址列表")
     public Wrapper<PageInfo> queryUserShippingListWithPage(@RequestBody OmcShippingQuery shipping) {
         Long userId = getLoginAuthDto().getUserId();
+        shipping.setUserId(userId);
         logger.info("queryUserShippingListWithPage - 分页查询当前用户收货人地址列表.userId={} shipping={}", userId, shipping);
         return omcShippingFeignApi.queryUserShippingListWithPage(shipping);
     }
@@ -131,7 +132,7 @@ public class OmcShippingController extends BaseController {
      * @param shipping the shipping
      * @return the wrapper
      */
-    @PostMapping("queryShippingListWithPage")
+    @PostMapping("/queryShippingListWithPage")
     @ApiOperation(httpMethod = "POST", value = "分页查询收货人地址列表")
     public Wrapper<PageInfo> queryShippingListWithPage(@RequestBody OmcShippingQuery shipping) {
         logger.info("queryShippingListWithPage - 分页查询收货人地址列表. shipping={}", shipping);

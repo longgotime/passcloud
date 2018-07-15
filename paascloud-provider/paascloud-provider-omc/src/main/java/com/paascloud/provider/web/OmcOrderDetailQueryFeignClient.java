@@ -12,7 +12,7 @@
 package com.paascloud.provider.web;
 
 import com.google.common.collect.Lists;
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.OmcOrderDetail;
 import com.paascloud.provider.model.dto.OrderDetailDto;
 import com.paascloud.provider.service.OmcOrderDetailQueryFeignApi;
@@ -38,7 +38,7 @@ import java.util.List;
 @RefreshScope
 @RestController
 @Api(value = "API - MallCartQueryFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class OmcOrderDetailQueryFeignClient extends BaseController implements OmcOrderDetailQueryFeignApi {
+public class OmcOrderDetailQueryFeignClient extends BaseFeignClient implements OmcOrderDetailQueryFeignApi {
 	@Resource
 	private OmcOrderDetailService omcOrderDetailService;
 

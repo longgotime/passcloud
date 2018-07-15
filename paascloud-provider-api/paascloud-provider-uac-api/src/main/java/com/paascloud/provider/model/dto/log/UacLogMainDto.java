@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * The class Uac log main dto.
+ * The class Uac log dto.
  *
  * @author paascloud.net@gmail.com
  */

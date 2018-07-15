@@ -13,7 +13,6 @@ package com.paascloud.provider.web;
 
 import com.paascloud.PublicUtil;
 import com.paascloud.TreeNode;
-import com.paascloud.core.support.BaseController;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.MdcAddress;
 import com.paascloud.provider.model.dto.AddressDTO;
@@ -21,13 +20,9 @@ import com.paascloud.provider.service.MdcAddressFeignApi;
 import com.paascloud.provider.service.MdcAddressService;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;

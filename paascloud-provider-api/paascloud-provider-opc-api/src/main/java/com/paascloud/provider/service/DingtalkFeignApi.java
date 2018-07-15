@@ -14,7 +14,7 @@ package com.paascloud.provider.service;
 
 import com.paascloud.annotation.NoNeedAccessAuthentication;
 import com.paascloud.provider.model.dto.robot.ChatRobotMsgDto;
-import com.paascloud.provider.service.hystrix.DingtalkFeignApiHystrix;
+import com.paascloud.provider.service.hystrix.DingtalkFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-opc", configuration = OAuth2FeignAutoConfiguration.class, fallback = DingtalkFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-opc", configuration = OAuth2FeignAutoConfiguration.class, fallback = DingtalkFeignHystrix.class)
 public interface DingtalkFeignApi {
 
 	/**
@@ -36,7 +36,7 @@ public interface DingtalkFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/opc/dingtalk/sendChatRobotMsg")
+	@PostMapping(value = "/opc/opc/dingtalk/sendChatRobotMsg")
 	@NoNeedAccessAuthentication
 	Wrapper<Boolean> sendChatRobotMsg(@RequestBody ChatRobotMsgDto uacUserReqDto);
 }

@@ -13,7 +13,6 @@ package com.paascloud.provider.web;
 
 import com.google.common.base.Preconditions;
 import com.paascloud.base.dto.UserTokenDto;
-import com.paascloud.core.support.BaseController;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.provider.model.dto.user.LoginRespDto;
@@ -45,49 +44,49 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @Api(value = "API - UacUserLoginFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacUserLoginFeignClient extends BaseFeignClient implements UacUserLoginFeignApi {
-	@Resource
-	private UacLoginService uacLoginService;
+    @Resource
+    private UacLoginService uacLoginService;
 
-	@Resource
-	private UacUserTokenService uacUserTokenService;
+    @Resource
+    private UacUserTokenService uacUserTokenService;
 
-	private static final String BEARER_TOKEN_TYPE = "Basic ";
+    private static final String BEARER_TOKEN_TYPE = "Basic ";
 
-	@Override
-	public Wrapper<LoginRespDto> loginAfter(@PathVariable("applicationId") Long applicationId, @PathVariable("loginName") String loginName) {
+    @Override
+    public Wrapper<LoginRespDto> loginAfter(@PathVariable("applicationId") Long applicationId, @PathVariable("loginName") String loginName) {
 
         logger.info("登录成功获取用户菜单. applicationId={}, loginName={}", applicationId, loginName);
-		LoginRespDto result = uacLoginService.loginAfter(applicationId, loginName);
-		return WrapMapper.ok(result);
-	}
+        LoginRespDto result = uacLoginService.loginAfter(applicationId, loginName);
+        return WrapMapper.ok(result);
+    }
 
-	@Override
-	public Wrapper loginAfter(String accessToken) {
-		if (!StringUtils.isEmpty(accessToken)) {
-			// 修改用户在线状态
-			UserTokenDto userTokenDto = uacUserTokenService.getByAccessToken(accessToken);
-			userTokenDto.setStatus(UacUserTokenStatusEnum.OFF_LINE.getStatus());
-			// FIXME
+    @Override
+    public Wrapper loginAfter(String accessToken) {
+        if (!StringUtils.isEmpty(accessToken)) {
+            // 修改用户在线状态
+            UserTokenDto userTokenDto = uacUserTokenService.getByAccessToken(accessToken);
+            userTokenDto.setStatus(UacUserTokenStatusEnum.OFF_LINE.getStatus());
+            // FIXME
 //			uacUserTokenService.updateUacUserToken(userTokenDto, getLoginAuthDto());
-		}
-		return WrapMapper.ok();
-	}
+        }
+        return WrapMapper.ok();
+    }
 
-	@Override
-	public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) {
-		String token;
-		try {
-			Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(accessToken), "accessToken is null");
-			Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(refreshToken), "refreshToken is null");
-			String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-			if (header == null || !header.startsWith(BEARER_TOKEN_TYPE)) {
-				throw new UnapprovedClientAuthenticationException("请求头中无client信息");
-			}
-			String[] tokens = RequestUtil.extractAndDecodeHeader(header);
-			assert tokens.length == 2;
+    @Override
+    public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) {
+        String token;
+        try {
+            Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(accessToken), "accessToken is null");
+            Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(refreshToken), "refreshToken is null");
+            String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+            if (header == null || !header.startsWith(BEARER_TOKEN_TYPE)) {
+                throw new UnapprovedClientAuthenticationException("请求头中无client信息");
+            }
+            String[] tokens = RequestUtil.extractAndDecodeHeader(header);
+            assert tokens.length == 2;
 
-			String clientId = tokens[0];
-			String clientSecret = tokens[1];
+            String clientId = tokens[0];
+            String clientSecret = tokens[1];
 
 //			ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
 
@@ -97,11 +96,11 @@ public class UacUserLoginFeignClient extends BaseFeignClient implements UacUserL
 //				throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
 //			}
 
-			token = uacUserTokenService.refreshToken(accessToken, refreshToken, request);
-		} catch (Exception e) {
-			logger.error("refreshToken={}", e.getMessage(), e);
-			return WrapMapper.error();
-		}
-		return WrapMapper.ok(token);
-	}
+            token = uacUserTokenService.refreshToken(accessToken, refreshToken, request);
+        } catch (Exception e) {
+            logger.error("refreshToken={}", e.getMessage(), e);
+            return WrapMapper.error();
+        }
+        return WrapMapper.ok(token);
+    }
 }

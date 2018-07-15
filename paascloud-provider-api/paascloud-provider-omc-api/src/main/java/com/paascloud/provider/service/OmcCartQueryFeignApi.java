@@ -34,6 +34,6 @@ public interface OmcCartQueryFeignApi {
 	 *
 	 * @return the cart vo
 	 */
-	@PostMapping(value = "/api/cart/getCarVo")
+	@PostMapping(value = "/omc/cart/getCarVo")
 	Wrapper<CartVo> getCartVo(@RequestParam("userId") Long userId);
 }

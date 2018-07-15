@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.paascloud.PublicUtil;
 import com.paascloud.ValidateUtil;
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.robot.*;
 import com.paascloud.provider.model.enums.RobotMsgTypeEnum;
 import com.paascloud.provider.service.DingtalkFeignApi;
@@ -42,7 +42,7 @@ import java.io.IOException;
  */
 @RestController
 @Api(value = "API - DingtalkFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class DingtalkFeignClient extends BaseController implements DingtalkFeignApi {
+public class DingtalkFeignClient extends BaseFeignClient implements DingtalkFeignApi {
 
 	@Override
 	@ApiOperation(httpMethod = "POST", value = "发送钉钉消息")

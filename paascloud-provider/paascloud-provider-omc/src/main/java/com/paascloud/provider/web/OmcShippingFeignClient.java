@@ -12,7 +12,6 @@
 package com.paascloud.provider.web;
 
 import com.github.pagehelper.PageInfo;
-import com.paascloud.core.support.BaseController;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.OmcShipping;
 import com.paascloud.provider.model.dto.OmcShippingDTO;
@@ -22,15 +21,16 @@ import com.paascloud.provider.service.OmcShippingService;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
 /**
- * The class Omc shipping controller.
+ * The class Omc shipping feign client.
  *
  * @author paascloud.net@gmail.com
  */
@@ -86,7 +86,7 @@ public class OmcShippingFeignClient extends BaseFeignClient implements OmcShippi
 
 	@Override
 	public Wrapper<PageInfo> queryUserShippingListWithPage(@RequestBody OmcShippingQuery shipping) {
-		Long userId = shipping.getLoginAuthDto().getUserId();
+		Long userId = shipping.getUserId();
 		logger.info("queryUserShippingListWithPage - 分页查询当前用户收货人地址列表.userId={} shipping={}", userId, shipping);
 		PageInfo pageInfo = omcShippingService.queryListWithPageByUserId(userId, shipping.getPageNum(), shipping.getPageSize());
 		return WrapMapper.ok(pageInfo);

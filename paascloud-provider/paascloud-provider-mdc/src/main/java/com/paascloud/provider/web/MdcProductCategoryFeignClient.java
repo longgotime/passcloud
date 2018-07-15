@@ -17,27 +17,20 @@ import com.google.common.collect.Lists;
 import com.paascloud.PublicUtil;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.dto.UpdateStatusDto;
-import com.paascloud.core.annotation.LogAnnotation;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.MdcProduct;
 import com.paascloud.provider.model.domain.MdcProductCategory;
 import com.paascloud.provider.model.dto.*;
 import com.paascloud.provider.model.vo.MdcCategoryVo;
 import com.paascloud.provider.service.MdcProductCategoryFeignApi;
-import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.service.MdcProductCategoryService;
 import com.paascloud.provider.service.MdcProductService;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
@@ -122,15 +115,7 @@ public class MdcProductCategoryFeignClient extends BaseFeignClient implements Md
         return WrapMapper.handleResult(result);
     }
 
-    /**
-     * 获取商品品类信息.
-     *
-     * @param pid the pid
-     *
-     * @return the product category data
-     */
     @Override
-    @ApiOperation(httpMethod = "POST", value = "获取商品品类信息")
     public Wrapper<List<ProductCategoryDto>> getProductCategoryData(@PathVariable("pid") Long pid) {
         logger.info("获取商品品类信息. pid={}", pid);
         List<ProductCategoryDto> list;
@@ -158,13 +143,6 @@ public class MdcProductCategoryFeignClient extends BaseFeignClient implements Md
         return WrapMapper.ok(list);
     }
 
-    /**
-     * 获取商品列表信息.
-     *
-     * @param productReqDto the product req dto
-     *
-     * @return the product list
-     */
     @Override
     @ApiOperation(httpMethod = "POST", value = "获取商品列表信息")
     public Wrapper<PageInfo> getProductList(@RequestBody ProductReqDto productReqDto) {

@@ -19,13 +19,14 @@ import com.paascloud.provider.service.PtcPayFeignApi;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Map;
 
 /**
- * The class Ptc pay controller.
+ * The class Ptc pay feign client.
  *
  * @author paascloud.net @gmail.com
  */

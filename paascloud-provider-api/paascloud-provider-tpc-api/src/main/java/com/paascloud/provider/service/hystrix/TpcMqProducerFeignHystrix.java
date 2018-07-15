@@ -17,6 +17,7 @@ import com.paascloud.provider.model.dto.TpcMqProducerQuery;
 import com.paascloud.provider.model.vo.TpcMqProducerVo;
 import com.paascloud.provider.model.vo.TpcMqPublishVo;
 import com.paascloud.provider.service.TpcMqProducerFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -32,21 +33,21 @@ import java.util.List;
 public class TpcMqProducerFeignHystrix implements TpcMqProducerFeignApi {
     @Override
     public Wrapper<List<TpcMqProducerVo>> queryProducerList(TpcMqProducerQuery tpcMqProducer) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<PageInfo<TpcMqPublishVo>> queryPublishListWithPage(TpcMqProducerQuery tpcMqProducer) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper modifyProducerStatusById(UpdateStatusDto updateStatusDto) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper deleteProducerById(Long id) {
-        return null;
+        return WrapMapper.error();
     }
 }

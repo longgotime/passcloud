@@ -17,6 +17,7 @@ import com.paascloud.provider.model.dto.TpcMqConsumerQuery;
 import com.paascloud.provider.model.vo.TpcMqConsumerVo;
 import com.paascloud.provider.model.vo.TpcMqSubscribeVo;
 import com.paascloud.provider.service.TpcMqConsumerFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
@@ -30,21 +31,21 @@ import java.util.List;
 public class TpcMqConsumerFeignHystrix implements TpcMqConsumerFeignApi {
     @Override
     public Wrapper<List<TpcMqConsumerVo>> queryConsumerVoList(TpcMqConsumerQuery tpcMqConsumer) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper<PageInfo<TpcMqSubscribeVo>> querySubscribeListWithPage(TpcMqConsumerQuery tpcMqConsumer) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper modifyConsumerStatusById(UpdateStatusDto updateStatusDto) {
-        return null;
+        return WrapMapper.error();
     }
 
     @Override
     public Wrapper deleteConsumerById(Long id) {
-        return null;
+        return WrapMapper.error();
     }
 }

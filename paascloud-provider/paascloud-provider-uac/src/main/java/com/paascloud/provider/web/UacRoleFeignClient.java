@@ -16,9 +16,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
-import com.paascloud.core.support.BaseController;
 import com.paascloud.core.support.BaseFeignClient;
-import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.provider.model.domain.UacRole;
 import com.paascloud.provider.model.domain.UacRoleUser;
 import com.paascloud.provider.model.dto.base.ModifyStatusDto;
@@ -113,7 +111,7 @@ public class UacRoleFeignClient extends BaseFeignClient implements UacRoleFeignA
     public Wrapper save(@RequestBody RoleDto role) {
         LoginAuthDto loginAuthDto = role.getLoginAuthDto();
         UacRole uacRole = new UacRole();
-        BeanUtils.copyProperties(role,uacRole);
+        BeanUtils.copyProperties(role, uacRole);
         uacRoleService.saveRole(uacRole, loginAuthDto);
         return WrapMapper.ok();
     }
@@ -154,7 +152,7 @@ public class UacRoleFeignClient extends BaseFeignClient implements UacRoleFeignA
     public Wrapper<RoleVo> queryRoleInfo(@PathVariable("id") Long id) {
         UacRole role = uacRoleService.selectByKey(id);
         RoleVo roleVo = new RoleVo();
-        BeanUtils.copyProperties(role,roleVo);
+        BeanUtils.copyProperties(role, roleVo);
         return WrapMapper.wrap(Wrapper.SUCCESS_CODE, Wrapper.SUCCESS_MESSAGE, roleVo);
     }
 

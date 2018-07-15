@@ -12,21 +12,20 @@
 package com.paascloud.provider.model.service;
 
 import com.paascloud.provider.model.dto.log.UacLogMainDto;
-import com.paascloud.provider.model.service.hystrix.UacLogFeignApiHystrix;
+import com.paascloud.provider.model.service.hystrix.UacLogFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 日志管理.
  *
  * @author paascloud.net@gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacLogFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacLogFeignHystrix.class)
 public interface UacLogFeignApi {
 
 	/**

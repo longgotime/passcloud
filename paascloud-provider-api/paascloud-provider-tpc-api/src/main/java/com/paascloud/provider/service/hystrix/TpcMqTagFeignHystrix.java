@@ -16,30 +16,31 @@ import com.paascloud.base.dto.UpdateStatusDto;
 import com.paascloud.provider.model.dto.TpcMqTagQuery;
 import com.paascloud.provider.model.vo.TpcMqTagVo;
 import com.paascloud.provider.service.TpcMqTagFeignApi;
+import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
 
 
 /**
- * The class Tpc mq tag controller.
+ * The class Tpc mq tag feign hystrix.
  *
  * @author paascloud.net @gmail.com
  */
 @Component
 public class TpcMqTagFeignHystrix implements TpcMqTagFeignApi {
 
-	@Override
-	public Wrapper<PageInfo<TpcMqTagVo>> queryTagListWithPage(TpcMqTagQuery tpcMqTag) {
-		return null;
-	}
+    @Override
+    public Wrapper<PageInfo<TpcMqTagVo>> queryTagListWithPage(TpcMqTagQuery tpcMqTag) {
+        return WrapMapper.error();
+    }
 
-	@Override
-	public Wrapper modifyProducerStatusById(UpdateStatusDto updateStatusDto) {
-		return null;
-	}
+    @Override
+    public Wrapper modifyProducerStatusById(UpdateStatusDto updateStatusDto) {
+        return WrapMapper.error();
+    }
 
-	@Override
-	public Wrapper deleteTagById(Long id) {
-		return null;
-	}
+    @Override
+    public Wrapper deleteTagById(Long id) {
+        return WrapMapper.error();
+    }
 }

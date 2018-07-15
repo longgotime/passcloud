@@ -18,7 +18,7 @@ import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.dto.user.ResetLoginPwdDto;
 import com.paascloud.provider.model.dto.user.UserRegisterDto;
-import com.paascloud.provider.model.service.hystrix.UacAuthUserFeignApiHystrix;
+import com.paascloud.provider.model.service.hystrix.UacAuthUserFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -36,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacAuthUserFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacAuthUserFeignHystrix.class)
 public interface UacAuthUserFeignApi {
 
 	/**
@@ -105,7 +104,7 @@ public interface UacAuthUserFeignApi {
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/register")
-    Wrapper registerUser(UserRegisterDto user);
+    Wrapper registerUser(@RequestBody UserRegisterDto user);
 
 	/**
 	 * 激活用户.

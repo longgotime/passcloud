@@ -12,7 +12,6 @@
 package com.paascloud.provider.web;
 
 import com.github.pagehelper.PageInfo;
-import com.paascloud.core.support.BaseController;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.log.UacLogMainDto;
 import com.paascloud.provider.model.service.UacLogFeignApi;
@@ -37,13 +36,13 @@ import javax.annotation.Resource;
 @Api(value = "API - UacLogFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacLogFeignClient extends BaseFeignClient implements UacLogFeignApi {
 
-	@Resource
-	private UacLogService uacLogService;
+    @Resource
+    private UacLogService uacLogService;
 
-	@Override
-	public Wrapper queryLogListWithPage(@RequestBody UacLogMainDto uacLogQueryDtoPage) {
-		logger.info("查询日志处理列表 uacLogQueryDtoPage={}", uacLogQueryDtoPage);
-		PageInfo pageInfo = uacLogService.queryLogListWithPage(uacLogQueryDtoPage);
-		return WrapMapper.ok(pageInfo);
-	}
+    @Override
+    public Wrapper queryLogListWithPage(@RequestBody UacLogMainDto uacLogQueryDtoPage) {
+        logger.info("查询日志处理列表 uacLogQueryDtoPage={}", uacLogQueryDtoPage);
+        PageInfo pageInfo = uacLogService.queryLogListWithPage(uacLogQueryDtoPage);
+        return WrapMapper.ok(pageInfo);
+    }
 }

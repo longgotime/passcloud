@@ -16,8 +16,7 @@ import com.paascloud.provider.model.dto.MdcDictCheckCodeDto;
 import com.paascloud.provider.model.dto.MdcDictCheckNameDto;
 import com.paascloud.provider.model.dto.MdcEditDictDto;
 import com.paascloud.provider.model.vo.MdcDictVo;
-import com.paascloud.provider.service.hystrix.MdcAddressFeignHystrix;
-import com.paascloud.provider.service.hystrix.MdcDictFeignApiHystrix;
+import com.paascloud.provider.service.hystrix.MdcDictFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -30,12 +29,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * The class Mdc dict main controller.
+ * The class Mdc dict feign hystrix.
  *
  * @author paascloud.net @gmail.com
  */
 @Api(value = "Feign - MdcDictMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@FeignClient(value = "paascloud-provider-mdc", configuration = OAuth2FeignAutoConfiguration.class, fallback = MdcDictFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-mdc", configuration = OAuth2FeignAutoConfiguration.class, fallback = MdcDictFeignHystrix.class)
 public interface MdcDictFeignApi {
 
     /**

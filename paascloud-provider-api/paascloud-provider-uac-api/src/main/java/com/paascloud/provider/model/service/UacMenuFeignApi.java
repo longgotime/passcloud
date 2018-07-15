@@ -12,7 +12,7 @@
 package com.paascloud.provider.model.service;
 
 import com.paascloud.provider.model.dto.menu.*;
-import com.paascloud.provider.model.service.hystrix.UacMenuFeignApiHystrix;
+import com.paascloud.provider.model.service.hystrix.UacMenuFeignHystrix;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.menu.ViewMenuVo;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
@@ -23,7 +23,6 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacMenuFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacMenuFeignHystrix.class)
 public interface UacMenuFeignApi{
 
 

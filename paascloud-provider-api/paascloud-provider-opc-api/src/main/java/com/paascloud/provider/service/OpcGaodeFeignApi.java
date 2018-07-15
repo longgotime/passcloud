@@ -12,7 +12,7 @@
 package com.paascloud.provider.service;
 
 import com.paascloud.provider.model.dto.gaode.GaodeLocation;
-import com.paascloud.provider.service.hystrix.OpcGaodeFeignApiHystrix;
+import com.paascloud.provider.service.hystrix.OpcGaodeFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-opc", configuration = OAuth2FeignAutoConfiguration.class, fallback = OpcGaodeFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-opc", configuration = OAuth2FeignAutoConfiguration.class, fallback = OpcGaodeFeignHystrix.class)
 public interface OpcGaodeFeignApi {
 
 	/**
@@ -34,6 +34,6 @@ public interface OpcGaodeFeignApi {
 	 *
 	 * @return the location by ip addr
 	 */
-	@PostMapping(value = "/api/auth/getLocationByIpAddr")
+	@PostMapping(value = "/opc/auth/getLocationByIpAddr")
 	Wrapper<GaodeLocation> getLocationByIpAddr(@RequestParam("ipAddr") String ipAddr);
 }

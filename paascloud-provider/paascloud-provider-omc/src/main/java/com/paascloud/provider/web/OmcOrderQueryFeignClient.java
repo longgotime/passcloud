@@ -11,7 +11,7 @@
 
 package com.paascloud.provider.web;
 
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.OrderDto;
 import com.paascloud.provider.service.OmcOrderQueryFeignApi;
 import com.paascloud.provider.service.OmcOrderService;
@@ -34,7 +34,7 @@ import javax.annotation.Resource;
 @RefreshScope
 @RestController
 @Api(value = "API - OmcOrderQueryFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class OmcOrderQueryFeignClient extends BaseController implements OmcOrderQueryFeignApi {
+public class OmcOrderQueryFeignClient extends BaseFeignClient implements OmcOrderQueryFeignApi {
 	@Resource
 	private OmcOrderService omcOrderService;
 

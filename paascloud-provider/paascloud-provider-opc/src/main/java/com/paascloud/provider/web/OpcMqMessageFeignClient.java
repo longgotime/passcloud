@@ -15,7 +15,7 @@ package com.paascloud.provider.web;
 import com.github.pagehelper.PageInfo;
 import com.paascloud.base.dto.MessageQueryDto;
 import com.paascloud.base.dto.MqMessageVo;
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.service.MqMessageService;
 import com.paascloud.provider.service.OpcMqMessageFeignApi;
 import com.paascloud.wrapper.WrapMapper;
@@ -37,7 +37,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "API - OpcMqMessageFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class OpcMqMessageFeignClient extends BaseController implements OpcMqMessageFeignApi {
+public class OpcMqMessageFeignClient extends BaseFeignClient implements OpcMqMessageFeignApi {
 	@Resource
 	private MqMessageService mqMessageService;
 

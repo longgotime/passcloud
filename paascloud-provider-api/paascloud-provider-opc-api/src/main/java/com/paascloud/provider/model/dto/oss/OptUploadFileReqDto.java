@@ -47,5 +47,7 @@ public class OptUploadFileReqDto implements Serializable {
 	private Long userId;
 	@ApiModelProperty(value = "用户名")
 	private String userName;
+	@ApiModelProperty(value = "是否存储数据库")
+	private boolean storeDb = true;
 	private OptUploadFileByteInfoReqDto uploadFileByteInfoReqDto;
 }

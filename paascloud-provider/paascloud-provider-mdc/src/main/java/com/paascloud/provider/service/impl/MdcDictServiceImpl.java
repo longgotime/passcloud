@@ -64,6 +64,8 @@ public class MdcDictServiceImpl extends BaseService<MdcDict> implements MdcDictS
 
 		ModelMapper modelMapper = new ModelMapper();
 		MdcDictVo dictVo = modelMapper.map(dict, MdcDictVo.class);
+		dictVo.setId(dict.getId());
+		dictVo.setPid(dict.getPid());
 
 		if (parentDict != null) {
 			dictVo.setParentDictName(parentDict.getDictName());
@@ -174,7 +176,7 @@ public class MdcDictServiceImpl extends BaseService<MdcDict> implements MdcDictS
 		Long pid = mdcDict.getPid();
 		mdcDict.setUpdateInfo(loginAuthDto);
 		MdcDict parentMenu = mapper.selectByPrimaryKey(pid);
-		if (PublicUtil.isEmpty(parentMenu)) {
+		if (PublicUtil.isEmpty(parentMenu) && pid != 0) {
 			throw new MdcBizException(ErrorCodeEnum.MDC10021020, pid);
 		}
 		if (mdcDict.isNew()) {

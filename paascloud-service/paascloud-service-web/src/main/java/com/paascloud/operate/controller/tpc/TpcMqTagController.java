@@ -35,7 +35,7 @@ import javax.annotation.Resource;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/tag", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/tag", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - TpcMqTagController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class TpcMqTagController extends BaseController {
 

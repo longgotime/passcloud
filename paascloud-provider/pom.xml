@@ -24,6 +24,7 @@
         <module>paascloud-provider-omc</module>
         <module>paascloud-provider-opc</module>
         <module>paascloud-provider-tpc</module>
+        <module>paascloud-provider-ptc</module>
     </modules>
 
     <dependencies>

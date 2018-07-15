@@ -36,7 +36,7 @@ import java.util.Map;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/omc/pay")
+@RequestMapping(value = "/web/omc/pay")
 @Api(value = "WEB - PtcPayController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class PtcPayController extends BaseController {
     @Resource

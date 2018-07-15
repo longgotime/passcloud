@@ -27,17 +27,17 @@ import com.paascloud.provider.model.dto.UpdateAttachmentDto;
 import com.paascloud.provider.model.dto.attachment.OptAttachmentReqDto;
 import com.paascloud.provider.model.dto.attachment.OptAttachmentRespDto;
 import com.paascloud.provider.model.dto.attachment.OptUploadFileByteInfoReqDto;
-import com.paascloud.provider.model.dto.oss.*;
+import com.paascloud.provider.model.dto.oss.OptBatchGetUrlRequest;
+import com.paascloud.provider.model.dto.oss.OptGetUrlRequest;
+import com.paascloud.provider.model.dto.oss.OptUploadFileReqDto;
+import com.paascloud.provider.model.dto.oss.OptUploadFileRespDto;
 import com.paascloud.provider.service.OpcAttachmentService;
 import com.paascloud.provider.service.OpcOssService;
-import com.paascloud.provider.utils.CheckFileUtil;
 import com.qiniu.common.QiniuException;
 import com.xiaoleilu.hutool.io.FileTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
@@ -58,45 +58,6 @@ public class OptAttachmentServiceImpl extends BaseService<OptAttachment> impleme
 	private OpcOssService optOssService;
 	@Resource
 	private PaascloudProperties paascloudProperties;
-
-	@Override
-	public List<OptUploadFileRespDto> uploadFile(MultipartHttpServletRequest multipartRequest, OptUploadFileReqDto optUploadFileReqDto, LoginAuthDto loginAuthDto, boolean storeDbFlag) {
-		String fileType = optUploadFileReqDto.getFileType();
-		String filePath = optUploadFileReqDto.getFilePath();
-		String bucketName = optUploadFileReqDto.getBucketName();
-		List<OptUploadFileRespDto> result = Lists.newArrayList();
-		if (PublicUtil.isEmpty(filePath)) {
-			filePath = GlobalConstant.Sys.DEFAULT_FILE_PATH;
-		}
-		try {
-			List<MultipartFile> fileList = multipartRequest.getFiles("file");
-			if (fileList.isEmpty()) {
-				return result;
-			}
-
-			for (MultipartFile multipartFile : fileList) {
-				String fileName = multipartFile.getOriginalFilename();
-				if (PublicUtil.isEmpty(fileName)) {
-					continue;
-				}
-				Preconditions.checkArgument(multipartFile.getSize() <= GlobalConstant.FILE_MAX_SIZE, "上传文件不能大于5M");
-				InputStream inputStream = multipartFile.getInputStream();
-
-				String inputStreamFileType = FileTypeUtil.getType(inputStream);
-				CheckFileUtil.checkFileType(fileType, inputStreamFileType);
-				OptUploadFileRespDto fileInfo;
-				if (storeDbFlag) {
-					fileInfo = this.uploadFile(multipartFile.getBytes(), fileName, fileType, filePath, bucketName, loginAuthDto);
-				} else {
-					fileInfo = optOssService.uploadFile(multipartFile.getBytes(), fileName, filePath, bucketName);
-				}
-				result.add(fileInfo);
-			}
-		} catch (IOException e) {
-			logger.error("上传文件失败={}", e.getMessage(), e);
-		}
-		return result;
-	}
 
 	@Override
 	public OptAttachmentRespDto queryAttachmentById(Long id) {
@@ -154,17 +115,18 @@ public class OptAttachmentServiceImpl extends BaseService<OptAttachment> impleme
 
 	@Override
 	public OptUploadFileRespDto rpcUploadFile(OptUploadFileReqDto optUploadFileReqDto) throws IOException {
-		String fileType = optUploadFileReqDto.getFileType();
+		boolean storeDb = optUploadFileReqDto.isStoreDb();
 		String filePath = optUploadFileReqDto.getFilePath();
 		String bucketName = optUploadFileReqDto.getBucketName();
 		OptUploadFileByteInfoReqDto uploadFileByteInfoReqDto = optUploadFileReqDto.getUploadFileByteInfoReqDto();
-		LoginAuthDto authResDto = new LoginAuthDto();
-		authResDto.setUserId(optUploadFileReqDto.getUserId());
-		authResDto.setUserName(optUploadFileReqDto.getUserName());
+		LoginAuthDto authDto = new LoginAuthDto();
+		authDto.setUserId(optUploadFileReqDto.getUserId());
+		authDto.setUserName(optUploadFileReqDto.getUserName());
 
 		if (PublicUtil.isEmpty(filePath)) {
 			filePath = GlobalConstant.Oss.DEFAULT_FILE_PATH;
 		}
+		OptUploadFileRespDto result;
 		InputStream is = null;
 		try {
 			Preconditions.checkArgument(uploadFileByteInfoReqDto != null, "上传数据不能为空");
@@ -173,12 +135,16 @@ public class OptAttachmentServiceImpl extends BaseService<OptAttachment> impleme
 
 			String fileName = uploadFileByteInfoReqDto.getFileName();
 			is = new ByteArrayInputStream(fileByteArray);
-			String type = FileTypeUtil.getType(is);
-			Preconditions.checkArgument(type.equals(fileType), "文件类型不符");
+			String fileType = FileTypeUtil.getType(is);
+			Preconditions.checkArgument(fileName.endsWith(fileType), "文件类型不符");
 			fileName = filePath + fileName;
-			OptUploadFileRespDto optUploadFileRespDto = this.uploadFile(fileByteArray, fileName, fileType, filePath, bucketName, authResDto);
-			optUploadFileRespDto.setFileType(fileType);
-			return optUploadFileRespDto;
+			result = optOssService.uploadFile(fileByteArray, fileName, filePath, bucketName);
+			if (storeDb) {
+				insertAttachment(fileType, bucketName, authDto, result);
+			}
+
+			result.setFileType(fileType);
+			return result;
 		} catch (IOException e) {
 			logger.error("上传文件失败={}", e.getMessage(), e);
 		} finally {
@@ -230,13 +196,6 @@ public class OptAttachmentServiceImpl extends BaseService<OptAttachment> impleme
 			throw new OpcBizException(ErrorCodeEnum.OPC10040008, attachmentId);
 		}
 		return optAttachment;
-	}
-
-	@Override
-	public OptUploadFileRespDto uploadFile(byte[] uploadBytes, String fileName, String fileType, String filePath, String bucketName, LoginAuthDto loginAuthDto) throws IOException {
-		OptUploadFileRespDto fileInfo = optOssService.uploadFile(uploadBytes, fileName, filePath, bucketName);
-		insertAttachment(fileType, bucketName, loginAuthDto, fileInfo);
-		return fileInfo;
 	}
 
 	@Override

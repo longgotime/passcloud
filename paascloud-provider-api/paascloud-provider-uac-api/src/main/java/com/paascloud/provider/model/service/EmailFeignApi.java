@@ -12,7 +12,7 @@
 package com.paascloud.provider.model.service;
 
 import com.paascloud.provider.model.dto.email.SendEmailMessage;
-import com.paascloud.provider.model.service.hystrix.EmailFeignApiHystrix;
+import com.paascloud.provider.model.service.hystrix.EmailFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiParam;
@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 /**
- * The class Email controller.
+ * The class Email feign hystrix.
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac" , configuration = OAuth2FeignAutoConfiguration.class, fallback = EmailFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac" , configuration = OAuth2FeignAutoConfiguration.class, fallback = EmailFeignHystrix.class)
 public interface EmailFeignApi {
 
 	/**

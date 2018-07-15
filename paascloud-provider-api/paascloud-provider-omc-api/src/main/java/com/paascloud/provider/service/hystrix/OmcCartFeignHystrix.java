@@ -33,21 +33,21 @@ public class OmcCartFeignHystrix implements OmcCartFeignApi {
 
 	@Override
 	public Wrapper addProduct(final Long userId, final Long productId, final Integer count) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper updateProduct(final Long userId, final Long productId, final Integer count) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper deleteProduct(final Long userId, final String productIds) {
-		return null;
+		return WrapMapper.error();
 	}
 
 	@Override
 	public Wrapper selectOrUnSelect(final Long userId, final Long productId, final Integer checked) {
-		return null;
+		return WrapMapper.error();
 	}
 }

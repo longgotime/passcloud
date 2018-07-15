@@ -40,7 +40,7 @@ public interface TpcMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/saveMessageWaitingConfirm")
+	@PostMapping(value = "/tpc/saveMessageWaitingConfirm")
 	Wrapper saveMessageWaitingConfirm(@RequestBody TpcMqMessageDto mqMessageDto);
 
 	/**
@@ -50,7 +50,7 @@ public interface TpcMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/confirmAndSendMessage")
+	@PostMapping(value = "/tpc/confirmAndSendMessage")
 	Wrapper confirmAndSendMessage(@RequestParam("messageKey") String messageKey);
 
 	/**
@@ -60,7 +60,7 @@ public interface TpcMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/saveAndSendMessage")
+	@PostMapping(value = "/tpc/saveAndSendMessage")
 	Wrapper saveAndSendMessage(@RequestBody TpcMqMessageDto mqMessageDto);
 
 	/**
@@ -70,7 +70,7 @@ public interface TpcMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/directSendMessage")
+	@PostMapping(value = "/tpc/directSendMessage")
 	Wrapper directSendMessage(@RequestBody TpcMqMessageDto mqMessageDto);
 
 	/**
@@ -80,7 +80,7 @@ public interface TpcMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/deleteMessageByMessageKey")
+	@PostMapping(value = "/tpc/deleteMessageByMessageKey")
 	Wrapper deleteMessageByMessageKey(@RequestParam("messageKey") String messageKey);
 
 	/**
@@ -91,7 +91,7 @@ public interface TpcMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/confirmReceiveMessage")
+	@PostMapping(value = "/tpc/confirmReceiveMessage")
 	Wrapper confirmReceiveMessage(@RequestParam("cid") final String cid, @RequestParam("messageKey") final String messageKey);
 
 	/**
@@ -102,7 +102,7 @@ public interface TpcMqMessageFeignApi {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/saveAndConfirmFinishMessage")
+	@PostMapping(value = "/tpc/saveAndConfirmFinishMessage")
 	Wrapper confirmConsumedMessage(@RequestParam("cid") final String cid, @RequestParam("messageKey") final String messageKey);
 
 	/**
@@ -111,7 +111,7 @@ public interface TpcMqMessageFeignApi {
 	 * @param messageQueryDto the message query dto
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/message/queryRecordListWithPage")
+	@PostMapping(value = "/tpc/message/queryRecordListWithPage")
 	@ApiOperation(httpMethod = "POST", value = "分页查询各中心落地消息记录")
 	Wrapper queryRecordListWithPage(@ApiParam(name = "tpcMessageQueryDto") @RequestBody MessageQueryDto messageQueryDto);
 
@@ -121,7 +121,7 @@ public interface TpcMqMessageFeignApi {
 	 * @param messageId the message id
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/message/resendMessageById/{messageId}")
+	@PostMapping(value = "/tpc/message/resendMessageById/{messageId}")
 	@ApiOperation(httpMethod = "POST", value = "重发消息")
 	Wrapper resendMessageById(@PathVariable("messageId") Long messageId);
 
@@ -131,7 +131,7 @@ public interface TpcMqMessageFeignApi {
 	 * @param messageQueryDto the message query dto
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/api/tpc/message/queryReliableListWithPage")
+	@PostMapping(value = "/tpc/message/queryReliableListWithPage")
 	@ApiOperation(httpMethod = "POST", value = "分页查询可靠消息")
 	Wrapper queryReliableListWithPage(@ApiParam(name = "tpcMessageQueryDto") @RequestBody MessageQueryDto messageQueryDto);
 }

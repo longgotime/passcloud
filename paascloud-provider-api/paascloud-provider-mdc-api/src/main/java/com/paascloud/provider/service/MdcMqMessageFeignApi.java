@@ -15,7 +15,7 @@ package com.paascloud.provider.service;
 import com.github.pagehelper.PageInfo;
 import com.paascloud.base.dto.MessageQueryDto;
 import com.paascloud.base.dto.MqMessageVo;
-import com.paascloud.provider.service.hystrix.MdcMqMessageApiHystrix;
+import com.paascloud.provider.service.hystrix.MdcMqMessageHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-mdc", configuration = OAuth2FeignAutoConfiguration.class, fallback = MdcMqMessageApiHystrix.class)
+@FeignClient(value = "paascloud-provider-mdc", configuration = OAuth2FeignAutoConfiguration.class, fallback = MdcMqMessageHystrix.class)
 public interface MdcMqMessageFeignApi {
 
 

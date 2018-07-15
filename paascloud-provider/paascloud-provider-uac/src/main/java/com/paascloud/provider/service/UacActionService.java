@@ -30,7 +30,7 @@ public interface UacActionService extends IService<UacAction> {
 	/**
 	 * Query action list with page page info.
 	 *
-	 * @param actionMainQueryDto the action main query dto
+	 * @param actionMainQueryDto the action query dto
 	 *
 	 * @return the page info
 	 */

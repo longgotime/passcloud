@@ -13,7 +13,6 @@ package com.paascloud.provider.web;
 
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.dto.UpdateStatusDto;
-import com.paascloud.core.support.BaseController;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.domain.MdcDict;
 import com.paascloud.provider.model.dto.MdcDictCheckCodeDto;
@@ -24,19 +23,18 @@ import com.paascloud.provider.service.MdcDictFeignApi;
 import com.paascloud.provider.service.MdcDictService;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * The class Mdc dict main controller.
+ * The class Mdc dict feign client.
  *
  * @author paascloud.net@gmail.com
  */

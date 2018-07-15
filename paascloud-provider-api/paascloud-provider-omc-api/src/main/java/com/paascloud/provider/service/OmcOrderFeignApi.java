@@ -37,7 +37,7 @@ public interface OmcOrderFeignApi {
      * @param order the order
      * @return the wrapper
      */
-    @PostMapping(value = "/api/order/updateOrderById")
+    @PostMapping(value = "/omc/order/updateOrderById")
 	Wrapper updateOrderById(@RequestBody OrderDto order);
 
     /**
@@ -45,7 +45,7 @@ public interface OmcOrderFeignApi {
      *
      * @return the cart count
      */
-    @PostMapping(value = "/api/mdc/order/getCartCount")
+    @PostMapping(value = "/omc/mdc/order/getCartCount")
 	Wrapper<Integer> getCartCount();
 
     /**
@@ -54,7 +54,7 @@ public interface OmcOrderFeignApi {
      * @param userId the user id
      * @return the order cart product
      */
-    @PostMapping("/api/mdc/order/getOrderCartProduct/{userId}")
+    @PostMapping("/omc/order/getOrderCartProduct/{userId}")
 	@ApiOperation(httpMethod = "POST", value = "获取购物车商品数量")
 	Wrapper getOrderCartProduct(@PathVariable("userId") Long userId);
 
@@ -64,7 +64,7 @@ public interface OmcOrderFeignApi {
      * @param omcCreateOrderDto the omc create order dto
      * @return the wrapper
      */
-    @PostMapping("/api/mdc/order/createOrderDoc")
+    @PostMapping("/omc/order/createOrderDoc")
 	@ApiOperation(httpMethod = "POST", value = "创建订单")
 	Wrapper createOrderDoc(@RequestBody OmcCreateOrderDto omcCreateOrderDto);
 
@@ -75,7 +75,7 @@ public interface OmcOrderFeignApi {
      * @param cancelOrderDto the cancel order dto
      * @return the wrapper
      */
-    @PostMapping("/api/mdc/order/cancelOrderDoc")
+    @PostMapping("/omc/order/cancelOrderDoc")
 	@ApiOperation(httpMethod = "POST", value = "取消订单")
 	Wrapper cancelOrderDoc(@RequestBody OmcCancelOrderDto cancelOrderDto);
 
@@ -86,7 +86,7 @@ public interface OmcOrderFeignApi {
      * @param userId  the user id
      * @return the wrapper
      */
-    @PostMapping("/api/mdc/order/queryUserOrderDetailList/{orderNo}/{userId}")
+    @PostMapping("/omc/order/queryUserOrderDetailList/{orderNo}/{userId}")
 	@ApiOperation(httpMethod = "POST", value = "查询订单详情")
 	Wrapper queryUserOrderDetailList(@PathVariable("orderNo") String orderNo, @PathVariable("userId") Long userId);
 
@@ -96,7 +96,7 @@ public interface OmcOrderFeignApi {
      * @param orderNo the order no
      * @return the wrapper
      */
-    @PostMapping("/api/mdc/order/queryUserOrderDetail/{orderNo}")
+    @PostMapping("/omc/order/queryUserOrderDetail/{orderNo}")
 	@ApiOperation(httpMethod = "POST", value = "查询订单详情")
 	Wrapper queryUserOrderDetail(@PathVariable("orderNo") String orderNo);
 
@@ -106,7 +106,7 @@ public interface OmcOrderFeignApi {
      * @param orderPageQuery the order page query
      * @return the wrapper
      */
-    @PostMapping("/api/mdc/order/queryUserOrderListWithPage")
+    @PostMapping("/omc/order/queryUserOrderListWithPage")
 	@ApiOperation(httpMethod = "POST", value = "查询用户订单列表")
 	Wrapper queryUserOrderListWithPage(@RequestBody OrderPageQuery orderPageQuery);
 
@@ -116,7 +116,7 @@ public interface OmcOrderFeignApi {
      * @param orderPageQuery the order page query
      * @return the wrapper
      */
-    @PostMapping("/api/mdc/order/queryOrderListWithPage")
+    @PostMapping("/omc/order/queryOrderListWithPage")
 	@ApiOperation(httpMethod = "POST", value = "查询用户订单列表")
 	Wrapper queryOrderListWithPage(@RequestBody OrderPageQuery orderPageQuery);
 
@@ -127,7 +127,7 @@ public interface OmcOrderFeignApi {
      * @param userId  the user id
      * @return the wrapper
      */
-    @PostMapping("/api/mdc/order/queryOrderPayStatus/{orderNo}/{userId}")
+    @PostMapping("/omc/order/queryOrderPayStatus/{orderNo}/{userId}")
 	@ApiOperation(httpMethod = "POST", value = "查询订单状态")
 	Wrapper<Boolean> queryOrderPayStatus(@PathVariable("orderNo") String orderNo, @PathVariable("userId") Long userId);
 }

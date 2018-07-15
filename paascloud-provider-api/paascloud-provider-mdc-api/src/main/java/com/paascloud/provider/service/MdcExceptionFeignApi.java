@@ -12,8 +12,7 @@
 package com.paascloud.provider.service;
 
 import com.paascloud.provider.model.dto.MdcExceptionQueryDto;
-import com.paascloud.provider.service.hystrix.MdcAddressFeignHystrix;
-import com.paascloud.provider.service.hystrix.MdcExceptionFeignApiHystrix;
+import com.paascloud.provider.service.hystrix.MdcExceptionFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -23,7 +22,6 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 异常管理.
@@ -31,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author paascloud.net @gmail.com
  */
 @Api(value = "Feign - MdcExceptionMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@FeignClient(value = "paascloud-provider-mdc", configuration = OAuth2FeignAutoConfiguration.class, fallback = MdcExceptionFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-mdc", configuration = OAuth2FeignAutoConfiguration.class, fallback = MdcExceptionFeignHystrix.class)
 public interface MdcExceptionFeignApi {
 
     /**

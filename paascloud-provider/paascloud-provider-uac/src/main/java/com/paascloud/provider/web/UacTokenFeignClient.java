@@ -12,7 +12,6 @@
 package com.paascloud.provider.web;
 
 import com.github.pagehelper.PageInfo;
-import com.paascloud.core.support.BaseController;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.token.TokenMainQueryDto;
 import com.paascloud.provider.model.service.UacTokenFeignApi;
@@ -40,19 +39,19 @@ import javax.annotation.Resource;
 public class UacTokenFeignClient extends BaseFeignClient implements UacTokenFeignApi {
 
 
-	@Resource
-	private UacUserTokenService uacUserTokenService;
+    @Resource
+    private UacUserTokenService uacUserTokenService;
 
-	@Override
-	public Wrapper<Integer> updateTokenOffLine() {
-		return null;
-	}
+    @Override
+    public Wrapper<Integer> updateTokenOffLine() {
+        return null;
+    }
 
-	@Override
-	public Wrapper queryUacActionListWithPage(@ApiParam(name = "token") @RequestBody TokenMainQueryDto token) {
-		logger.info("查询在线用户列表. token={}", token);
-		PageInfo pageInfo = uacUserTokenService.listTokenWithPage(token);
-		return WrapMapper.ok(pageInfo);
-	}
+    @Override
+    public Wrapper queryUacActionListWithPage(@ApiParam(name = "token") @RequestBody TokenMainQueryDto token) {
+        logger.info("查询在线用户列表. token={}", token);
+        PageInfo pageInfo = uacUserTokenService.listTokenWithPage(token);
+        return WrapMapper.ok(pageInfo);
+    }
 
 }

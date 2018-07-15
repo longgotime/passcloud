@@ -11,7 +11,7 @@
 
 package com.paascloud.provider.web;
 
-import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.vo.CartProductVo;
 import com.paascloud.provider.service.OmcCartFeignApi;
 import com.paascloud.provider.service.OmcCartService;
@@ -36,7 +36,7 @@ import java.util.List;
 @RefreshScope
 @RestController
 @Api(value = "API - MallCartFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class MallCartFeignClient extends BaseController implements OmcCartFeignApi {
+public class MallCartFeignClient extends BaseFeignClient implements OmcCartFeignApi {
 
 	@Resource
 	private OmcCartService omcCartService;

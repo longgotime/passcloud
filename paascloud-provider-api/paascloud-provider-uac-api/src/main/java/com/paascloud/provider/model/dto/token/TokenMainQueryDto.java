@@ -18,7 +18,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * The class Token main query dto.
+ * The class Token query dto.
  *
  * @author paascloud.net @gmail.com
  */

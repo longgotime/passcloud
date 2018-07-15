@@ -12,14 +12,13 @@
 package com.paascloud.provider.model.service;
 
 import com.paascloud.provider.model.dto.token.TokenMainQueryDto;
-import com.paascloud.provider.model.service.hystrix.UacTokenFeignApiHystrix;
+import com.paascloud.provider.model.service.hystrix.UacTokenFeignHystrix;
 import com.paascloud.security.feign.OAuth2FeignAutoConfiguration;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
@@ -27,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author paascloud.net @gmail.com
  */
-@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacTokenFeignApiHystrix.class)
+@FeignClient(value = "paascloud-provider-uac", configuration = OAuth2FeignAutoConfiguration.class, fallback = UacTokenFeignHystrix.class)
 public interface UacTokenFeignApi{
 
 	/**
