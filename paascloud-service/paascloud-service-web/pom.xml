@@ -62,12 +62,14 @@
     <dependency>
       <groupId>com.liuzm.paascloud.provider.api</groupId>
       <artifactId>paascloud-provider-opc-api</artifactId>
-      <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>com.liuzm.paascloud.provider.api</groupId>
       <artifactId>paascloud-provider-tpc-api</artifactId>
-      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.liuzm.paascloud.common</groupId>
+      <artifactId>paascloud-security-core</artifactId>
     </dependency>
     <dependency>
       <groupId>de.codecentric</groupId>

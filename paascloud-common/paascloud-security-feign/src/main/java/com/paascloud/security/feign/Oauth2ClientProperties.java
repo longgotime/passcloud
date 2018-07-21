@@ -20,7 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author paascloud.net @gmail.com
  */
 @Data
-@ConfigurationProperties(prefix = "paascloud.oauth2.client")
+@ConfigurationProperties(prefix = "paascloud.security.oauth2.client")
 public class Oauth2ClientProperties {
 	private String id;
 	private String accessTokenUrl;

@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.service.hystrix;
 
+import com.paascloud.provider.model.dto.AlipayDTO;
 import com.paascloud.provider.model.dto.OrderDto;
 import com.paascloud.provider.service.PtcPayFeignApi;
 import com.paascloud.wrapper.WrapMapper;
@@ -32,7 +33,7 @@ public class PtcPayFeignHystrix implements PtcPayFeignApi {
 	}
 
 	@Override
-	public Wrapper aliPayCallback(Map<String, String> params) {
+	public Wrapper aliPayCallback(AlipayDTO alipayDTO) {
 		return WrapMapper.error();
 	}
 }

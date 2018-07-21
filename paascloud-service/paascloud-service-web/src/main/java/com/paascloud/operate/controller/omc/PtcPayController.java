@@ -17,10 +17,13 @@ import com.alipay.demo.trade.config.Configs;
 import com.google.common.collect.Maps;
 import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.constant.PtcApiConstant;
+import com.paascloud.provider.model.dto.AlipayDTO;
 import com.paascloud.provider.model.dto.OrderDto;
 import com.paascloud.provider.service.PtcPayFeignApi;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
+import com.xiaoleilu.hutool.date.DateTime;
+import com.xiaoleilu.hutool.date.DateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
@@ -36,7 +39,7 @@ import java.util.Map;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/web/omc/pay")
+@RequestMapping(value = "/web/pay")
 @Api(value = "WEB - PtcPayController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class PtcPayController extends BaseController {
     @Resource
@@ -95,8 +98,15 @@ public class PtcPayController extends BaseController {
             logger.error("支付宝验证回调异常", e);
         }
 
+        String orderNo = params.get("out_trade_no");
+        String tradeNo = params.get("trade_no");
+        String tradeStatus = params.get("trade_status");
+        DateTime paymentTime = DateUtil.parseDate(params.get("gmt_payment"));
+
+        AlipayDTO alipayDTO = new AlipayDTO(orderNo, tradeNo, tradeStatus, paymentTime);
+
         //todo 验证各种数据
-        Wrapper result = ptcPayFeignApi.aliPayCallback(params);
+        Wrapper result = ptcPayFeignApi.aliPayCallback(alipayDTO);
         if (result.success()) {
             return PtcApiConstant.AlipayCallback.RESPONSE_SUCCESS;
         }

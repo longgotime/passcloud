@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.service;
 
+import com.paascloud.provider.model.dto.AlipayDTO;
 import com.paascloud.provider.model.dto.OrderDto;
 import com.paascloud.provider.service.hystrix.OmcShippingFeignHystrix;
 import com.paascloud.provider.service.hystrix.PtcPayFeignHystrix;
@@ -49,11 +50,11 @@ public interface PtcPayFeignApi {
     /**
      * 支付宝回调信息.
      *
-     * @param params the params
+     * @param alipayDTO the alipay dto
      * @return the wrapper
      */
-    @PostMapping("/api/mdc/pay/alipayCallback")
+    @PostMapping("/omc/pay/alipayCallback")
     @ApiOperation(httpMethod = "POST", value = "支付宝回调信息")
-    Wrapper aliPayCallback(Map<String, String> params);
+    Wrapper aliPayCallback(@RequestBody AlipayDTO alipayDTO);
 
 }

@@ -11,6 +11,7 @@
 
 package com.paascloud.provider.model.dto.email;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -43,6 +44,8 @@ public class SendEmailMessage implements Serializable {
 	 * 邮件模板Code
 	 */
 	private String emailTemplateCode;
+
+	private LoginAuthDto loginAuthDto;
 
 	/**
 	 * Instantiates a new Send email message.

@@ -115,6 +115,11 @@
       </dependency>
       <dependency>
         <groupId>com.liuzm.paascloud.common</groupId>
+        <artifactId>paascloud-security-core</artifactId>
+        <version>${paascloud.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.liuzm.paascloud.common</groupId>
         <artifactId>paascloud-common-core</artifactId>
         <version>${paascloud.version}</version>
       </dependency>
@@ -251,6 +256,11 @@
         <groupId>com.xiaoleilu</groupId>
         <artifactId>hutool-all</artifactId>
         <version>3.0.7</version>
+      </dependency>
+      <dependency>
+        <groupId>com.liuzm.paascloud.provider.api</groupId>
+        <artifactId>paascloud-provider-ptc-api</artifactId>
+        <version>${paascloud.version}</version>
       </dependency>
       <dependency>
         <groupId>com.liuzm.paascloud.provider.api</groupId>

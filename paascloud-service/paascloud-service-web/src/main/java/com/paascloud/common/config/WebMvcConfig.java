@@ -47,7 +47,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		super.addInterceptors(registry);
-		registry.addInterceptor(tokenInterceptor).addPathPatterns("/web/**");
+		registry.addInterceptor(tokenInterceptor).addPathPatterns("/web/**")
+				.excludePathPatterns("/swagger-resources/**", "*.js", "/**/*.js", "*.css", "/**/*.css", "*.html", "/**/*.html");
 	}
 
 	@Override

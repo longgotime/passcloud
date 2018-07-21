@@ -13,6 +13,7 @@ package com.paascloud.provider.web;
 
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.support.BaseFeignClient;
+import com.paascloud.provider.model.dto.AlipayDTO;
 import com.paascloud.provider.model.dto.OrderDto;
 import com.paascloud.provider.service.PtcAlipayService;
 import com.paascloud.provider.service.PtcPayFeignApi;
@@ -45,8 +46,8 @@ public class PtcPayFeignClient extends BaseFeignClient implements PtcPayFeignApi
     }
 
     @Override
-    public Wrapper aliPayCallback(Map<String, String> params) {
-        return ptcAlipayService.aliPayCallback(params);
+    public Wrapper aliPayCallback(@RequestBody AlipayDTO alipayDTO) {
+        return ptcAlipayService.aliPayCallback(alipayDTO);
     }
 
 }

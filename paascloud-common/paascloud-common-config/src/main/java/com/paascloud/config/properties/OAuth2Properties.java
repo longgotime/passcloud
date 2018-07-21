@@ -30,4 +30,9 @@ public class OAuth2Properties {
 	 */
 	private OAuth2ClientProperties[] clients = {};
 
+	/**
+	 * 鉴权忽略的配置
+	 */
+	private IgnoreSecurityProperties ignore = new IgnoreSecurityProperties();
+
 }

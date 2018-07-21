@@ -11,12 +11,15 @@
 
 package com.paascloud.gateway.config;
 
+import com.paascloud.config.properties.PaascloudProperties;
 import com.paascloud.security.core.AuthorizeConfigProvider;
 import com.paascloud.security.core.SecurityConstants;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * 核心模块的授权配置提供器，安全模块涉及的url的授权配置在这里。
@@ -26,6 +29,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(Integer.MIN_VALUE)
 public class PcAuthorizeConfigProvider implements AuthorizeConfigProvider {
+	@Resource
+	private PaascloudProperties paascloudProperties;
 
 	/**
 	 * Config boolean.
@@ -36,11 +41,8 @@ public class PcAuthorizeConfigProvider implements AuthorizeConfigProvider {
 	 */
 	@Override
 	public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-		config.antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-				SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
-				SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_OPENID,
-				SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*", "/pay/alipayCallback",
-				"/druid/**", "/auth/**", "/swagger-ui.html", "/swagger-resources/**", "/v2/api-docs").permitAll();
+
+		paascloudProperties.getSecurity().getOauth2().getIgnore().getUrls().forEach(url -> config.antMatchers(url).permitAll());
 		return false;
 	}
 

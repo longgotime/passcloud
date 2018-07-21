@@ -9,11 +9,14 @@
  * 项目官网: http://paascloud.net
  */
 
-package com.paascloud.mall.controller;
+package com.paascloud.provider.web;
 
+import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.dto.email.SendEmailMessage;
 import com.paascloud.provider.model.service.EmailFeignApi;
+import com.paascloud.provider.service.EmailService;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -34,12 +37,10 @@ import javax.annotation.Resource;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/web/email", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@Api(value = "WEB - EmailController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class MallEmailController extends BaseController {
+public class EmailFeignClient extends BaseFeignClient implements EmailFeignApi {
 
 	@Resource
-	private EmailFeignApi emailFeignApi;
+	private EmailService emailService;
 
 	/**
 	 * 发送短信验证码.
@@ -48,11 +49,10 @@ public class MallEmailController extends BaseController {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/sendRestEmailCode")
-	@ApiOperation(httpMethod = "POST", value = "发送注册短信验证码")
+	@Override
 	public Wrapper<String> sendRestEmailCode(@RequestBody SendEmailMessage sendEmailMessage) {
-		sendEmailMessage.setLoginAuthDto(getLoginAuthDto());
-		emailFeignApi.sendRestEmailCode(sendEmailMessage);
+		LoginAuthDto loginAuthDto = sendEmailMessage.getLoginAuthDto();
+		emailService.sendEmailCode(sendEmailMessage, loginAuthDto.getLoginName());
 		return WrapMapper.ok();
 	}
 
@@ -63,11 +63,11 @@ public class MallEmailController extends BaseController {
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkRestEmailCode")
-	@ApiOperation(httpMethod = "POST", value = "校验充值密码邮件验证码")
+	@Override
 	public Wrapper checkRestEmailCode(@ApiParam(value = "验证信息") @RequestBody SendEmailMessage sendEmailMessage) {
 		logger.info("校验短信验证码, checkRestEmailCode={}", sendEmailMessage);
-		emailFeignApi.checkRestEmailCode(sendEmailMessage);
+		LoginAuthDto loginAuthDto = sendEmailMessage.getLoginAuthDto();
+		emailService.checkEmailCode(sendEmailMessage, loginAuthDto.getLoginName());
 		return WrapMapper.ok();
 	}
 }

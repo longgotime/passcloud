@@ -43,7 +43,6 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
-@RefreshScope
 @RestController
 @Api(value = "API - UacActionFeignClient", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacActionFeignClient extends BaseFeignClient implements UacActionFeignApi {

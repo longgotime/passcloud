@@ -32,7 +32,7 @@ import javax.annotation.Resource;
  * @author paascloud.net@gmail.com
  */
 @RestController
-@RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "WEB - MallUserController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MallUserController extends BaseController {
 	@Resource

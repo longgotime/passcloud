@@ -33,6 +33,7 @@ import com.paascloud.provider.model.constant.PtcApiConstant;
 import com.paascloud.provider.model.domain.OmcOrder;
 import com.paascloud.provider.model.domain.OmcOrderDetail;
 import com.paascloud.provider.model.domain.PtcPayInfo;
+import com.paascloud.provider.model.dto.AlipayDTO;
 import com.paascloud.provider.model.dto.OrderDto;
 import com.paascloud.provider.model.dto.attachment.OptUploadFileByteInfoReqDto;
 import com.paascloud.provider.model.dto.oss.OptGetUrlRequest;
@@ -51,6 +52,7 @@ import org.apache.commons.lang.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -246,11 +248,11 @@ public class PtcAlipayServiceImpl implements PtcAlipayService {
 	}
 
 	@Override
-	public Wrapper aliPayCallback(Map<String, String> params) {
-		log.info("支付宝回调. - aliPayCallback. params={}", params);
-		String orderNo = params.get("out_trade_no");
-		String tradeNo = params.get("trade_no");
-		String tradeStatus = params.get("trade_status");
+	public Wrapper aliPayCallback(@RequestBody AlipayDTO alipayDTO) {
+		log.info("支付宝回调. - aliPayCallback. alipayDTO={}", alipayDTO);
+		String orderNo = alipayDTO.getOrderNo();
+		String tradeNo = alipayDTO.getTradeNo();
+		String tradeStatus = alipayDTO.getTradeStatus();
 		OrderDto order = omcOrderService.queryOrderDtoByOrderNo(orderNo);
 		if (order == null) {
 			throw new OmcBizException(ErrorCodeEnum.OMC10031010);
@@ -259,7 +261,7 @@ public class PtcAlipayServiceImpl implements PtcAlipayService {
 			throw new OmcBizException(ErrorCodeEnum.OMC10031011);
 		}
 		if (PtcApiConstant.AlipayCallback.TRADE_STATUS_TRADE_SUCCESS.equals(tradeStatus)) {
-			order.setPaymentTime(DateUtil.parseDate(params.get("gmt_payment")));
+			order.setPaymentTime(alipayDTO.getPaymentTime());
 			order.setStatus(OmcApiConstant.OrderStatusEnum.PAID.getCode());
 			ModelMapper modelMapper = new ModelMapper();
 			OmcOrder omcOrder = modelMapper.map(order, OmcOrder.class);

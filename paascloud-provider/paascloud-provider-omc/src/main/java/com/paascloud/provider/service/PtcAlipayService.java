@@ -12,6 +12,7 @@
 package com.paascloud.provider.service;
 
 import com.paascloud.base.dto.LoginAuthDto;
+import com.paascloud.provider.model.dto.AlipayDTO;
 import com.paascloud.wrapper.Wrapper;
 
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * The interface Ptc alipay service.
  *
- * @author paascloud.net@gmail.com
+ * @author paascloud.net @gmail.com
  */
 public interface PtcAlipayService {
 
@@ -28,7 +29,6 @@ public interface PtcAlipayService {
 	 *
 	 * @param orderNo      the order no
 	 * @param loginAuthDto the login auth dto
-	 *
 	 * @return the wrapper
 	 */
 	Wrapper pay(String orderNo, LoginAuthDto loginAuthDto);
@@ -36,9 +36,8 @@ public interface PtcAlipayService {
 	/**
 	 * Ali pay callback wrapper.
 	 *
-	 * @param params the params
-	 *
+	 * @param alipayDTO the alipay dto
 	 * @return the wrapper
 	 */
-	Wrapper aliPayCallback(Map<String, String> params);
+	Wrapper aliPayCallback(AlipayDTO alipayDTO);
 }

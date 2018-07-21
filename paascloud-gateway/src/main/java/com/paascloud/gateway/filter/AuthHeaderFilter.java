@@ -55,7 +55,7 @@ public class AuthHeaderFilter extends ZuulFilter {
 	private static final String OPTIONS = "OPTIONS";
 	private static final String AUTH_PATH = "/auth";
 	private static final String LOGOUT_URI = "/oauth/token";
-	private static final String ALIPAY_CALL_URI = "/pay/alipayCallback";
+	private static final String ALIPAY_CALL_URI = "/web/pay/alipayCallback";
 
 	@Resource
 	private RedisTemplate<String, Object> redisTemplate;
