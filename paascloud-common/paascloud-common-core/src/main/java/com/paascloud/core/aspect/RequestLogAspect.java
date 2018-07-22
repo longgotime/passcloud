@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +21,9 @@ import java.util.Map;
  * @date 2018 /7/13 下午11:38
  */
 @Slf4j
-//@Aspect
-//@Component
+@Aspect
+@Component
+@Order(Integer.MIN_VALUE + 1)
 public class RequestLogAspect {
     /**
      * Point cut wrapper.

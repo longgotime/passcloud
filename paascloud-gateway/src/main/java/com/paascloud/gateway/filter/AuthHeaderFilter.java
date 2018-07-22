@@ -24,6 +24,7 @@ import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.dto.UserTokenDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.base.exception.BusinessException;
+import com.paascloud.config.properties.PaascloudProperties;
 import com.paascloud.core.interceptor.CoreHeaderInterceptor;
 import com.paascloud.core.utils.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.web.bind.annotation.RequestBody;
 import springfox.documentation.swagger2.mappers.ModelMapper;
 
 import javax.annotation.Resource;
@@ -41,6 +44,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * The class Auth header filter.
@@ -51,84 +57,98 @@ import java.net.URLEncoder;
 @Component
 public class AuthHeaderFilter extends ZuulFilter {
 
-	private static final String BEARER_TOKEN_TYPE = "Bearer ";
-	private static final String OPTIONS = "OPTIONS";
-	private static final String AUTH_PATH = "/auth";
-	private static final String LOGOUT_URI = "/oauth/token";
-	private static final String ALIPAY_CALL_URI = "/web/pay/alipayCallback";
+    private static final String BEARER_TOKEN_TYPE = "Bearer ";
+    private static final String OPTIONS = "OPTIONS";
+    private static final String AUTH_PATH = "/auth";
+    private static final String LOGOUT_URI = "/oauth/token";
+    private static final String ALIPAY_CALL_URI = "/web/pay/alipayCallback";
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-	@Resource
-	private RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    private PaascloudProperties paascloudProperties;
 
-	/**
-	 * Filter type string.
-	 *
-	 * @return the string
-	 */
-	@Override
-	public String filterType() {
-		return "pre";
-	}
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
-	/**
-	 * Filter order int.
-	 *
-	 * @return the int
-	 */
-	@Override
-	public int filterOrder() {
-		return 0;
-	}
+    /**
+     * Filter type string.
+     *
+     * @return the string
+     */
+    @Override
+    public String filterType() {
+        return "pre";
+    }
 
-	/**
-	 * Should filter boolean.
-	 *
-	 * @return the boolean
-	 */
-	@Override
-	public boolean shouldFilter() {
-		return true;
-	}
+    /**
+     * Filter order int.
+     *
+     * @return the int
+     */
+    @Override
+    public int filterOrder() {
+        return 0;
+    }
 
-	/**
-	 * Run object.
-	 *
-	 * @return the object
-	 */
-	@Override
-	public Object run() {
-		log.info("AuthHeaderFilter - 开始鉴权...");
-		RequestContext requestContext = RequestContext.getCurrentContext();
-		try {
-			doSomething(requestContext);
-		} catch (Exception e) {
-			log.error("AuthHeaderFilter - [FAIL] EXCEPTION={}", e.getMessage(), e);
-			throw new BusinessException(ErrorCodeEnum.UAC10011041);
-		}
-		return null;
-	}
+    /**
+     * Should filter boolean.
+     *
+     * @return the boolean
+     */
+    @Override
+    public boolean shouldFilter() {
+        return true;
+    }
 
-	private void doSomething(RequestContext requestContext) throws ZuulException, UnsupportedEncodingException {
-		HttpServletRequest request = requestContext.getRequest();
-		String requestURI = request.getRequestURI();
+    /**
+     * Run object.
+     *
+     * @return the object
+     */
+    @Override
+    public Object run() {
+        log.info("AuthHeaderFilter - 开始鉴权...");
+        RequestContext requestContext = RequestContext.getCurrentContext();
+        try {
+            doSomething(requestContext);
+        } catch (Exception e) {
+            log.error("AuthHeaderFilter - [FAIL] EXCEPTION={}", e.getMessage(), e);
+            throw new BusinessException(ErrorCodeEnum.UAC10011041);
+        }
+        return null;
+    }
+
+    private void doSomething(RequestContext requestContext) throws ZuulException, UnsupportedEncodingException {
+        HttpServletRequest request = requestContext.getRequest();
+        String requestURI = request.getRequestURI();
         log.info("AuthHeaderFilter - requestURI={}...", requestURI);
-		if (OPTIONS.equalsIgnoreCase(request.getMethod()) || requestURI.contains(AUTH_PATH) || requestURI.contains("v2/api-docs")|| requestURI.contains(LOGOUT_URI) || requestURI.contains(ALIPAY_CALL_URI)) {
-			return;
-		}
-		String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (OPTIONS.equalsIgnoreCase(request.getMethod())) {
+            return;
+        }
 
-		if (PublicUtil.isEmpty(authHeader)) {
-			throw new ZuulException("刷新页面重试", 403, "check token fail");
-		}
 
-		if (authHeader.startsWith(BEARER_TOKEN_TYPE)) {
+        List<String> urls = paascloudProperties.getSecurity().getOauth2().getIgnore().getUrls();
 
-		    log.info("authHeader={} ", authHeader);
+        for (String url : urls) {
+            if (antPathMatcher.match(url, requestURI)) {
+                return;
+            }
+        }
 
-		    requestContext.addZuulRequestHeader(HttpHeaders.AUTHORIZATION, authHeader);
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (PublicUtil.isEmpty(authHeader)) {
+            throw new ZuulException("刷新页面重试", 403, "check token fail");
+        }
+
+        if (authHeader.startsWith(BEARER_TOKEN_TYPE)) {
+
+            log.info("authHeader={} ", authHeader);
+
+            requestContext.addZuulRequestHeader(HttpHeaders.AUTHORIZATION, authHeader);
             String token = StringUtils.substringAfter(request.getHeader(HttpHeaders.AUTHORIZATION), "Bearer ");
-            LoginAuthDto authDto =(LoginAuthDto) redisTemplate.opsForValue().get(RedisKeyUtil.getAccessTokenKey(token.trim()));
+            LoginAuthDto authDto = (LoginAuthDto) redisTemplate.opsForValue().get(RedisKeyUtil.getAccessTokenKey(token.trim()));
 
             requestContext.addZuulRequestHeader(GlobalConstant.Sys.CURRENT_USER_NAME, authentication.getName());
 
@@ -137,7 +157,7 @@ public class AuthHeaderFilter extends ZuulFilter {
                 requestContext.addZuulRequestHeader(GlobalConstant.Sys.TOKEN_AUTH_DTO, URLEncoder.encode(JSONObject.toJSONString(authDto), "UTF-8"));
             }
 
-		}
-	}
+        }
+    }
 
 }

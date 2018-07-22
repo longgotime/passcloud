@@ -13,6 +13,7 @@ package com.paascloud.gateway.service.impl;
 
 import com.google.common.base.Joiner;
 import com.paascloud.base.constant.GlobalConstant;
+import com.paascloud.config.properties.PaascloudProperties;
 import com.paascloud.gateway.service.PermissionService;
 import com.paascloud.security.core.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,6 +36,9 @@ import java.util.Set;
 @Component("permissionService")
 public class PermissionServiceImpl implements PermissionService {
 	private AntPathMatcher antPathMatcher = new AntPathMatcher();
+
+	@Resource
+	private PaascloudProperties paascloudProperties;
 
 	@Override
 	public boolean hasPermission(Authentication authentication, HttpServletRequest request) {
@@ -50,10 +56,18 @@ public class PermissionServiceImpl implements PermissionService {
 			if (requestURI.contains("query") || requestURI.contains("get") || requestURI.contains("check") || requestURI.contains("select")) {
 				return true;
 			}
+
+			List<String> urls = paascloudProperties.getSecurity().getOauth2().getIgnore().getUrls();
+
+			for (String url : urls) {
+				if (antPathMatcher.match(url, requestURI)) {
+					return true;
+				}
+			}
 			if (antPathMatcher.match(authority, requestURI)) {
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 }

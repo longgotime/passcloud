@@ -11,14 +11,9 @@
 
 package com.paascloud;
 
-import com.paascloud.core.interceptor.TokenInterceptor;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
  * The type Paas cloud web application.

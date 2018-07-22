@@ -53,7 +53,7 @@ public class UacAuthUserFeignHystrix implements UacAuthUserFeignApi {
 	}
 
 	@Override
-	public Wrapper<String> submitResetPwdPhone(String mobile, HttpServletResponse response) {
+	public Wrapper<String> submitResetPwdPhone(String mobile) {
 		return WrapMapper.error();
 	}
 

@@ -97,8 +97,12 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 		uacUserToken.setGroupId(loginAuthDto.getGroupId());
 		uacUserToken.setGroupName(loginAuthDto.getGroupName());
 		uacUserToken.setId(generateId());
-		uacUserTokenMapper.insertSelective(uacUserToken);
-        // 存入redis数据库
+		try {
+			uacUserTokenMapper.insertSelective(uacUserToken);
+		} catch (Exception e) {
+			logger.error("保存 accessToken 失败 e={}", e.getMessage(), e);
+		}
+		// 存入redis数据库
 		this.updateRedisUserToken(accessToken, ACCESS_TOKEN_VALIDATE_SECONDS, loginAuthDto);
 	}
 

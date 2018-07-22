@@ -33,10 +33,8 @@ public interface SmsService {
 	/**
 	 * Submit reset pwd phone.
 	 *
-	 * @param mobile   the mobile
-	 * @param response the response
-	 *
+	 * @param mobile the mobile
 	 * @return the string
 	 */
-	String submitResetPwdPhone(String mobile, HttpServletResponse response);
+	String submitResetPwdPhone(String mobile);
 }

@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 
 /**
  * The interface Uac user token feign api.
@@ -53,8 +54,8 @@ public interface UacAuthUserFeignApi {
 	 * @param email the email
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/uac/auth/checkEmailActive/{email:.+}")
-    Wrapper<Boolean> checkEmailActive(@PathVariable("email") String email);
+	@PostMapping(value = "/uac/auth/checkEmailActive")
+    Wrapper<Boolean> checkEmailActive(@RequestParam("email") String email);
 
 	/**
 	 * 校验数据.
@@ -79,13 +80,12 @@ public interface UacAuthUserFeignApi {
 	/**
 	 * 重置密码-手机-提交.
 	 *
-	 * @param mobile   the mobile
-	 * @param response the response
+	 * @param mobile the mobile
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/auth/submitResetPwdPhone")
 	@ApiOperation(httpMethod = "POST", value = "重置密码-手机-提交")
-    Wrapper<String> submitResetPwdPhone(@RequestParam("mobile") String mobile, HttpServletResponse response);
+    Wrapper<String> submitResetPwdPhone(@RequestParam("mobile") String mobile);
 
 	/**
 	 * 重置密码-最终提交.

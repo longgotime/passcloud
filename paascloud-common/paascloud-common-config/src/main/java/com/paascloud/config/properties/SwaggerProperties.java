@@ -36,4 +36,6 @@ public class SwaggerProperties {
 	private String contactUrl = "http://paascloud.net";
 
 	private String contactEmail = "paascloud.net@gmail.com";
+
+	private String host = "http://paascloud-gateway:7979/web";
 }

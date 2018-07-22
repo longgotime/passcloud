@@ -13,6 +13,8 @@ package com.paascloud.service.security.code;
 
 import com.paascloud.security.core.SecurityConstants;
 import com.paascloud.security.core.SecurityResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 @RestController
+@Api(value = "API - TpcMqMessageFeignClient")
 public class ValidateCodeController {
 
 	@Resource
@@ -45,13 +48,14 @@ public class ValidateCodeController {
 	 *
 	 * @throws Exception the exception
 	 */
-	@PostMapping(SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/{type}")
+	@PostMapping("/auth/code/{type}")
+	@ApiOperation(httpMethod = "POST", value = "创建验证码")
 	public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type) throws Exception {
 		validateCodeProcessorHolder.findValidateCodeProcessor(type).create(new ServletWebRequest(request, response));
 	}
 
 	/**
-	 * Check code object.
+	 * 校验验证码.
 	 *
 	 * @param request  the request
 	 * @param response the response
@@ -59,7 +63,8 @@ public class ValidateCodeController {
 	 *
 	 * @return the object
 	 */
-	@GetMapping(SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/{type}")
+	@GetMapping("/auth/code/{type}")
+	@ApiOperation(httpMethod = "GET", value = "校验验证码")
 	public Object checkCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type) {
 		SecurityResult result = new SecurityResult(SecurityResult.SUCCESS_CODE, "校验成功", true);
 		try {

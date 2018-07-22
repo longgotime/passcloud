@@ -13,6 +13,7 @@ package com.paascloud.provider.model.service.hystrix;
 
 
 import com.github.pagehelper.PageInfo;
+import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.provider.model.dto.base.ModifyStatusDto;
 import com.paascloud.provider.model.dto.role.*;
 import com.paascloud.provider.model.service.UacRoleFeignApi;
@@ -21,6 +22,7 @@ import com.paascloud.provider.model.vo.role.RoleVo;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 

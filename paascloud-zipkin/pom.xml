@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.liuzm.paascloud.zipkin</groupId>
-	<artifactId>paascloud-zipkin</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>paascloud-zipkin</artifactId>
+    <packaging>jar</packaging>
 
-	<name>paascloud-zipkin</name>
-	<description>微服务链路追踪</description>
+    <name>paascloud-zipkin</name>
+    <description>微服务链路追踪</description>
 
     <parent>
         <groupId>com.liuzm.paascloud</groupId>
         <artifactId>paascloud-master</artifactId>
-        <version>1.0</version>
+        <version>2.0</version>
     </parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
 
-	<dependencies>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-config</artifactId>
-     </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.zipkin.java</groupId>
             <artifactId>zipkin-autoconfigure-ui</artifactId>
@@ -38,7 +38,6 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
-            <version>3.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -69,8 +68,8 @@
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.springframework.cloud</groupId>
-          <artifactId>spring-cloud-sleuth-stream</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-sleuth-stream</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,7 +83,7 @@
             <groupId>io.zipkin.java</groupId>
             <artifactId>zipkin-autoconfigure-collector-rabbitmq</artifactId>
         </dependency>
-	</dependencies>
+    </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>

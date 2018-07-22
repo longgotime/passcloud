@@ -84,14 +84,11 @@ public class OptPushMessageListener implements MessageListenerConcurrently {
 			}
 			if (AliyunMqTopicConstants.MqTopicEnum.SEND_SMS_TOPIC.getTopic().equals(topicName)) {
 				optSendSmsTopicService.handlerSendSmsTopic(body, topicName, tags, keys);
-			}
-			if (AliyunMqTopicConstants.MqTopicEnum.SEND_EMAIL_TOPIC.getTopic().equals(topicName)) {
+			} else if (AliyunMqTopicConstants.MqTopicEnum.SEND_EMAIL_TOPIC.getTopic().equals(topicName)) {
 				optSendEmailTopicService.handlerSendEmailTopic(body, topicName, tags, keys);
-			}
-			if (AliyunMqTopicConstants.MqTopicEnum.TPC_TOPIC.getTopic().equals(topicName)) {
+			} else if (AliyunMqTopicConstants.MqTopicEnum.TPC_TOPIC.getTopic().equals(topicName)) {
 				mqMessageService.deleteMessageTopic(body, tags);
-			}
-			if (AliyunMqTopicConstants.MqTopicEnum.MDC_TOPIC.getTopic().equals(topicName)) {
+			} else if (AliyunMqTopicConstants.MqTopicEnum.MDC_TOPIC.getTopic().equals(topicName)) {
 				mdcTopicConsumer.handlerSendSmsTopic(body, topicName, tags, keys);
 			} else {
 				log.info("OPC订单信息消 topicName={} 不存在", topicName);

@@ -75,7 +75,7 @@ public class PcResourceServerConfig extends ResourceServerConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers(
 						SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-						SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
+						SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*", "/**/auth/**", "/auth/**")
 				.permitAll()
 				.anyRequest()
 				.authenticated()

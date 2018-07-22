@@ -38,4 +38,9 @@ public class SmsMessage implements Serializable {
 	 * 业务单号(这里使用ip地址)
 	 */
 	private String outId;
+
+	/**
+	 * ip地址
+	 */
+	private String ip;
 }

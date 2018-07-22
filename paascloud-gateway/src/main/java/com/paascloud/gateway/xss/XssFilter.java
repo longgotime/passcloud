@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author <a href="paascloud.net@gmail.com"/>刘兆明</a>
  * @date 2018/6/27 下午12:30
  */
-//@WebFilter(filterName="myXssFilter", urlPatterns="/*")
+@WebFilter(filterName="myXssFilter", urlPatterns={"/web/*", "/sac/*"})
 public class XssFilter implements Filter {
 
     @Override

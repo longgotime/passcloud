@@ -61,4 +61,9 @@ public class UserRegisterDto implements Serializable {
 	 */
 	@ApiModelProperty(value = "注册渠道")
 	private String registerSource;
+
+	/**
+	 * 验证码
+	 */
+	private String imageCode;
 }

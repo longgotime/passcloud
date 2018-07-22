@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.liuzm.paascloud.common</groupId>
         <artifactId>paascloud-common</artifactId>
-        <version>1.0</version>
+        <version>2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>paascloud-common-core</artifactId>
-    <version>1.0</version>
+    <version>2.0</version>
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -39,12 +39,10 @@
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
-            <version>1.20</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.4.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
@@ -75,26 +73,25 @@
         <dependency>
             <groupId>com.liuzm.paascloud.common</groupId>
             <artifactId>paascloud-common-config</artifactId>
-            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
         </dependency>
-      <dependency>
-        <groupId>com.arronlong.httpclientutil</groupId>
-        <artifactId>httpclientutil</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>com.liuzm.paascloud.common</groupId>
-        <artifactId>paascloud-common-zk</artifactId>
-      </dependency>
+        <dependency>
+            <groupId>com.arronlong.httpclientutil</groupId>
+            <artifactId>httpclientutil</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.liuzm.paascloud.common</groupId>
+            <artifactId>paascloud-common-zk</artifactId>
+        </dependency>
 
-      <dependency>
-        <groupId>com.netflix.hystrix</groupId>
-        <artifactId>hystrix-core</artifactId>
-        <version>1.5.10</version>
-      </dependency>
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-core</artifactId>
+            <version>1.5.10</version>
+        </dependency>
     </dependencies>
 
 </project>

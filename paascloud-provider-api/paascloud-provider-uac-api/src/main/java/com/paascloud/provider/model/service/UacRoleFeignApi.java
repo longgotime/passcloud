@@ -13,6 +13,7 @@ package com.paascloud.provider.model.service;
 
 
 import com.github.pagehelper.PageInfo;
+import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.provider.model.dto.base.ModifyStatusDto;
 import com.paascloud.provider.model.dto.role.*;
 import com.paascloud.provider.model.service.hystrix.UacRoleFeignHystrix;
@@ -26,6 +27,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -72,7 +74,7 @@ public interface UacRoleFeignApi{
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/uac/role/modifyRoleStatusById")
-	Wrapper modifyUacRoleStatusById(@ApiParam(name = "modifyRoleStatusDto", value = "修改角色状态数据") @RequestBody ModifyStatusDto modifyStatusDto);
+	Wrapper modifyUacRoleStatusById(@RequestBody ModifyStatusDto modifyStatusDto);
 
 
 	/**

@@ -49,11 +49,11 @@ public class OptSmsServiceImpl implements OptSmsService {
 		SendSmsResponse acsResponse;
 		try {
 			if (GlobalConstant.DEV_PROFILE.equals(profile)) {
-				log.error("dev环境不发送短信");
+				log.error("dev环境不发送短信, 验证码={}", sendSmsRequest.getTemplateCode());
 				return new SendSmsResponse();
 			}
 			if (GlobalConstant.TEST_PROFILE.equals(profile)) {
-				log.error("test环境不发送短信");
+				log.error("test环境不发送短信", sendSmsRequest.getTemplateCode());
 				return new SendSmsResponse();
 			}
 			acsResponse = iAcsClient.getAcsResponse(sendSmsRequest);

@@ -59,6 +59,7 @@ public class SwaggerConfiguration {
 		pars.add(pb.build());    //根据每个方法名也知道当前方法在设置什么参数*/
 		return new Docket(DocumentationType.SWAGGER_2)
 				.apiInfo(apiInfo())
+				.host(paascloudProperties.getSwagger().getHost())
 				.select()
 				.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
 				.paths(PathSelectors.any())

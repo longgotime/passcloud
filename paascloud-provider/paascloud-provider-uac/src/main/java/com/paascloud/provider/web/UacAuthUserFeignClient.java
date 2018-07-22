@@ -81,7 +81,7 @@ public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUs
     }
 
     @Override
-    public Wrapper<Boolean> checkEmailActive(@PathVariable("email") String email) {
+    public Wrapper<Boolean> checkEmailActive(@RequestParam("email") String email) {
         UacUser uacUser = new UacUser();
         uacUser.setStatus(UacUserStatusEnum.ENABLE.getKey());
         uacUser.setEmail(email);
@@ -129,9 +129,9 @@ public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUs
     }
 
     @Override
-    public Wrapper<String> submitResetPwdPhone(String mobile, HttpServletResponse response) {
+    public Wrapper<String> submitResetPwdPhone(@RequestParam("mobile") String mobile) {
         logger.info("重置密码-手机-提交, mobile={}", mobile);
-        String token = smsService.submitResetPwdPhone(mobile, response);
+        String token = smsService.submitResetPwdPhone(mobile);
         return WrapMapper.ok(token);
     }
 

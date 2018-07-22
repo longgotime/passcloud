@@ -20,6 +20,7 @@ import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.dto.user.ResetLoginPwdDto;
 import com.paascloud.provider.model.dto.user.UserRegisterDto;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.security.core.CookieUtil;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -38,7 +39,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author paascloud.net @gmail.com
  */
 @RestController
-@RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/web/auth", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "Web - UacAuthUserController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacAuthUserController extends BaseController {
 
@@ -113,7 +114,12 @@ public class UacAuthUserController extends BaseController {
 	@ApiOperation(httpMethod = "POST", value = "重置密码-手机-提交")
 	public Wrapper<String> submitResetPwdPhone(String mobile, HttpServletResponse response) {
 		logger.info("重置密码-手机-提交, mobile={}", mobile);
-		return uacAuthUserFeignApi.submitResetPwdPhone(mobile,response);
+		Wrapper<String> result = uacAuthUserFeignApi.submitResetPwdPhone(mobile);
+		if (result.success()) {
+			CookieUtil.setCookie("PASSCLOUD_PAAS_resetPwdKey", result.getResult(), 10 * 60, response);
+		}
+
+		return result;
 	}
 
 	/**
@@ -125,9 +131,7 @@ public class UacAuthUserController extends BaseController {
 	 */
 	@PostMapping(value = "/resetLoginPwd")
 	@ApiOperation(httpMethod = "POST", value = "重置密码-最终提交")
-	public Wrapper<Boolean> checkResetSmsCode(@RequestBody ResetLoginPwdDto resetLoginPwdDto) {
-		resetLoginPwdDto.setLoginAuthDto(getLoginAuthDto());
-
+	public Wrapper<Boolean> checkResetSmsCode(ResetLoginPwdDto resetLoginPwdDto) {
 		return uacAuthUserFeignApi.checkResetSmsCode(resetLoginPwdDto);
 	}
 
@@ -140,7 +144,7 @@ public class UacAuthUserController extends BaseController {
 	 */
 	@PostMapping(value = "/register")
 	@ApiOperation(httpMethod = "POST", value = "注册用户")
-	public Wrapper registerUser(@RequestBody UserRegisterDto user) {
+	public Wrapper registerUser(UserRegisterDto user) {
 		return uacAuthUserFeignApi.registerUser(user);
 	}
 

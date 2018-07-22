@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 /**
- * The class Email feign hystrix.
+ * The class Email feign.
  *
  * @author paascloud.net @gmail.com
  */
@@ -30,22 +30,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface EmailFeignApi {
 
 	/**
-	 * 发送短信验证码.
+	 * 发送邮箱验证码.
 	 *
 	 * @param sendEmailMessage the send email message
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/sendRestEmailCode")
+	@PostMapping(value = "/uac/email/sendRestEmailCode")
 	Wrapper<String> sendRestEmailCode(@RequestBody SendEmailMessage sendEmailMessage);
 
 	/**
-	 * 校验短信验证码.
+	 * 校验邮箱验证码.
 	 *
 	 * @param sendEmailMessage the send email message
 	 *
 	 * @return the wrapper
 	 */
-	@PostMapping(value = "/checkRestEmailCode")
+	@PostMapping(value = "/uac/email/checkRestEmailCode")
 	Wrapper checkRestEmailCode(@ApiParam(value = "验证信息") @RequestBody SendEmailMessage sendEmailMessage);
 }
