@@ -44,21 +44,23 @@ public class RequestLogAspect {
         long startTime = System.currentTimeMillis();
 
         HttpServletRequest request = RequestUtil.getRequest();
+        if (request != null) {
+            Map<String, Object> param = Maps.newHashMap();
 
-        Map<String, Object> param = Maps.newHashMap();
+            param.put("URL", request.getRequestURI());
+            param.put("HTTP_METHOD", request.getMethod());
+            param.put("IP", request.getRemoteAddr());
+            param.put("CLASS_METHOD", pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName());
+            param.put("ARGS", Arrays.toString(pjp.getArgs()));
 
-        param.put("URL", request.getRequestURI());
-        param.put("HTTP_METHOD", request.getMethod());
-        param.put("IP", request.getRemoteAddr());
-        param.put("CLASS_METHOD", pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName());
-        param.put("ARGS", Arrays.toString(pjp.getArgs()));
-
-        log.info("request param={}",  param);
+            log.info("request param={}",  param);
+        }
 
         Object result;
 
         try {
             result = pjp.proceed();
+            log.debug("{} response = {}", pjp.getSignature(), request);
             log.info(pjp.getSignature() + "use time:" + (System.currentTimeMillis() - startTime));
         } catch (Throwable e) {
             log.error("异常信息：{}", e.getMessage(), e);

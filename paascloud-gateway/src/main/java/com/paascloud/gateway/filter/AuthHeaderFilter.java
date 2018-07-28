@@ -15,18 +15,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
-import com.paascloud.JacksonUtil;
-import com.paascloud.Md5Util;
 import com.paascloud.PublicUtil;
 import com.paascloud.RedisKeyUtil;
 import com.paascloud.base.constant.GlobalConstant;
 import com.paascloud.base.dto.LoginAuthDto;
-import com.paascloud.base.dto.UserTokenDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.base.exception.BusinessException;
 import com.paascloud.config.properties.PaascloudProperties;
-import com.paascloud.core.interceptor.CoreHeaderInterceptor;
-import com.paascloud.core.utils.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -36,17 +31,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.bind.annotation.RequestBody;
-import springfox.documentation.swagger2.mappers.ModelMapper;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 /**
  * The class Auth header filter.
@@ -59,9 +49,6 @@ public class AuthHeaderFilter extends ZuulFilter {
 
     private static final String BEARER_TOKEN_TYPE = "Bearer ";
     private static final String OPTIONS = "OPTIONS";
-    private static final String AUTH_PATH = "/auth";
-    private static final String LOGOUT_URI = "/oauth/token";
-    private static final String ALIPAY_CALL_URI = "/web/pay/alipayCallback";
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Resource

@@ -47,7 +47,8 @@ public class RequestUtil {
 	 * @return the request
 	 */
 	public static HttpServletRequest getRequest() {
-		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		return attributes == null ? null : attributes.getRequest();
 	}
 
 	/**
