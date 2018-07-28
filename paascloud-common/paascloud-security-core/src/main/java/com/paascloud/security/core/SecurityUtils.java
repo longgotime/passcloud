@@ -33,9 +33,6 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SecurityUtils {
 
-	private static final String AUTH_LOGIN_AFTER_URL = "/user/loginAfter/*";
-	private static final String AUTH_LOGOUT_URL = "/user/logout";
-
 	/**
 	 * Gets current login name.
 	 *
@@ -71,9 +68,6 @@ public final class SecurityUtils {
 				path.add(url);
 			}
 		}
-		// 增加两个不需要鉴权的路径
-		path.add(AUTH_LOGIN_AFTER_URL);
-		path.add(AUTH_LOGOUT_URL);
 		return path;
 	}
 }
