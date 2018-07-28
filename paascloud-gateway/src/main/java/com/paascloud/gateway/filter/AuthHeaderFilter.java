@@ -48,7 +48,6 @@ import java.util.List;
 public class AuthHeaderFilter extends ZuulFilter {
 
     private static final String BEARER_TOKEN_TYPE = "Bearer ";
-    private static final String OPTIONS = "OPTIONS";
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Resource
@@ -109,7 +108,7 @@ public class AuthHeaderFilter extends ZuulFilter {
         HttpServletRequest request = requestContext.getRequest();
         String requestURI = request.getRequestURI();
         log.info("AuthHeaderFilter - requestURI={}...", requestURI);
-        if (OPTIONS.equalsIgnoreCase(request.getMethod())) {
+        if (HttpMethod.OPTIONS.name().equalsIgnoreCase(request.getMethod())) {
             return;
         }
 

@@ -21,7 +21,7 @@ import com.paascloud.base.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,7 +41,6 @@ import java.net.URLDecoder;
 @Slf4j
 public class TokenInterceptor implements HandlerInterceptor {
 
-	private static final String OPTIONS = "OPTIONS";
 	private static final String AUTH_PATH1 = "/auth";
 	private static final String AUTH_PATH2 = "/oauth";
 	private static final String AUTH_PATH3 = "/error";
@@ -97,7 +96,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			return true;
 		}
 
-		if (OPTIONS.equalsIgnoreCase(request.getMethod())) {
+		if (HttpMethod.OPTIONS.name().equalsIgnoreCase(request.getMethod())) {
 			log.info("<== preHandle - 调试模式不走认证.  url={}", uri);
 			return true;
 		}

@@ -18,6 +18,7 @@ import com.paascloud.gateway.service.PermissionService;
 import com.paascloud.security.core.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -46,6 +47,9 @@ public class PermissionServiceImpl implements PermissionService {
 		Set<String> currentAuthorityUrl = SecurityUtils.getCurrentAuthorityUrl();
 		String requestURI = request.getRequestURI();
 		log.info("验证权限loginName={}, requestURI={}, hasAuthorityUrl={}", currentLoginName, requestURI, Joiner.on(GlobalConstant.Symbol.COMMA).join(currentAuthorityUrl));
+		if (HttpMethod.OPTIONS.name().equalsIgnoreCase(request.getMethod())) {
+			return true;
+		}
 		// 超级管理员 全部都可以访问
 		if (StringUtils.equals(currentLoginName, GlobalConstant.Sys.SUPER_MANAGER_LOGIN_NAME)) {
 			return true;
