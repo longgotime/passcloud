@@ -15,6 +15,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.paascloud.base.dto.CheckValidDto;
 import com.paascloud.base.dto.LoginAuthDto;
+import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.core.enums.LogTypeEnum;
 import com.paascloud.core.support.BaseFeignClient;
 import com.paascloud.provider.model.constant.UacApiConstant;
@@ -27,7 +28,9 @@ import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.dto.user.ResetLoginPwdDto;
 import com.paascloud.provider.model.dto.user.UserRegisterDto;
 import com.paascloud.provider.model.enums.UacUserStatusEnum;
+import com.paascloud.provider.model.exceptions.UacBizException;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.provider.model.vo.role.RoleVo;
 import com.paascloud.provider.service.*;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
@@ -60,6 +63,8 @@ public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUs
     private TaskExecutor taskExecutor;
     @Resource
     private UacUserService uacUserService;
+    @Resource
+    private UacRoleService uacRoleService;
     @Resource
     private UacUserTokenService uacUserTokenService;
     @Resource
@@ -169,10 +174,11 @@ public class UacAuthUserFeignClient extends BaseFeignClient implements UacAuthUs
         }
         user = uacUserService.findUserInfoByUserId(user.getId());
 
-        List<UacAction> ownAuthList = uacActionService.getOwnActionListByUserId(user.getId());
+        List<RoleVo> ownRoleList = uacRoleService.findAllRoleInfoByUserId(user.getId());
+
         List<String> authList = Lists.newArrayList();
-        for (UacAction action : ownAuthList) {
-            authList.add(action.getUrl());
+        for (RoleVo roleVo : ownRoleList) {
+            authList.add(roleVo.getRoleCode());
         }
 
         AuthUserDTO authUserDTO = new AuthUserDTO();

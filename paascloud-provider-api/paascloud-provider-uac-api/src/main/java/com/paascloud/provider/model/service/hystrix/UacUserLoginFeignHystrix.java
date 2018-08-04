@@ -12,6 +12,7 @@
 package com.paascloud.provider.model.service.hystrix;
 
 import com.paascloud.provider.model.dto.user.LoginRespDto;
+import com.paascloud.provider.model.dto.user.LogoutDto;
 import com.paascloud.provider.model.service.UacUserLoginFeignApi;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
@@ -34,12 +35,14 @@ public class UacUserLoginFeignHystrix implements UacUserLoginFeignApi {
 	}
 
 	@Override
-	public Wrapper loginAfter(String accessToken) {
+	public Wrapper loginAfter(LogoutDto logoutDto) {
 		return WrapMapper.error();
 	}
 
 	@Override
-	public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) {
+	public Wrapper<String> refreshToken(String refreshToken, String accessToken, String header, String remoteAddr, String os, String browser) {
 		return WrapMapper.error();
 	}
+
+
 }

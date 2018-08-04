@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -97,6 +98,11 @@ public class UacRoleFeignHystrix implements UacRoleFeignApi {
 
 	@Override
 	public Wrapper<BindAuthVo> getMenuTreeByRoleId(Long roleId) {
+		return WrapMapper.error();
+	}
+
+	@Override
+	public Wrapper<Set<String>> listAuthorityUrl(Set<String> currentAuthorityList) {
 		return WrapMapper.error();
 	}
 }

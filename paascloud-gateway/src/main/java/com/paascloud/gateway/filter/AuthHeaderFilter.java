@@ -92,19 +92,19 @@ public class AuthHeaderFilter extends ZuulFilter {
      * @return the object
      */
     @Override
-    public Object run() {
+    public Object run() throws ZuulException {
         log.info("AuthHeaderFilter - 开始鉴权...");
         RequestContext requestContext = RequestContext.getCurrentContext();
         try {
             doSomething(requestContext);
         } catch (Exception e) {
             log.error("AuthHeaderFilter - [FAIL] EXCEPTION={}", e.getMessage(), e);
-            throw new BusinessException(ErrorCodeEnum.UAC10011041);
+            throw new ZuulException(e, 403, "check token fail");
         }
         return null;
     }
 
-    private void doSomething(RequestContext requestContext) throws ZuulException, UnsupportedEncodingException {
+    private void doSomething(RequestContext requestContext) throws UnsupportedEncodingException {
         HttpServletRequest request = requestContext.getRequest();
         String requestURI = request.getRequestURI();
         log.info("AuthHeaderFilter - requestURI={}...", requestURI);
@@ -123,10 +123,6 @@ public class AuthHeaderFilter extends ZuulFilter {
 
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (PublicUtil.isEmpty(authHeader)) {
-            throw new ZuulException("刷新页面重试", 403, "check token fail");
-        }
 
         if (authHeader.startsWith(BEARER_TOKEN_TYPE)) {
 

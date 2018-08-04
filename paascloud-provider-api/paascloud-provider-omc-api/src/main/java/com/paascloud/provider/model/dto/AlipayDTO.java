@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * The type Alipay dto.
  *
- * @author liuzhaoming
+ * @author paascloud.net @gmail.com
  */
 @Data
 @NoArgsConstructor

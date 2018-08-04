@@ -20,6 +20,7 @@ import com.paascloud.provider.model.dto.action.ActionMainQueryDto;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * The interface Uac action service.
@@ -31,7 +32,6 @@ public interface UacActionService extends IService<UacAction> {
 	 * Query action list with page page info.
 	 *
 	 * @param actionMainQueryDto the action query dto
-	 *
 	 * @return the page info
 	 */
 	PageInfo queryActionListWithPage(ActionMainQueryDto actionMainQueryDto);
@@ -40,7 +40,6 @@ public interface UacActionService extends IService<UacAction> {
 	 * Delete action by id int.
 	 *
 	 * @param actionId the action id
-	 *
 	 * @return the int
 	 */
 	int deleteActionById(Long actionId);
@@ -64,7 +63,6 @@ public interface UacActionService extends IService<UacAction> {
 	 * Delete by menu id int.
 	 *
 	 * @param id the id
-	 *
 	 * @return the int
 	 */
 	int deleteByMenuId(Long id);
@@ -73,7 +71,6 @@ public interface UacActionService extends IService<UacAction> {
 	 * Gets checked auth list.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the checked auth list
 	 */
 	List<Long> getCheckedActionList(Long roleId);
@@ -82,7 +79,6 @@ public interface UacActionService extends IService<UacAction> {
 	 * Gets own auth list.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the own auth list
 	 */
 	List<MenuVo> getOwnAuthList(Long userId);
@@ -91,7 +87,6 @@ public interface UacActionService extends IService<UacAction> {
 	 * Gets checked menu list.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the checked menu list
 	 */
 	List<Long> getCheckedMenuList(Long roleId);
@@ -100,7 +95,6 @@ public interface UacActionService extends IService<UacAction> {
 	 * 根据用户Id查询拥有的按钮权限.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the own uac action list
 	 */
 	List<UacAction> getOwnActionListByUserId(Long userId);
@@ -109,7 +103,6 @@ public interface UacActionService extends IService<UacAction> {
 	 * 根据角色ID查询权限列表.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the list
 	 */
 	List<UacAction> listActionListByRoleId(Long roleId);
@@ -118,7 +111,6 @@ public interface UacActionService extends IService<UacAction> {
 	 * 根据菜单ID List 查询权限列表.
 	 *
 	 * @param uacMenus the uac menus
-	 *
 	 * @return the list
 	 */
 	List<UacAction> listActionList(List<UacMenu> uacMenus);
@@ -127,8 +119,15 @@ public interface UacActionService extends IService<UacAction> {
 	 * Matches by url uac action.
 	 *
 	 * @param requestUrl the request url
-	 *
 	 * @return the uac action
 	 */
 	UacAction matchesByUrl(String requestUrl);
+
+	/**
+	 * List authority url set.
+	 *
+	 * @param currentAuthorityList the current authority list
+	 * @return the set
+	 */
+	Set<String> listAuthorityUrl(Set<String> currentAuthorityList);
 }

@@ -34,7 +34,6 @@ public interface UacMenuMapper extends MyMapper<UacMenu> {
 	 * Find menu vo list by user id list.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the list
 	 */
 	List<MenuVo> findMenuVoListByUserId(Long userId);
@@ -43,7 +42,6 @@ public interface UacMenuMapper extends MyMapper<UacMenu> {
 	 * Find menu code list by user id list.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the list
 	 */
 	List<String> findMenuCodeListByUserId(Long userId);
@@ -52,7 +50,6 @@ public interface UacMenuMapper extends MyMapper<UacMenu> {
 	 * Select menu list list.
 	 *
 	 * @param uacMenu the uac menu
-	 *
 	 * @return the list
 	 */
 	List<UacMenu> selectMenuList(UacMenu uacMenu);
@@ -61,7 +58,6 @@ public interface UacMenuMapper extends MyMapper<UacMenu> {
 	 * Select menu child count by pid int.
 	 *
 	 * @param pid the pid
-	 *
 	 * @return the int
 	 */
 	int selectMenuChildCountByPid(Long pid);
@@ -70,7 +66,6 @@ public interface UacMenuMapper extends MyMapper<UacMenu> {
 	 * Select by url uac menu.
 	 *
 	 * @param url the url
-	 *
 	 * @return the uac menu
 	 */
 	UacMenu selectByUrl(String url);
@@ -79,7 +74,6 @@ public interface UacMenuMapper extends MyMapper<UacMenu> {
 	 * Update menu int.
 	 *
 	 * @param uacMenu the uac menu
-	 *
 	 * @return the int
 	 */
 	int updateMenu(UacMenu uacMenu);
@@ -88,7 +82,6 @@ public interface UacMenuMapper extends MyMapper<UacMenu> {
 	 * 根据角色ID查询菜单列表.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the list
 	 */
 	List<UacMenu> listMenuListByRoleId(@Param("roleId") Long roleId);
@@ -97,8 +90,15 @@ public interface UacMenuMapper extends MyMapper<UacMenu> {
 	 * List menu list.
 	 *
 	 * @param menuIdList the menu id list
-	 *
 	 * @return the list
 	 */
 	List<UacMenu> listMenu(@Param("menuIdList") Set<Long> menuIdList);
+
+	/**
+	 * List menu by role code list list.
+	 *
+	 * @param roleCodeList the role code list
+	 * @return the list
+	 */
+	List<UacMenu> listMenuByRoleCodeList(@Param("menuCodeList") Set<String> roleCodeList);
 }

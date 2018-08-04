@@ -64,6 +64,7 @@ public class ImageCodeProcessor extends AbstractValidateCodeProcessor<ImageCode>
 		String json = objectMapper.writeValueAsString(result);
 		HttpServletResponse response = request.getResponse();
 		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
 		response.getWriter().write(json);
 	}
 }

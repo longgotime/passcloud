@@ -111,17 +111,4 @@ public class GlobalExceptionHandler {
 		});
 		return WrapMapper.error();
 	}
-
-	/**
-	 * User security user.
-	 *
-	 * @return the security user
-	 */
-//	@GetMapping("/user")
-//	public SecurityUser user() {
-//		String loginName = SecurityUtils.getCurrentLoginName();
-//		logger.info("{}", loginName);
-//		UacUser user = uacUserService.findByLoginName(loginName);
-//		return user == null ? null : new SecurityUser(user.getId(), user.getLoginName(), user.getLoginPwd(), user.getUserName(), user.getGroupId(), user.getGroupName());
-//	}
 }

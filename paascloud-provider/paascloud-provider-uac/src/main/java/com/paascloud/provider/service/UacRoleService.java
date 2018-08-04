@@ -13,6 +13,8 @@ package com.paascloud.provider.service;
 
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.support.IService;
+import com.paascloud.provider.model.domain.UacAction;
+import com.paascloud.provider.model.domain.UacMenu;
 import com.paascloud.provider.model.domain.UacRole;
 import com.paascloud.provider.model.dto.role.*;
 import com.paascloud.provider.model.vo.menu.BindAuthVo;
@@ -25,7 +27,7 @@ import java.util.List;
 /**
  * The interface Uac role service.
  *
- * @author paascloud.net@gmail.com
+ * @author paascloud.net @gmail.com
  */
 public interface UacRoleService extends IService<UacRole> {
 
@@ -33,7 +35,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 * Find by role code uac role.
 	 *
 	 * @param roleCode the role code
-	 *
 	 * @return the uac role
 	 */
 	UacRole findByRoleCode(String roleCode);
@@ -42,7 +43,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 * Query role list with page list.
 	 *
 	 * @param role the role
-	 *
 	 * @return the list
 	 */
 	List<RoleVo> queryRoleListWithPage(RoleDto role);
@@ -51,7 +51,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 * 根据角色删除用户.
 	 *
 	 * @param id the id
-	 *
 	 * @return the int
 	 */
 	int deleteRoleById(Long id);
@@ -61,7 +60,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 *
 	 * @param role         the role
 	 * @param loginAuthDto the login auth dto
-	 *
 	 * @return the int
 	 */
 	int saveRole(UacRole role, LoginAuthDto loginAuthDto);
@@ -70,7 +68,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 * Gets auth tree no check menu.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the auth tree no check menu
 	 */
 	List<Long> getAuthTreeNoCheckMenu(Long roleId);
@@ -86,7 +83,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 * 根据角色Id获取角色信息.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the role by id
 	 */
 	UacRole getRoleById(Long roleId);
@@ -96,7 +92,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 *
 	 * @param roleId        the role id
 	 * @param currentUserId the current user id
-	 *
 	 * @return the role bind user dto by role id
 	 */
 	RoleBindUserDto getRoleBindUserDto(Long roleId, Long currentUserId);
@@ -113,7 +108,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 * Find all role info by user id list.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the list
 	 */
 	List<RoleVo> findAllRoleInfoByUserId(Long userId);
@@ -122,7 +116,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 * Gets auth tree by role id.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the auth tree by role id
 	 */
 	BindAuthVo getActionTreeByRoleId(Long roleId);
@@ -135,10 +128,18 @@ public interface UacRoleService extends IService<UacRole> {
 	void batchDeleteByIdList(List<Long> idList);
 
 	/**
+	 * Gets auth list.
+	 *
+	 * @param uacMenus   the uac menus
+	 * @param uacActions the uac actions
+	 * @return the auth list
+	 */
+	List<MenuVo> getAuthList(List<UacMenu> uacMenus, List<UacAction> uacActions);
+
+	/**
 	 * Gets own auth tree by role id.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the own auth tree by role id
 	 */
 	List<MenuVo> getOwnAuthTree(Long userId);
@@ -154,7 +155,6 @@ public interface UacRoleService extends IService<UacRole> {
 	 * Gets menu tree by role id.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the menu tree by role id
 	 */
 	BindAuthVo getMenuTreeByRoleId(Long roleId);

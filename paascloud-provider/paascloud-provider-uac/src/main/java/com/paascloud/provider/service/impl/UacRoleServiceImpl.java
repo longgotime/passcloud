@@ -286,7 +286,8 @@ public class UacRoleServiceImpl extends BaseService<UacRole> implements UacRoleS
 		return bindAuthVo;
 	}
 
-	private List<MenuVo> getAuthList(List<UacMenu> uacMenus, List<UacAction> uacActions) {
+	@Override
+	public List<MenuVo> getAuthList(List<UacMenu> uacMenus, List<UacAction> uacActions) {
 		List<MenuVo> menuVoList = Lists.newArrayList();
 		MenuVo menuVo;
 		for (UacMenu uacMenu : uacMenus) {

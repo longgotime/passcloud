@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,13 +49,15 @@ public class PcAccessDeniedHandler implements AccessDeniedHandler {
 	 */
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException {
-		log.info("处理权限异常. e={}", e);
+		log.info("处理权限异常. e={}", e.getMessage(), e);
 		Map<String, Object> result = new HashMap<>(3);
 		result.put("code", 99990401);
 		result.put("message", "无访问权限");
-		String json = objectMapper.writeValueAsString(result);
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
-		response.getWriter().write(json);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter printWriter = response.getWriter();
+		printWriter.append(objectMapper.writeValueAsString(result));
 	}
 }

@@ -235,14 +235,14 @@
         WHERE
             m.url = #{url, jdbcType=VARCHAR}
     </select>
-    <select id="listMenuListByRoleId" resultType="com.paascloud.provider.model.domain.UacMenu">
+    <select id="listMenuListByRoleId" resultType="uacMenu">
         SELECT
           <include refid="Base_Column_List"/>
         FROM pc_uac_menu m LEFT JOIN pc_uac_role_menu rm on m.id = rm.menu_id
         LEFT JOIN pc_uac_role r on r.id = rm.role_id
         where r.id = #{roleId, jdbcType=BIGINT}
     </select>
-  <select id="listMenu" resultType="com.paascloud.provider.model.domain.UacMenu">
+  <select id="listMenu" resultType="uacMenu">
     SELECT
     <include refid="Base_Column_List" />
     From
@@ -252,4 +252,14 @@
       #{item}
     </foreach>
   </select>
+    <select id="listMenuByRoleCodeList" resultType="uacMenu">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM pc_uac_menu m LEFT JOIN pc_uac_role_menu rm on m.id = rm.menu_id
+        LEFT JOIN pc_uac_role r on r.id = rm.role_id
+        WHERE r.role_code IN
+        <foreach collection="menuCodeList" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

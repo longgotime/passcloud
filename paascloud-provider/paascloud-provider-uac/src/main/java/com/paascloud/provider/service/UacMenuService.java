@@ -144,4 +144,12 @@ public interface UacMenuService extends IService<UacMenu> {
 	 * @return the menu list
 	 */
 	List<UacMenu> getMenuList(Set<Long> menuIdList);
+
+	/**
+	 * List menu by role code list list.
+	 *
+	 * @param roleCodeList the role code list
+	 * @return the list
+	 */
+	List<UacMenu> listMenuByRoleCodeList(Set<String> roleCodeList);
 }

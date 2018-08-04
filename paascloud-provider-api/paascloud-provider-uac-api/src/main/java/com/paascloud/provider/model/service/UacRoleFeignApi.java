@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -160,4 +161,13 @@ public interface UacRoleFeignApi{
 	 */
 	@PostMapping(value = "/uac/role/getMenuTreeByRoleId/{roleId}")
 	Wrapper<BindAuthVo> getMenuTreeByRoleId(@ApiParam(name = "roleId", value = "角色id") @PathVariable("roleId") Long roleId);
+
+	/**
+	 * List authority url set.
+	 *
+	 * @param currentAuthorityList the current authority list
+	 * @return the set
+	 */
+	@PostMapping(value = "/uac/role/listAuthorityUrl")
+	Wrapper<Set<String>> listAuthorityUrl(@RequestBody Set<String> currentAuthorityList);
 }

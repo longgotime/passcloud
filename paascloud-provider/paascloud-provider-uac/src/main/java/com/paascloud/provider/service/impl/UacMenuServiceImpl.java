@@ -397,6 +397,11 @@ public class UacMenuServiceImpl extends BaseService<UacMenu> implements UacMenuS
 		return uacMenuMapper.listMenu(menuIdList);
 	}
 
+	@Override
+	public List<UacMenu> listMenuByRoleCodeList(Set<String> roleCodeList) {
+		return uacMenuMapper.listMenuByRoleCodeList(roleCodeList);
+	}
+
 	private List<UacMenu> getMenuList(List<UacMenu> uacMenuList, Long menuId) {
 		UacMenu uacMenu = uacMenuMapper.selectByPrimaryKey(menuId);
 		if (uacMenu != null) {

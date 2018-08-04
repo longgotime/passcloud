@@ -13,13 +13,18 @@ package com.paascloud.operate.controller.uac;
 
 import com.google.common.base.Preconditions;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.provider.model.dto.user.LoginRespDto;
+import com.paascloud.provider.model.dto.user.LogoutDto;
 import com.paascloud.provider.model.service.UacUserLoginFeignApi;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
+import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -71,21 +76,7 @@ public class UacUserLoginController extends BaseController{
 	@PostMapping(value = "/user/logout")
 	@ApiOperation(httpMethod = "POST", value = "登出")
 	public Wrapper loginAfter(String accessToken) {
-		return uacUserLoginFeignApi.loginAfter(accessToken);
-	}
-
-	/**
-	 * 刷新token.
-	 *
-	 * @param request      the request
-	 * @param refreshToken the refresh token
-	 * @param accessToken  the access token
-	 *
-	 * @return the wrapper
-	 */
-	@PostMapping(value = "/auth/user/refreshToken")
-	@ApiOperation(httpMethod = "POST", value = "刷新token")
-	public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) {
-		return uacUserLoginFeignApi.refreshToken(request, refreshToken, accessToken);
+		LogoutDto logoutDto = new LogoutDto(accessToken, getLoginAuthDto());
+		return uacUserLoginFeignApi.loginAfter(logoutDto);
 	}
 }

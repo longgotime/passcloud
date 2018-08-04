@@ -229,4 +229,17 @@
             #{item.id}
         </foreach>
     </select>
+    <select id="listUrlByRoleCodeList" resultType="java.lang.String">
+        SELECT
+        a.url
+        FROM
+        pc_uac_action a
+        LEFT JOIN pc_uac_role_action ra ON a.id = ra.action_id
+        LEFT JOIN pc_uac_role r ON r.id = ra.role_id
+        WHERE
+        r.role_code in
+        <foreach collection="menuCodeList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

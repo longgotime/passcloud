@@ -22,11 +22,12 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * The interface Uac action mapper.
  *
- * @author paascloud.net@gmail.com
+ * @author paascloud.net @gmail.com
  */
 @Mapper
 @Component
@@ -42,7 +43,6 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * Find action code list by user id list.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the list
 	 */
 	List<String> findActionCodeListByUserId(Long userId);
@@ -51,7 +51,6 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * Batch delete by id list int.
 	 *
 	 * @param deleteIdList the delete id list
-	 *
 	 * @return the int
 	 */
 	int batchDeleteByIdList(@Param("idList") List<Long> deleteIdList);
@@ -60,7 +59,6 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * Query action list with page list.
 	 *
 	 * @param uacAction the uac action
-	 *
 	 * @return the list
 	 */
 	List<ActionVo> queryActionListWithPage(UacAction uacAction);
@@ -69,7 +67,6 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * Delete by menu id int.
 	 *
 	 * @param id the id
-	 *
 	 * @return the int
 	 */
 	int deleteByMenuId(@Param("menuId") Long id);
@@ -78,7 +75,6 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * Gets checked action list.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the checked action list
 	 */
 	List<Long> getCheckedActionList(@Param("roleId") Long roleId);
@@ -87,7 +83,6 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * Gets own auth list.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the own auth list
 	 */
 	List<MenuVo> getOwnAuthList(@Param("userId") Long userId);
@@ -96,7 +91,6 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * Gets checked menu list.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the checked menu list
 	 */
 	List<Long> getCheckedMenuList(@Param("roleId") Long roleId);
@@ -105,7 +99,6 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * Gets own uac action list by user id.
 	 *
 	 * @param userId the user id
-	 *
 	 * @return the own uac action list by user id
 	 */
 	List<UacAction> getOwnUacActionListByUserId(Long userId);
@@ -114,7 +107,6 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * 根据角色ID查询权限列表.
 	 *
 	 * @param roleId the role id
-	 *
 	 * @return the list
 	 */
 	List<UacAction> listActionListByRoleId(@Param("roleId") Long roleId);
@@ -123,8 +115,15 @@ public interface UacActionMapper extends MyMapper<UacAction> {
 	 * List action list list.
 	 *
 	 * @param menuList the menu list
-	 *
 	 * @return the list
 	 */
 	List<UacAction> listActionList(@Param("menuList") List<UacMenu> menuList);
+
+	/**
+	 * List url by role code list set.
+	 *
+	 * @param roleCodeList the role code list
+	 * @return the set
+	 */
+	Set<String> listUrlByRoleCodeList(@Param("menuCodeList")  Set<String> roleCodeList);
 }

@@ -26,6 +26,7 @@ import com.paascloud.provider.model.exceptions.UacBizException;
 import com.paascloud.provider.model.service.UacRoleFeignApi;
 import com.paascloud.provider.model.vo.menu.BindAuthVo;
 import com.paascloud.provider.model.vo.role.RoleVo;
+import com.paascloud.provider.service.UacActionService;
 import com.paascloud.provider.service.UacRoleService;
 import com.paascloud.provider.service.UacRoleUserService;
 import com.paascloud.wrapper.WrapMapper;
@@ -42,6 +43,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -56,6 +58,8 @@ public class UacRoleFeignClient extends BaseFeignClient implements UacRoleFeignA
 
     @Resource
     private UacRoleService uacRoleService;
+    @Resource
+    private UacActionService uacActionService;
 
     @Resource
     private UacRoleUserService uacRoleUserService;
@@ -189,5 +193,12 @@ public class UacRoleFeignClient extends BaseFeignClient implements UacRoleFeignA
         logger.info("roleId={}", roleId);
         BindAuthVo bindAuthVo = uacRoleService.getMenuTreeByRoleId(roleId);
         return WrapMapper.ok(bindAuthVo);
+    }
+
+    @Override
+    public Wrapper<Set<String>> listAuthorityUrl(@RequestBody Set<String> currentAuthorityList) {
+        Set<String> authorityUrlList = uacActionService.listAuthorityUrl(currentAuthorityList);
+
+        return WrapMapper.ok(authorityUrlList);
     }
 }

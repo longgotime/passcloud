@@ -40,7 +40,7 @@ public class AuthWebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		PcObjectMapper.buidMvcMessageConverter(converters);
+		PcObjectMapper.buildMvcMessageConverter(converters);
 	}
 
 }

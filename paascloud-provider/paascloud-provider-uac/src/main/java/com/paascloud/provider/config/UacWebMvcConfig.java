@@ -40,7 +40,7 @@ public class UacWebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		PcObjectMapper.buidMvcMessageConverter(converters);
+		PcObjectMapper.buildMvcMessageConverter(converters);
 	}
 
 }
