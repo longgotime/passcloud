@@ -41,5 +41,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		registry.anyRequest().authenticated()
 				.and()
 				.csrf().disable();
+
+		http.headers().frameOptions().disable();
 	}
 }
