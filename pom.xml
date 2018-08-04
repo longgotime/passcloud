@@ -404,7 +404,7 @@
             <dependency>
                 <groupId>com.qiniu</groupId>
                 <artifactId>qiniu-java-sdk</artifactId>
-                <version>[7.0.0, 7.2.99]</version>
+                <version>7.2.14</version>
             </dependency>
             <!-- alipay start-->
             <dependency>
