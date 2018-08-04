@@ -11,13 +11,14 @@
 
 package com.paascloud.service.config;
 
-import com.paascloud.security.core.SecurityConstants;
+import com.paascloud.config.properties.PaascloudProperties;
 import com.paascloud.service.security.code.ValidateCodeSecurityConfig;
 import com.paascloud.service.security.mobile.SmsCodeAuthenticationSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -36,10 +37,15 @@ import javax.sql.DataSource;
 public class PcResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Autowired
 	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
 	@Autowired
 	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
 	@Autowired
 	private FormAuthenticationConfig formAuthenticationConfig;
+
+    @Resource
+    private PaascloudProperties paascloudProperties;
 
 	@Resource
 	private DataSource dataSource;
@@ -70,16 +76,13 @@ public class PcResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 		http.apply(validateCodeSecurityConfig)
 				.and()
-				.apply(smsCodeAuthenticationSecurityConfig)
-				.and()
-				.authorizeRequests()
-				.antMatchers(
-						SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-						SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*", "/**/auth/**", "/auth/**")
-				.permitAll()
-				.anyRequest()
-				.authenticated()
-				.and()
-				.csrf().disable();
+				.apply(smsCodeAuthenticationSecurityConfig);
+
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http.authorizeRequests();
+        paascloudProperties.getSecurity().getOauth2().getIgnore().getUrls().forEach(url ->registry.antMatchers(url).permitAll());
+
+        registry.anyRequest().authenticated()
+                .and()
+                .csrf().disable();
 	}
 }

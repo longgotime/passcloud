@@ -1,8 +1,0 @@
-server:
-  port: 9030
-
-spring:
-  profiles:
-    active: dev
-  application:
-    name: paascloud-service-wechat
