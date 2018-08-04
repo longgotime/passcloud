@@ -11,21 +11,11 @@
 
 package com.paascloud.service.security.code;
 
-import com.google.common.base.Preconditions;
-import com.paascloud.core.utils.RequestUtil;
-import com.paascloud.provider.model.service.UacUserLoginFeignApi;
 import com.paascloud.security.core.SecurityResult;
-import com.paascloud.wrapper.Wrapper;
-import eu.bitwalker.useragentutils.UserAgent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +25,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * 生成校验码的请求处理器
@@ -46,13 +35,6 @@ import java.io.IOException;
 @RestController
 @Api(value = "WEB - ValidateCodeController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ValidateCodeController {
-
-    private static final String BEARER_TOKEN_TYPE = "Basic ";
-
-    @Resource
-    private UacUserLoginFeignApi uacUserLoginFeignApi;
-    @Resource
-    private ClientDetailsService clientDetailsService;
 
     @Resource
     private ValidateCodeProcessorHolder validateCodeProcessorHolder;
@@ -92,49 +74,5 @@ public class ValidateCodeController {
             result = SecurityResult.error("验证码错误", false);
         }
         return result;
-    }
-
-    /**
-     * 刷新token.
-     *
-     * @param request      the request
-     * @param refreshToken the refresh token
-     * @param accessToken  the access token
-     * @return the wrapper
-     */
-    @GetMapping(value = "/auth/user/refreshToken")
-    @ApiOperation(httpMethod = "POST", value = "刷新token")
-    public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) throws IOException {
-
-        Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(accessToken), "accessToken is null");
-        Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(refreshToken), "refreshToken is null");
-        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (header == null || !header.startsWith(BEARER_TOKEN_TYPE)) {
-            throw new UnapprovedClientAuthenticationException("请求头中无client信息");
-        }
-        String[] tokens = RequestUtil.extractAndDecodeHeader(header);
-        assert tokens.length == 2;
-
-        String clientId = tokens[0];
-        String clientSecret = tokens[1];
-
-        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
-
-        if (clientDetails == null) {
-            throw new UnapprovedClientAuthenticationException("clientId对应的配置信息不存在:" + clientId);
-        } else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
-            throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
-        }
-
-        final UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-
-        final String remoteAddr = RequestUtil.getRemoteAddr(request);
-
-        //获取客户端操作系统
-        final String os = userAgent.getOperatingSystem().getName();
-        //获取客户端浏览器
-        final String browser = userAgent.getBrowser().getName();
-
-        return uacUserLoginFeignApi.refreshToken(refreshToken, accessToken, header, remoteAddr, os, browser);
     }
 }

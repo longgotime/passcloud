@@ -25,7 +25,7 @@ public class SwaggerProperties {
 
 	private String description;
 
-	private String version = "1.0";
+	private String version = "2.0";
 
 	private String license = "Apache License 2.0";
 
