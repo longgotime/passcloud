@@ -101,7 +101,7 @@ public class ValidateCodeController {
      * @param accessToken  the access token
      * @return the wrapper
      */
-    @PostMapping(value = "/auth/user/refreshToken")
+    @GetMapping(value = "/auth/user/refreshToken")
     @ApiOperation(httpMethod = "POST", value = "刷新token")
     public Wrapper<String> refreshToken(HttpServletRequest request, String refreshToken, String accessToken) throws IOException {
 
