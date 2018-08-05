@@ -42,6 +42,12 @@ import java.util.Map;
 @RequestMapping(value = "/web/pay")
 @Api(value = "WEB - PtcPayController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class PtcPayController extends BaseController {
+
+    static {
+
+        Configs.init("zfbinfo.properties");
+
+    }
     @Resource
     private PtcPayFeignApi ptcPayFeignApi;
 
