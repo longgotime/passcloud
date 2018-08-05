@@ -11,6 +11,7 @@
 
 package com.paascloud.security.feign;
 
+import com.google.common.collect.Lists;
 import feign.Logger;
 import feign.RequestInterceptor;
 import feign.codec.ErrorDecoder;
@@ -23,7 +24,6 @@ import org.springframework.http.client.Netty4ClientHttpRequestFactory;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
-import org.springframework.security.oauth2.common.AuthenticationScheme;
 
 /**
  * The class O auth 2 feign auto configuration.
@@ -54,11 +54,10 @@ public class OAuth2FeignAutoConfiguration {
 	@Bean("paascloudClientCredentialsResourceDetails")
 	public ClientCredentialsResourceDetails resourceDetails() {
 		ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
-		details.setId(oauth2ClientProperties.getId());
 		details.setAccessTokenUri(oauth2ClientProperties.getAccessTokenUrl());
 		details.setClientId(oauth2ClientProperties.getClientId());
 		details.setClientSecret(oauth2ClientProperties.getClientSecret());
-		details.setAuthenticationScheme(AuthenticationScheme.valueOf(oauth2ClientProperties.getClientAuthenticationScheme()));
+		details.setScope(Lists.newArrayList("*"));
 		return details;
 	}
 
@@ -96,15 +95,6 @@ public class OAuth2FeignAutoConfiguration {
 	Logger.Level feignLoggerLevel() {
 		return Logger.Level.FULL;
 	}
-
-	/*
-	 * To disable Hystrix support on a per-client basis create a vanilla Feign.Builder with the "prototype" scope, e.g.:
-	 */
-//	@Bean
-//	@Scope("prototype")
-//	public Feign.Builder feignBuilder() {
-//		return Feign.builder();
-//	}
 
 	@Bean
 	public ErrorDecoder errorDecoder() {

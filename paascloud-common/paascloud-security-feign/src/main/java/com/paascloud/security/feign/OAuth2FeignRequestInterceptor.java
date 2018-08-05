@@ -11,7 +11,6 @@
 
 package com.paascloud.security.feign;
 
-import com.paascloud.base.constant.GlobalConstant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;

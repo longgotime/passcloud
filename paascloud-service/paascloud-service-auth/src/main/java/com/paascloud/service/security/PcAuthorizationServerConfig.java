@@ -12,6 +12,7 @@
 package com.paascloud.service.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,12 +21,17 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,62 +45,78 @@ import java.util.List;
 @EnableAuthorizationServer
 public class PcAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-	@Autowired
-	private TokenStore tokenStore;
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	@Resource
-	private UserDetailsService userDetailsService;
-	@Resource
-	private RestClientDetailsServiceImpl restClientDetailsService;
-	@Resource
-	private JwtAccessTokenConverter jwtAccessTokenConverter;
-	@Resource
-	private TokenEnhancer jwtTokenEnhancer;
+    @Autowired
+    private TokenStore tokenStore;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Resource
+    private UserDetailsService userDetailsService;
+    @Resource
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+    @Resource
+    private TokenEnhancer jwtTokenEnhancer;
 
-	/**
-	 * Configure.
-	 *
-	 * @param security the security
-	 *
-	 */
-	@Override
-	public void configure(AuthorizationServerSecurityConfigurer security) {
-		security.tokenKeyAccess("permitAll()");
-		security.allowFormAuthenticationForClients();
-	}
+    @Resource
+    private DataSource dataSource;
 
-	/**
-	 * Configure.
-	 *
-	 * @param clients the clients
-	 *
-	 * @throws Exception the exception
-	 */
-	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.withClientDetails(restClientDetailsService);
-	}
+    /**
+     * 记住我功能的token存取器配置
+     *
+     * @return the persistent token repository
+     */
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+//		tokenRepository.setCreateTableOnStartup(true); // 第一次启动创建
+        return tokenRepository;
+    }
 
-	/**
-	 * Configure.
-	 *
-	 * @param endpoints the endpoints
-	 *
-	 */
-	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		endpoints.tokenStore(tokenStore)
-				.authenticationManager(authenticationManager)
-				.userDetailsService(userDetailsService);
+    @Bean
+    public ClientDetailsService clientDetails() {
+        return new JdbcClientDetailsService(dataSource);
+    }
 
-		if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
-			TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-			List<TokenEnhancer> enhancers = new ArrayList<>();
-			enhancers.add(jwtTokenEnhancer);
-			enhancers.add(jwtAccessTokenConverter);
-			enhancerChain.setTokenEnhancers(enhancers);
-			endpoints.tokenEnhancer(enhancerChain).accessTokenConverter(jwtAccessTokenConverter);
-		}
-	}
+    /**
+     * Configure.
+     *
+     * @param security the security
+     */
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) {
+        security.tokenKeyAccess("permitAll()");
+        security.allowFormAuthenticationForClients();
+    }
+
+    /**
+     * Configure.
+     *
+     * @param clients the clients
+     * @throws Exception the exception
+     */
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.withClientDetails(this.clientDetails());
+    }
+
+    /**
+     * Configure.
+     *
+     * @param endpoints the endpoints
+     */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        endpoints.tokenStore(tokenStore)
+                .authenticationManager(authenticationManager)
+                .userDetailsService(userDetailsService);
+
+        if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
+            TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+            List<TokenEnhancer> enhancers = new ArrayList<>();
+            enhancers.add(jwtTokenEnhancer);
+            enhancers.add(jwtAccessTokenConverter);
+            enhancerChain.setTokenEnhancers(enhancers);
+            endpoints.tokenEnhancer(enhancerChain).accessTokenConverter(jwtAccessTokenConverter);
+        }
+    }
 }

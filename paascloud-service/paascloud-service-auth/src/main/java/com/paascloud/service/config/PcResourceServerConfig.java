@@ -15,17 +15,11 @@ import com.paascloud.config.properties.PaascloudProperties;
 import com.paascloud.service.security.code.ValidateCodeSecurityConfig;
 import com.paascloud.service.security.mobile.SmsCodeAuthenticationSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
 
 /**
  * 资源服务器配置
@@ -35,35 +29,23 @@ import javax.sql.DataSource;
 @Configuration
 @EnableResourceServer
 public class PcResourceServerConfig extends ResourceServerConfigurerAdapter {
-	@Autowired
-	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+	private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-	@Autowired
-	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+	private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
-	@Autowired
-	private FormAuthenticationConfig formAuthenticationConfig;
+	private final FormAuthenticationConfig formAuthenticationConfig;
 
-    @Resource
-    private PaascloudProperties paascloudProperties;
+    private final PaascloudProperties paascloudProperties;
 
-	@Resource
-	private DataSource dataSource;
+    @Autowired
+    public PcResourceServerConfig(SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig, ValidateCodeSecurityConfig validateCodeSecurityConfig, FormAuthenticationConfig formAuthenticationConfig, PaascloudProperties paascloudProperties) {
+        this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
+        this.validateCodeSecurityConfig = validateCodeSecurityConfig;
+        this.formAuthenticationConfig = formAuthenticationConfig;
+        this.paascloudProperties = paascloudProperties;
+    }
 
-	/**
-	 * 记住我功能的token存取器配置
-	 *
-	 * @return the persistent token repository
-	 */
-	@Bean
-	public PersistentTokenRepository persistentTokenRepository() {
-		JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-		tokenRepository.setDataSource(dataSource);
-//		tokenRepository.setCreateTableOnStartup(true); // 第一次启动创建
-		return tokenRepository;
-	}
-
-	/**
+    /**
 	 * Configure.
 	 *
 	 * @param http the http
