@@ -40,7 +40,7 @@ public class RequestLogAspect {
      * @return the object
      */
     @Around("pointCutWrapper()")
-    public Object methodWrapperHandler(ProceedingJoinPoint pjp) {
+    public Object methodWrapperHandler(ProceedingJoinPoint pjp) throws Throwable {
         long startTime = System.currentTimeMillis();
 
         HttpServletRequest request = RequestUtil.getRequest();
@@ -61,10 +61,8 @@ public class RequestLogAspect {
         try {
             result = pjp.proceed();
             log.debug("{} response = {}", pjp.getSignature(), request);
+        } finally {
             log.info(pjp.getSignature() + "use time:" + (System.currentTimeMillis() - startTime));
-        } catch (Throwable e) {
-            log.error("异常信息：{}", e.getMessage(), e);
-            throw new RuntimeException(e);
         }
 
         return result;
