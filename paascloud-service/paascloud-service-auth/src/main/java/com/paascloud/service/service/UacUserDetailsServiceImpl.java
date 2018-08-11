@@ -14,13 +14,20 @@ package com.paascloud.service.service;
 import com.google.common.collect.Lists;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.provider.model.service.UacUserFeignApi;
+import com.paascloud.provider.model.vo.user.UserVo;
+import com.paascloud.security.core.PcSocialUser;
 import com.paascloud.security.core.SecurityUser;
 import com.paascloud.wrapper.Wrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -31,11 +38,15 @@ import java.util.List;
  *
  * @author paascloud.net @gmail.com
  */
+@Slf4j
 @Component
-public class UacUserDetailsServiceImpl implements UserDetailsService {
+public class UacUserDetailsServiceImpl implements UserDetailsService, SocialUserDetailsService {
 
 	@Resource
 	private UacAuthUserFeignApi authUserFeignApi;
+
+	@Resource
+	private UacUserFeignApi uacUserFeignApi;
 
 	/**
 	 * Load user by username user details.
@@ -61,5 +72,32 @@ public class UacUserDetailsServiceImpl implements UserDetailsService {
 		}
 
 		return new SecurityUser(authUserDTO.getUserId(), authUserDTO.getLoginName(), authUserDTO.getLoginPwd(), authUserDTO.getNickName(), authUserDTO.getGroupId(), authUserDTO.getGroupName(), authUserDTO.getStatus(), authorities);
+	}
+
+	@Override
+	public SocialUserDetails loadUserByUserId(final String userId) throws UsernameNotFoundException {
+
+		Wrapper<UserVo> userVoWrapper = uacUserFeignApi.getUacUserById(Long.valueOf(userId));
+		if (userVoWrapper.error()) {
+			throw new BadCredentialsException("用户微服务故障, 请稍候重试");
+		}
+		UserVo user = userVoWrapper.getResult();
+
+		Wrapper<AuthUserDTO> result = authUserFeignApi.getAuthUserDTO(user.getLoginName());
+		if (result == null) {
+			throw new BadCredentialsException("用户微服务故障, 请稍候重试");
+		}
+		AuthUserDTO authUserDTO = result.getResult();
+
+		List<String> authUrlList = authUserDTO.getAuthUrlList();
+
+		List<GrantedAuthority> authorities = Lists.newArrayList();
+		for (String url : authUrlList) {
+			GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(url);
+			authorities.add(grantedAuthority);
+		}
+
+		return new PcSocialUser(authUserDTO.getUserId(), authUserDTO.getLoginName(), authUserDTO.getLoginPwd(), authUserDTO.getNickName(), authUserDTO.getGroupId(), authUserDTO.getGroupName(), authUserDTO.getStatus(), authorities);
+
 	}
 }

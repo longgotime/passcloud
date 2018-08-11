@@ -14,6 +14,7 @@ package com.paascloud.service.service;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
 import com.paascloud.provider.model.dto.user.HandlerLoginDTO;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
+import com.paascloud.security.core.PcSocialUser;
 import com.paascloud.security.core.SecurityUser;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.extern.slf4j.Slf4j;
@@ -32,19 +33,35 @@ public class UacRpcService {
 	@Resource
 	private UacAuthUserFeignApi uacAuthUserFeignApi;
 
-	public void handlerLoginData(final String accessToken, final String refreshToken, final SecurityUser principal, final UserAgent userAgent, final String remoteAddr, final String requestURI, final String remoteLocation) {
+	public void handlerLoginData(final String accessToken, final String refreshToken, final Object principal, final UserAgent userAgent, final String remoteAddr, final String requestURI, final String remoteLocation) {
 		//获取客户端操作系统
 		final String os = userAgent.getOperatingSystem().getName();
 		//获取客户端浏览器
 		final String browser = userAgent.getBrowser().getName();
 
+		SecurityUser securityUser;
+		PcSocialUser socialUser;
 		AuthUserDTO authUserDTO = new AuthUserDTO();
-		authUserDTO.setUserId(principal.getUserId());
-		authUserDTO.setLoginName(principal.getLoginName());
-		authUserDTO.setGroupId(principal.getGroupId());
-		authUserDTO.setGroupName(principal.getGroupName());
-		authUserDTO.setNickName(principal.getNickName());
 
+		if (principal instanceof SecurityUser) {
+			securityUser = (SecurityUser) principal;
+			authUserDTO.setUserId(securityUser.getUserId());
+			authUserDTO.setLoginName(securityUser.getLoginName());
+			authUserDTO.setGroupId(securityUser.getGroupId());
+			authUserDTO.setGroupName(securityUser.getGroupName());
+			authUserDTO.setNickName(securityUser.getNickName());
+
+		} else if (principal instanceof PcSocialUser) {
+			socialUser = (PcSocialUser) principal;
+			authUserDTO.setUserId(Long.valueOf(socialUser.getUserId()));
+			authUserDTO.setLoginName(socialUser.getLoginName());
+			authUserDTO.setGroupId(socialUser.getGroupId());
+			authUserDTO.setGroupName(socialUser.getGroupName());
+			authUserDTO.setNickName(socialUser.getNickName());
+		} else {
+			throw new IllegalStateException("登陆数据异常");
+		}
+		log.info("用户【 {} 】记录登录日志", authUserDTO.getLoginName());
 		uacAuthUserFeignApi.handlerLoginData(new HandlerLoginDTO(accessToken, refreshToken, authUserDTO, os, browser, remoteAddr, requestURI, remoteLocation));
 	}
 }

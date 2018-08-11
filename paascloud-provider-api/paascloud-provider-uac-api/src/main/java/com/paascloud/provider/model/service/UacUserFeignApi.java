@@ -119,7 +119,7 @@ public interface UacUserFeignApi {
      * @return the uac user by id
      */
     @PostMapping(value = "/uac/user/getUacUserById/{userId}")
-    Wrapper<UserVo> getUacUserById(@ApiParam(name = "userId", value = "用户ID") @PathVariable("userId") Long userId);
+    Wrapper<UserVo> getUacUserById(@PathVariable("userId") Long userId);
 
     /**
      * 根据用户Id重置密码.

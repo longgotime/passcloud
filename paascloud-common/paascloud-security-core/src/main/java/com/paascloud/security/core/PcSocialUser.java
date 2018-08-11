@@ -1,31 +1,19 @@
-/*
- * Copyright (c) 2018. paascloud.net All Rights Reserved.
- * 项目名称：paascloud快速搭建企业级分布式微服务平台
- * 类名称：SecurityUser.java
- * 创建人：刘兆明
- * 联系方式：paascloud.net@gmail.com
- * 开源地址: https://github.com/paascloud
- * 博客地址: http://blog.paascloud.net
- * 项目官网: http://paascloud.net
- */
-
 package com.paascloud.security.core;
 
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.security.SocialUserDetails;
 
 import java.util.Collection;
 
 /**
- * The class Security user.
+ * The class Pc social user.
  *
- * @author paascloud.net @gmail.com
+ * @author Lenovo @gmail.com
  */
 @NoArgsConstructor
-public class SecurityUser implements UserDetails {
-	private static final long serialVersionUID = 4872628781561412463L;
+public class PcSocialUser implements SocialUserDetails {
 
 	private static final String ENABLE = "ENABLE";
 
@@ -45,7 +33,7 @@ public class SecurityUser implements UserDetails {
 
 	private String groupName;
 
-	public SecurityUser(Long userId, String loginName, String loginPwd, String nickName, Long groupId, String groupName, String status, Collection<GrantedAuthority> grantedAuthorities) {
+	public PcSocialUser(Long userId, String loginName, String loginPwd, String nickName, Long groupId, String groupName, String status, Collection<GrantedAuthority> grantedAuthorities) {
 		this.setUserId(userId);
 		this.setLoginName(loginName);
 		this.setLoginPwd(loginPwd);
@@ -56,46 +44,91 @@ public class SecurityUser implements UserDetails {
 		this.authorities = grantedAuthorities;
 	}
 
+	/**
+	 * Gets user id.
+	 *
+	 * @return the user id
+	 */
+	@Override
+	public String getUserId() {
+		return null;
+	}
+
+	/**
+	 * Gets authorities.
+	 *
+	 * @return the authorities
+	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;
 	}
 
+	/**
+	 * Gets password.
+	 *
+	 * @return the password
+	 */
 	@Override
 	public String getPassword() {
 		return this.getLoginPwd();
 	}
 
+	/**
+	 * Gets username.
+	 *
+	 * @return the username
+	 */
 	@Override
 	public String getUsername() {
 		return this.getLoginName();
 	}
 
+	/**
+	 * Is account non expired boolean.
+	 *
+	 * @return the boolean
+	 */
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
+	/**
+	 * Is account non locked boolean.
+	 *
+	 * @return the boolean
+	 */
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	/**
+	 * Is credentials non expired boolean.
+	 *
+	 * @return the boolean
+	 */
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
+	/**
+	 * Is enabled boolean.
+	 *
+	 * @return the boolean
+	 */
 	@Override
 	public boolean isEnabled() {
-		return StringUtils.equals(this.status, ENABLE);
+		return  StringUtils.equals(this.status, ENABLE);
 	}
 
-	public Long getUserId() {
-		return userId;
+	public void setAuthorities(final Collection<GrantedAuthority> authorities) {
+		this.authorities = authorities;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(final Long userId) {
 		this.userId = userId;
 	}
 
@@ -103,7 +136,7 @@ public class SecurityUser implements UserDetails {
 		return nickName;
 	}
 
-	public void setNickName(String nickName) {
+	public void setNickName(final String nickName) {
 		this.nickName = nickName;
 	}
 
@@ -111,31 +144,31 @@ public class SecurityUser implements UserDetails {
 		return loginName;
 	}
 
-	public void setLoginName(String loginName) {
+	public void setLoginName(final String loginName) {
 		this.loginName = loginName;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public String getLoginPwd() {
 		return loginPwd;
 	}
 
-	public void setLoginPwd(String loginPwd) {
+	public void setLoginPwd(final String loginPwd) {
 		this.loginPwd = loginPwd;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(final String status) {
+		this.status = status;
 	}
 
 	public Long getGroupId() {
 		return groupId;
 	}
 
-	public void setGroupId(Long groupId) {
+	public void setGroupId(final Long groupId) {
 		this.groupId = groupId;
 	}
 
@@ -143,7 +176,7 @@ public class SecurityUser implements UserDetails {
 		return groupName;
 	}
 
-	public void setGroupName(String groupName) {
+	public void setGroupName(final String groupName) {
 		this.groupName = groupName;
 	}
 }

@@ -12,6 +12,7 @@
 package com.paascloud.service.config;
 
 import com.paascloud.config.properties.PaascloudProperties;
+import com.paascloud.service.security.authentication.openid.OpenIdAuthenticationSecurityConfig;
 import com.paascloud.service.security.code.ValidateCodeSecurityConfig;
 import com.paascloud.service.security.mobile.SmsCodeAuthenticationSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
  * 资源服务器配置
@@ -37,12 +39,18 @@ public class PcResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private final PaascloudProperties paascloudProperties;
 
+	private final SpringSocialConfigurer pcSocialSecurityConfig;
+
+	private final OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
+
     @Autowired
-    public PcResourceServerConfig(SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig, ValidateCodeSecurityConfig validateCodeSecurityConfig, FormAuthenticationConfig formAuthenticationConfig, PaascloudProperties paascloudProperties) {
+    public PcResourceServerConfig(SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig, ValidateCodeSecurityConfig validateCodeSecurityConfig, FormAuthenticationConfig formAuthenticationConfig, PaascloudProperties paascloudProperties, final SpringSocialConfigurer pcSocialSecurityConfig, final OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig) {
         this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
         this.validateCodeSecurityConfig = validateCodeSecurityConfig;
         this.formAuthenticationConfig = formAuthenticationConfig;
         this.paascloudProperties = paascloudProperties;
+	    this.pcSocialSecurityConfig = pcSocialSecurityConfig;
+	    this.openIdAuthenticationSecurityConfig = openIdAuthenticationSecurityConfig;
     }
 
     /**
@@ -58,7 +66,11 @@ public class PcResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 		http.apply(validateCodeSecurityConfig)
 				.and()
-				.apply(smsCodeAuthenticationSecurityConfig);
+				.apply(smsCodeAuthenticationSecurityConfig)
+				.and()
+				.apply(pcSocialSecurityConfig)
+				.and()
+				.apply(openIdAuthenticationSecurityConfig);
 
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http.authorizeRequests();
         paascloudProperties.getSecurity().getOauth2().getIgnore().getUrls().forEach(url ->registry.antMatchers(url).permitAll());

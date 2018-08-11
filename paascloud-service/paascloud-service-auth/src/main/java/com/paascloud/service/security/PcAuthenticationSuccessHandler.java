@@ -12,14 +12,13 @@
 package com.paascloud.service.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
 import com.paascloud.core.utils.RequestUtil;
 import com.paascloud.service.service.OpcRpcService;
 import com.paascloud.service.service.UacRpcService;
-import com.paascloud.security.core.SecurityUser;
 import com.paascloud.wrapper.WrapMapper;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -93,14 +92,15 @@ public class PcAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 			throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
 		}
 
-		TokenRequest tokenRequest = new TokenRequest(MapUtils.EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
+		TokenRequest tokenRequest = new TokenRequest(Maps.newHashMap(), clientId, clientDetails.getScope(), "custom");
 
 		OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
 
 		OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
 
 		OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
-		SecurityUser principal = (SecurityUser) authentication.getPrincipal();
+
+		Object principal = authentication.getPrincipal();
 
 		final UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
 		final String remoteAddr = RequestUtil.getRemoteAddr(request);
@@ -110,8 +110,6 @@ public class PcAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 		final String accessToken = token.getValue();
 		final String refreshToken = token.getRefreshToken().getValue();
 		uacRpcService.handlerLoginData(accessToken, refreshToken, principal, userAgent, remoteAddr, requestURI, remoteLocation);
-
-		log.info("用户【 {} 】记录登录日志", principal.getUsername());
 
 		response.setContentType("application/json;charset=UTF-8");
 		response.getWriter().write((objectMapper.writeValueAsString(WrapMapper.ok(token))));
