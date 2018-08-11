@@ -13,24 +13,28 @@ package com.paascloud.operate.controller.uac;
 
 import com.github.pagehelper.PageInfo;
 import com.paascloud.base.dto.IdDTO;
-import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.core.annotation.LogAnnotation;
+import com.paascloud.core.annotation.ValidateAnnotation;
 import com.paascloud.core.support.BaseController;
+import com.paascloud.provider.model.dto.log.UacLogQueryDTO;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
 import com.paascloud.provider.model.exceptions.UacBizException;
 import com.paascloud.provider.model.service.UacUserFeignApi;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
+import com.paascloud.provider.model.vo.user.UacLogVO;
 import com.paascloud.provider.model.vo.user.UserVo;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -346,5 +350,23 @@ public class UacUserController extends BaseController{
 	public Wrapper registerUser(@RequestBody UserRegisterDto registerDto) {
 		logger.info("vue注册开始。注册参数：{}", registerDto);
 		return uacUserFeignApi.registerUser(registerDto);
+	}
+
+	/**
+	 * 分页查询用户操作日志列表.
+	 *
+	 * @return the wrapper
+	 */
+	@PostMapping(value = "/queryUserLogListWithPage")
+	@ApiOperation(httpMethod = "POST", value = "分页查询用户操作日志列表")
+    @ValidateAnnotation
+	public Wrapper<PageInfo<UacLogVO>> queryUserLogListWithPage(@RequestBody @Valid UacLogQueryDTO uacLogQueryDTO, BindingResult bindingResult) {
+
+        String loginName = uacLogQueryDTO.getLoginName();
+
+        Integer pageNum = uacLogQueryDTO.getPageNum();
+		Integer pageSize = uacLogQueryDTO.getPageSize();
+
+		return uacUserFeignApi.queryUserLogListWithPage(pageNum, pageSize, loginName);
 	}
 }

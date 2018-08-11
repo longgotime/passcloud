@@ -14,6 +14,7 @@ package com.paascloud.provider.mapper;
 import com.paascloud.core.mybatis.MyMapper;
 import com.paascloud.provider.model.domain.UacLog;
 import com.paascloud.provider.model.dto.log.UacLogMainDto;
+import com.paascloud.provider.model.vo.user.UacLogVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,7 @@ public interface UacLogMapper extends MyMapper<UacLog> {
 	 *
 	 * @return the list
 	 */
-	List<UacLog> selectUserLogListByUserId(@Param("userId") Long userId);
+	List<UacLogVO> selectUserLogListByUserId(@Param("userId") Long userId);
 
 	/**
 	 * Query log list with page list.

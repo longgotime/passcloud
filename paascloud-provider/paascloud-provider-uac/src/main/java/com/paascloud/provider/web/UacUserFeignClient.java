@@ -11,12 +11,14 @@
 
 package com.paascloud.provider.web;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.paascloud.Md5Util;
 import com.paascloud.PublicUtil;
 import com.paascloud.base.dto.IdDTO;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.support.BaseFeignClient;
+import com.paascloud.provider.model.domain.UacLog;
 import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
@@ -24,6 +26,7 @@ import com.paascloud.provider.model.service.UacUserFeignApi;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.role.RoleVo;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
+import com.paascloud.provider.model.vo.user.UacLogVO;
 import com.paascloud.provider.model.vo.user.UserVo;
 import com.paascloud.provider.service.UacRoleService;
 import com.paascloud.provider.service.UacUserService;
@@ -286,5 +289,20 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
         logger.info("vue注册开始。注册参数：{}", registerDto);
         uacUserService.register(registerDto);
         return WrapMapper.ok("注册成功");
+    }
+
+    @Override
+    public Wrapper<PageInfo<UacLogVO>> queryUserLogListWithPage(@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize, @RequestParam(value = "loginName") String loginName) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        UacUser uacUser = uacUserService.findByLoginName(loginName);
+        
+        if (uacUser == null) {
+            return null;
+        }
+
+        List<UacLogVO> list = uacUserService.queryUserLogListWithUserId(uacUser.getId());
+        PageInfo<UacLogVO> pageInfo = new PageInfo<>(list);
+        return WrapMapper.ok(pageInfo);
     }
 }

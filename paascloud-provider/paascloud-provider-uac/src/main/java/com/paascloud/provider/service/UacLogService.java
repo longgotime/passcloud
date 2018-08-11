@@ -18,6 +18,7 @@ import com.paascloud.core.support.IService;
 import com.paascloud.provider.model.domain.UacLog;
 import com.paascloud.provider.model.dto.log.OperationLogDto;
 import com.paascloud.provider.model.dto.log.UacLogMainDto;
+import com.paascloud.provider.model.vo.user.UacLogVO;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public interface UacLogService extends IService<UacLog> {
 	 *
 	 * @return the list
 	 */
-	List<UacLog> selectUserLogListByUserId(Long userId);
+	List<UacLogVO> selectUserLogListByUserId(Long userId);
 
 	/**
 	 * Save operation log integer.

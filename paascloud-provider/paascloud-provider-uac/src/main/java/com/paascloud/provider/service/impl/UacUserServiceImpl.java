@@ -28,6 +28,7 @@ import com.paascloud.provider.model.enums.UacUserTypeEnum;
 import com.paascloud.provider.model.exceptions.UacBizException;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
+import com.paascloud.provider.model.vo.user.UacLogVO;
 import com.paascloud.provider.mq.producer.EmailProducer;
 import com.paascloud.provider.service.*;
 import com.xiaoleilu.hutool.date.DateUtil;
@@ -307,7 +308,7 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 	 */
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<UacLog> queryUserLogListWithUserId(Long userId) {
+	public List<UacLogVO> queryUserLogListWithUserId(Long userId) {
 		if (PublicUtil.isEmpty(userId)) {
 			throw new UacBizException(ErrorCodeEnum.UAC10011001);
 		}

@@ -10,6 +10,7 @@ import com.paascloud.provider.model.domain.UacAction;
 import com.paascloud.provider.model.domain.UacLog;
 import com.paascloud.provider.model.dto.log.OperationLogDto;
 import com.paascloud.provider.model.dto.log.UacLogMainDto;
+import com.paascloud.provider.model.vo.user.UacLogVO;
 import com.paascloud.provider.service.OpcRpcService;
 import com.paascloud.provider.service.UacActionService;
 import com.paascloud.provider.service.UacLogService;
@@ -51,7 +52,7 @@ public class UacLogServiceImpl extends BaseService<UacLog> implements UacLogServ
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = Exception.class)
-	public List<UacLog> selectUserLogListByUserId(Long userId) {
+	public List<UacLogVO> selectUserLogListByUserId(Long userId) {
 		return uacLogMapper.selectUserLogListByUserId(userId);
 	}
 

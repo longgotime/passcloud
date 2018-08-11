@@ -19,6 +19,7 @@ import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
+import com.paascloud.provider.model.vo.user.UacLogVO;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -116,7 +117,7 @@ public interface UacUserService extends IService<UacUser> {
 	 * @param userId the user id
 	 * @return the list
 	 */
-	List<UacLog> queryUserLogListWithUserId(Long userId);
+	List<UacLogVO> queryUserLogListWithUserId(Long userId);
 
 	/**
 	 * 根据用户ID修改用户状态.

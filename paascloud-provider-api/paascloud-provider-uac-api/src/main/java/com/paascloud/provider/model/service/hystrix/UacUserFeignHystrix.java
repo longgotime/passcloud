@@ -19,6 +19,7 @@ import com.paascloud.provider.model.dto.user.*;
 import com.paascloud.provider.model.service.UacUserFeignApi;
 import com.paascloud.provider.model.vo.menu.MenuVo;
 import com.paascloud.provider.model.vo.role.UserBindRoleVo;
+import com.paascloud.provider.model.vo.user.UacLogVO;
 import com.paascloud.provider.model.vo.user.UserVo;
 import com.paascloud.wrapper.WrapMapper;
 import com.paascloud.wrapper.Wrapper;
@@ -133,6 +134,11 @@ public class UacUserFeignHystrix implements UacUserFeignApi {
 
 	@Override
 	public Wrapper registerUser(UserRegisterDto registerDto) {
+		return WrapMapper.error();
+	}
+
+	@Override
+	public Wrapper<PageInfo<UacLogVO>> queryUserLogListWithPage(Integer pageNum, Integer pageSize, String loginName) {
 		return WrapMapper.error();
 	}
 }

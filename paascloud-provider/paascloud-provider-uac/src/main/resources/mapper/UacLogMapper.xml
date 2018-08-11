@@ -233,7 +233,7 @@
             </if>
         </set>
     </sql>
-    <select id="selectUserLogListByUserId" parameterType="long" resultMap="BaseResultMap">
+    <select id="selectUserLogListByUserId" parameterType="long" resultType="com.paascloud.provider.model.vo.user.UacLogVO">
         SELECT
             <include refid="Base_Column_List"/>
         FROM
