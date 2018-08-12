@@ -126,7 +126,7 @@ public class AppSecurityController extends BaseController {
 	public Wrapper<String> getWeChatQrconnect(HttpServletResponse response) throws IOException{
 		String urlEncode = URLEncoder.encode(paascloudProperties.getSecurity().getSocial().getWeixin().getCallBackUrl(), "utf-8");
 		String qrconectUrl = WeixinServiceProvider.URL_AUTHORIZE + "?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s#wechat_redirect";
-		String state = Md5Util.encrypt(RandomUtil.createComplexCode(8));
+		String state = com.xiaoleilu.hutool.util.RandomUtil.randomUUID();
 		String url = String.format(qrconectUrl, paascloudProperties.getSecurity().getSocial().getWeixin().getAppId(), urlEncode, state);
 
 		CookieUtil.setCookie("PASSCLOUD_PAAS_SOCIAL_WXKEY", state, 10 * 60, response);
