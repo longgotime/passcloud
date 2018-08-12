@@ -45,7 +45,7 @@ public class QQAdapter implements ApiAdapter<QQ> {
 	@Override
 	public void setConnectionValues(QQ api, ConnectionValues values) {
 		QQUserInfo userInfo = api.getUserInfo();
-
+		// TODO 如果用户存在异步更新用户信息
 		values.setDisplayName(userInfo.getNickname());
 		values.setImageUrl(userInfo.getFigureUrlQq1());
 		values.setProfileUrl(null);

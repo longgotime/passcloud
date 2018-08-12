@@ -62,6 +62,7 @@ public class WeixinAdapter implements ApiAdapter<Weixin> {
 	@Override
 	public void setConnectionValues(Weixin api, ConnectionValues values) {
 		WeixinUserInfo profile = api.getUserInfo(openId);
+		// TODO 如果用户存在异步更新用户信息
 		values.setProviderUserId(profile.getOpenid());
 		values.setDisplayName(profile.getNickname());
 		values.setImageUrl(profile.getHeadimgurl());

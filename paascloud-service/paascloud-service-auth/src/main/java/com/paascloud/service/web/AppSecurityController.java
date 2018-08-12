@@ -51,7 +51,6 @@ public class AppSecurityController extends BaseSocialController {
 	public SocialUserInfo getSocialUserInfo(HttpServletRequest request) {
 		Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
 		appSingUpUtils.saveConnectionData(new ServletWebRequest(request), connection.createData());
-		appSingUpUtils.doPostSignUp(new ServletWebRequest(request), String.valueOf(1L));
 		return buildSocialUserInfo(connection);
 	}
 }

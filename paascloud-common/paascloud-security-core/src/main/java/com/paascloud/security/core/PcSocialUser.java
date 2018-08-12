@@ -51,7 +51,7 @@ public class PcSocialUser implements SocialUserDetails {
 	 */
 	@Override
 	public String getUserId() {
-		return null;
+		return String.valueOf(this.userId);
 	}
 
 	/**
