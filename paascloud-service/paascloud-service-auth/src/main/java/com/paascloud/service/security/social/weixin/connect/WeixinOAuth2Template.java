@@ -51,7 +51,7 @@ public class WeixinOAuth2Template extends OAuth2Template {
 	 * @param authorizeUrl   the authorize url
 	 * @param accessTokenUrl the access token url
 	 */
-	WeixinOAuth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
+	public WeixinOAuth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
 		super(clientId, clientSecret, authorizeUrl, accessTokenUrl);
 		setUseParametersForClientAuthentication(true);
 		this.clientId = clientId;
