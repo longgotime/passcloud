@@ -26,7 +26,7 @@ public class WeixinServiceProvider extends AbstractOAuth2ServiceProvider<Weixin>
 	/**
 	 * 微信获取授权码的url
 	 */
-	private static final String URL_AUTHORIZE = "https://open.weixin.qq.com/connect/qrconnect";
+	public static final String URL_AUTHORIZE = "https://open.weixin.qq.com/connect/qrconnect";
 	/**
 	 * 微信获取accessToken的url
 	 */

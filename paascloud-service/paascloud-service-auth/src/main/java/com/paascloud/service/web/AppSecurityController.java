@@ -11,9 +11,14 @@
 
 package com.paascloud.service.web;
 
+import com.paascloud.Md5Util;
+import com.paascloud.RandomUtil;
+import com.paascloud.config.properties.PaascloudProperties;
 import com.paascloud.security.core.SecurityConstants;
 import com.paascloud.service.security.social.AppSingUpUtils;
 import com.paascloud.service.security.social.support.SocialUserInfo;
+import com.paascloud.service.security.social.weixin.connect.WeixinServiceProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -24,6 +29,9 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * The class App security controller.
@@ -31,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author paascloud.net@gmail.comg
  */
 @RestController
+@Slf4j
 public class AppSecurityController extends BaseSocialController {
 
 	@Resource
@@ -38,6 +47,8 @@ public class AppSecurityController extends BaseSocialController {
 
 	@Resource
 	private AppSingUpUtils appSingUpUtils;
+	@Resource
+	private PaascloudProperties paascloudProperties;
 
 	/**
 	 * 需要注册时跳到这里，返回401和用户信息给前端
@@ -52,5 +63,20 @@ public class AppSecurityController extends BaseSocialController {
 		Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
 		appSingUpUtils.saveConnectionData(new ServletWebRequest(request), connection.createData());
 		return buildSocialUserInfo(connection);
+	}
+
+    /**
+     * 微信登录请求CODE
+     * @param response the response
+     * @throws IOException
+     */
+	@GetMapping(SecurityConstants.DEFAULT_SOCIAL_QRCONNECT_URL)
+	public void getWeChatQrconnect(HttpServletResponse response) throws IOException{
+		String urlEncode = URLEncoder.encode(paascloudProperties.getSecurity().getSocial().getWeixin().getCallBackUrl(), "utf-8");
+		String qrconectUrl = WeixinServiceProvider.URL_AUTHORIZE + "?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s#wechat_redirect";
+		String state = Md5Util.encrypt(RandomUtil.createComplexCode(8));
+		String url = String.format(qrconectUrl, paascloudProperties.getSecurity().getSocial().getWeixin().getAppId(), urlEncode, state);
+
+		response.sendRedirect(url);
 	}
 }
