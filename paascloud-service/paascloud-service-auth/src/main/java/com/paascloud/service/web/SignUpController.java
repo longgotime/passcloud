@@ -14,16 +14,13 @@ package com.paascloud.service.web;
 import com.paascloud.core.support.BaseController;
 import com.paascloud.provider.model.dto.user.*;
 import com.paascloud.provider.model.service.UacUserFeignApi;
-import com.paascloud.service.security.social.AppSingUpUtils;
 import com.paascloud.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 用户管理主页面.
@@ -37,8 +34,6 @@ public class SignUpController extends BaseController{
 
 	@Resource
 	private UacUserFeignApi uacUserFeignApi;
-	@Resource
-	private AppSingUpUtils appSingUpUtils;
 
 	/**
 	 * 注册
@@ -49,14 +44,8 @@ public class SignUpController extends BaseController{
 	 */
 	@PostMapping(value = "/user/registerUser")
 	@ApiOperation(httpMethod = "POST", value = "注册新用户")
-	public Wrapper registerUser(@RequestBody UserRegisterDto registerDto, HttpServletRequest request) {
+	public Wrapper registerUser(@RequestBody UserRegisterDto registerDto) {
 		logger.info("vue注册开始。注册参数：{}", registerDto);
-		Wrapper wrapper = uacUserFeignApi.registerUser(registerDto);
-		if (wrapper.success()) {
-			// 绑定社交用户
-			appSingUpUtils.doPostSignUp(new ServletWebRequest(request), String.valueOf(1L));
-		}
-
-		return wrapper;
+        return uacUserFeignApi.registerUser(registerDto);
 	}
 }

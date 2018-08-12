@@ -13,10 +13,7 @@ import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.core.support.BaseService;
 import com.paascloud.provider.manager.UserManager;
-import com.paascloud.provider.mapper.UacActionMapper;
-import com.paascloud.provider.mapper.UacMenuMapper;
-import com.paascloud.provider.mapper.UacUserMapper;
-import com.paascloud.provider.mapper.UacUserMenuMapper;
+import com.paascloud.provider.mapper.*;
 import com.paascloud.provider.model.domain.*;
 import com.paascloud.provider.model.dto.menu.UserMenuChildrenDto;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
@@ -85,6 +82,8 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 	private RedisTemplate<String, Object> redisTemplate;
 	@Resource
 	private UserManager userManager;
+	@Resource
+	private UacRoleUserMapper uacRoleUserMapper;
 
 	/**
 	 * Find by login name uac user.
@@ -272,6 +271,14 @@ public class UacUserServiceImpl extends BaseService<UacUser> implements UacUserS
 			groupUser.setGroupId(user.getGroupId());
 			groupUser.setUserId(userId);
 			uacGroupUserService.save(groupUser);
+
+			// 3.添加一个默认角色
+			final Long roleId = 10000L;
+			UacRoleUser roleUser = new UacRoleUser();
+			roleUser.setUserId(userId);
+			roleUser.setRoleId(roleId);
+
+			uacRoleUserMapper.insertSelective(roleUser);
 		} else {
 			UacUser uacUser = uacUserMapper.selectByPrimaryKey(user.getId());
 			Preconditions.checkArgument(uacUser != null, "用户不存在");
