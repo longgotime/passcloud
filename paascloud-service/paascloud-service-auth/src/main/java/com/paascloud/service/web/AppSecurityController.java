@@ -14,10 +14,13 @@ package com.paascloud.service.web;
 import com.paascloud.Md5Util;
 import com.paascloud.RandomUtil;
 import com.paascloud.config.properties.PaascloudProperties;
+import com.paascloud.security.core.CookieUtil;
 import com.paascloud.security.core.SecurityConstants;
 import com.paascloud.service.security.social.AppSingUpUtils;
 import com.paascloud.service.security.social.support.SocialUserInfo;
 import com.paascloud.service.security.social.weixin.connect.WeixinServiceProvider;
+import com.paascloud.wrapper.WrapMapper;
+import com.paascloud.wrapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;
@@ -36,7 +39,7 @@ import java.net.URLEncoder;
 /**
  * The class App security controller.
  *
- * @author paascloud.net@gmail.comg
+ * @author paascloud.net @gmail.comg
  */
 @RestController
 @Slf4j
@@ -54,7 +57,6 @@ public class AppSecurityController extends BaseSocialController {
 	 * 需要注册时跳到这里，返回401和用户信息给前端
 	 *
 	 * @param request the request
-	 *
 	 * @return social user info
 	 */
 	@GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
@@ -65,18 +67,23 @@ public class AppSecurityController extends BaseSocialController {
 		return buildSocialUserInfo(connection);
 	}
 
-    /**
-     * 微信登录请求CODE
-     * @param response the response
-     * @throws IOException
-     */
+	/**
+	 * 微信登录请求CODE
+	 *
+	 * @param response the response
+	 * @throws IOException the io exception
+	 */
 	@GetMapping(SecurityConstants.DEFAULT_SOCIAL_QRCONNECT_URL)
-	public void getWeChatQrconnect(HttpServletResponse response) throws IOException{
+	public Wrapper<String> getWeChatQrconnect(HttpServletResponse response) throws IOException{
 		String urlEncode = URLEncoder.encode(paascloudProperties.getSecurity().getSocial().getWeixin().getCallBackUrl(), "utf-8");
 		String qrconectUrl = WeixinServiceProvider.URL_AUTHORIZE + "?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s#wechat_redirect";
 		String state = Md5Util.encrypt(RandomUtil.createComplexCode(8));
 		String url = String.format(qrconectUrl, paascloudProperties.getSecurity().getSocial().getWeixin().getAppId(), urlEncode, state);
 
-		response.sendRedirect(url);
+		CookieUtil.setCookie("PASSCLOUD_PAAS_SOCIAL_WXKEY", state, 10 * 60, response);
+
+		//TODO 以后有时间 这里的 token 要在 redis 中做一个安全校验, 类似签名
+
+		return WrapMapper.ok(url);
 	}
 }

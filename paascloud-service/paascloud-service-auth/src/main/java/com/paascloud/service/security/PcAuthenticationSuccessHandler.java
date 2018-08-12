@@ -14,6 +14,7 @@ package com.paascloud.service.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.paascloud.core.utils.RequestUtil;
+import com.paascloud.security.core.CookieUtil;
 import com.paascloud.service.service.OpcRpcService;
 import com.paascloud.service.service.UacRpcService;
 import com.paascloud.wrapper.WrapMapper;
@@ -112,6 +113,9 @@ public class PcAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 		uacRpcService.handlerLoginData(accessToken, refreshToken, principal, userAgent, remoteAddr, requestURI, remoteLocation);
 
 		response.setContentType("application/json;charset=UTF-8");
+
+		CookieUtil.removeCookie("PASSCLOUD_PAAS_SOCIAL_WXKEY", response);
+
 		response.getWriter().write((objectMapper.writeValueAsString(WrapMapper.ok(token))));
 
 	}
