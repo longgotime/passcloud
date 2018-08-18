@@ -18,7 +18,6 @@ import com.paascloud.PublicUtil;
 import com.paascloud.base.dto.IdDTO;
 import com.paascloud.base.dto.LoginAuthDto;
 import com.paascloud.core.support.BaseFeignClient;
-import com.paascloud.provider.model.domain.UacLog;
 import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.model.dto.menu.UserMenuDto;
 import com.paascloud.provider.model.dto.user.*;
@@ -73,7 +72,7 @@ public class UacUserFeignClient extends BaseFeignClient implements UacUserFeignA
     }
 
     @Override
-    public Wrapper<Integer> saveUacUser(@RequestBody UserInfoDto user) {
+    public Wrapper<Integer> saveUacUser(@RequestBody SaveUserDTO user) {
         logger.info(" 新增用户 user={}", user);
         LoginAuthDto loginAuthDto = user.getLoginAuthDto();
         UacUser uacUser = new UacUser();

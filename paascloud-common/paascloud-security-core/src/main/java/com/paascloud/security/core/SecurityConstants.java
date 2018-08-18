@@ -77,7 +77,7 @@ public interface SecurityConstants {
 	String DEFAULT_SOCIAL_USER_INFO_URL = "/social/user";
 
 	/**
-	 * 获取第三方用户信息的url
+	 * 微信引导页面
 	 */
 	String DEFAULT_SOCIAL_QRCONNECT_URL = "/social/qrconnect";
 }

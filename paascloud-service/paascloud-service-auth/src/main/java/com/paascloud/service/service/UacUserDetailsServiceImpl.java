@@ -12,10 +12,10 @@
 package com.paascloud.service.service;
 
 import com.google.common.collect.Lists;
+import com.paascloud.base.enums.ErrorCodeEnum;
 import com.paascloud.provider.model.dto.user.AuthUserDTO;
+import com.paascloud.provider.model.exceptions.UacBizException;
 import com.paascloud.provider.model.service.UacAuthUserFeignApi;
-import com.paascloud.provider.model.service.UacUserFeignApi;
-import com.paascloud.provider.model.vo.user.UserVo;
 import com.paascloud.security.core.PcSocialUser;
 import com.paascloud.security.core.SecurityUser;
 import com.paascloud.wrapper.Wrapper;
@@ -45,9 +45,6 @@ public class UacUserDetailsServiceImpl implements UserDetailsService, SocialUser
 	@Resource
 	private UacAuthUserFeignApi authUserFeignApi;
 
-	@Resource
-	private UacUserFeignApi uacUserFeignApi;
-
 	/**
 	 * Load user by username user details.
 	 *
@@ -75,17 +72,11 @@ public class UacUserDetailsServiceImpl implements UserDetailsService, SocialUser
 	}
 
 	@Override
-	public SocialUserDetails loadUserByUserId(final String userId) throws UsernameNotFoundException {
-
-		Wrapper<UserVo> userVoWrapper = uacUserFeignApi.getUacUserById(Long.valueOf(userId));
-		if (userVoWrapper.error()) {
-			throw new BadCredentialsException("用户微服务故障, 请稍候重试");
-		}
-		UserVo user = userVoWrapper.getResult();
-
-		Wrapper<AuthUserDTO> result = authUserFeignApi.getAuthUserDTO(user.getLoginName());
+	public SocialUserDetails loadUserByUserId(final String loginName) throws UsernameNotFoundException {
+		log.info("社交登录, 根据 userId 查询社交用户 userId={}", loginName);
+		Wrapper<AuthUserDTO> result = authUserFeignApi.getAuthUserDTO(loginName);
 		if (result == null) {
-			throw new BadCredentialsException("用户微服务故障, 请稍候重试");
+			throw new UacBizException(ErrorCodeEnum.GL99990002);
 		}
 		AuthUserDTO authUserDTO = result.getResult();
 

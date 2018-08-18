@@ -55,7 +55,7 @@ public interface UacUserFeignApi {
      * @return the wrapper
      */
     @PostMapping(value = "/uac/user/save")
-    Wrapper<Integer> saveUacUser(@ApiParam(name = "user", value = "新增用户Dto") @RequestBody UserInfoDto user);
+    Wrapper<Integer> saveUacUser(@ApiParam(name = "user", value = "新增用户Dto") @RequestBody SaveUserDTO user);
 
 
     /**

@@ -12,7 +12,7 @@
 package com.paascloud.mall.controller;
 
 import com.paascloud.core.support.BaseController;
-import com.paascloud.provider.model.dto.user.UserInfoDto;
+import com.paascloud.provider.model.dto.user.SaveUserDTO;
 import com.paascloud.provider.model.service.UacUserFeignApi;
 import com.paascloud.provider.model.vo.user.UserVo;
 import com.paascloud.wrapper.Wrapper;
@@ -29,7 +29,7 @@ import javax.annotation.Resource;
 /**
  * The class Mall user controller.
  *
- * @author paascloud.net@gmail.com
+ * @author paascloud.net @gmail.com
  */
 @RestController
 @RequestMapping(value = "/web/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -41,15 +41,14 @@ public class MallUserController extends BaseController {
 	/**
 	 * 更新用户信息.
 	 *
-	 * @param userInfoDto the user info dto
-	 *
+	 * @param user the user
 	 * @return the wrapper
 	 */
 	@PostMapping(value = "/updateInformation")
 	@ApiOperation(httpMethod = "POST", value = "更新用户信息")
-	public Wrapper updateInformation(@RequestBody UserInfoDto userInfoDto) {
-		logger.info("updateInformation - 更新用户基本信息 userInfoDto={}", userInfoDto);
-		return uacUserFeignApi.saveUacUser(userInfoDto);
+	public Wrapper updateInformation(@RequestBody SaveUserDTO user) {
+		logger.info("updateInformation - 更新用户基本信息 user={}", user);
+		return uacUserFeignApi.saveUacUser(user);
 	}
 
 	/**

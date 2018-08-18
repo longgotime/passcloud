@@ -43,7 +43,7 @@ public class UacUserFeignHystrix implements UacUserFeignApi {
 	}
 
 	@Override
-	public Wrapper<Integer> saveUacUser(UserInfoDto user) {
+	public Wrapper<Integer> saveUacUser(SaveUserDTO user) {
 		return WrapMapper.error();
 	}
 

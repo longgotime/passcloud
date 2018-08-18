@@ -74,7 +74,7 @@ public class UacUserController extends BaseController{
 	@LogAnnotation
 	@PostMapping(value = "/save")
 	@ApiOperation(httpMethod = "POST", value = "新增用户")
-	public Wrapper<Integer> saveUacUser(@RequestBody UserInfoDto user) {
+	public Wrapper<Integer> saveUacUser(@RequestBody SaveUserDTO user) {
 		logger.info(" 新增用户 user={}", user);
 		user.setLoginAuthDto(getLoginAuthDto());
 

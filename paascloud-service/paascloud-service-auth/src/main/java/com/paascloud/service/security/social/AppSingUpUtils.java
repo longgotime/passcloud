@@ -71,14 +71,15 @@ public class AppSingUpUtils {
 	 */
 	public void doPostSignUp(WebRequest request, String userId) {
 		String key = getKey(request);
-		if (redisTemplate.hasKey(key)) {
-			PcConnectionData pcConnectionData = (PcConnectionData) redisTemplate.opsForValue().get(key);
-			ConnectionData connectionData = this.getConnectionData(pcConnectionData);
+        if(!redisTemplate.hasKey(key)){
+            throw new AppSecretException("无法找到缓存的用户社交账号信息");
+        }
+        PcConnectionData pcConnectionData = (PcConnectionData) redisTemplate.opsForValue().get(key);
+        ConnectionData connectionData = this.getConnectionData(pcConnectionData);
 
-			Connection<?> connection = connectionFactoryLocator.getConnectionFactory(connectionData.getProviderId()).createConnection(connectionData);
-			usersConnectionRepository.createConnectionRepository(userId).addConnection(connection);
-			redisTemplate.delete(key);
-		}
+        Connection<?> connection = connectionFactoryLocator.getConnectionFactory(connectionData.getProviderId()).createConnection(connectionData);
+        usersConnectionRepository.createConnectionRepository(userId).addConnection(connection);
+        redisTemplate.delete(key);
 
 	}
 
